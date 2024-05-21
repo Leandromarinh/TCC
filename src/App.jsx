@@ -1,9 +1,9 @@
-import {Screen} from "./styles"
+import Login from "./pages/SignedOut/Login";
+import {Screen} from './styles.js'
 
 function App() {
   return (
-    <Screen>
-    </Screen>
+    <Login/>
   );
 }
 
