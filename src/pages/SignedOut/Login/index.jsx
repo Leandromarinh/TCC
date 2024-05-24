@@ -103,7 +103,7 @@ export default function Login(){
                                 values.email === '' ||
                                 Boolean(errors.email) ||
                                 values.password === '' ||
-                                Boolean(errors.password) 
+                                Boolean(errors.password)
                             }
                             onClick={handleSubmit}
                             type="submit"
