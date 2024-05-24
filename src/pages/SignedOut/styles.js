@@ -73,7 +73,7 @@ export const Button = styled.button`
     cursor: ${props => (props.Border ? 'default' : 'pointer')};
     opacity: 100;
   }
-  font-size: 2.5em;
+  font-size: 2.1em;
   color: ${colors.green};
   font-weight: bolder;
 `;
@@ -82,20 +82,19 @@ export const InputContainer = styled.div`
   display: flex;
   width: 100%;
   margin-top: 30px;
-
 `;
 
 export const InputIcon = styled.img`
   position: relative;
   left: 10%;
-  top: 20%;
+  top: 23%;
   width: 20px;
   height: 20px;
   z-index: 10;
 `;
 
 export const Input = styled.input`
-  padding-left: 3vw;
+  padding-left: 3.1vw;
   font-size: 1em;
   width: 596px;
   height: 40px;
@@ -129,6 +128,7 @@ export const FTP = styled.button`
   border: none;
   &:hover {
     text-decoration: underline;
+    cursor: pointer;
   }
   color: ${colors.blue};
   font-size: 1.2em;
@@ -137,6 +137,14 @@ export const FTP = styled.button`
   margin-left: 10px;
 `;
 
+export const ErrorText = styled.p`
+  color: red;
+  font-size: 12px;
+  text-align: center;
+  margin-top: 5px;
+  align-self: flex-start;
+  margin-left: 30px;
+`;
 
 export const EnterButton = styled.button`
   width: 11.4vw;
@@ -148,8 +156,27 @@ export const EnterButton = styled.button`
   font-family: 'Roboto';
   font-size: 2em;
   color: #fff;
-  opacity: 70%;
+  opacity: ${props => props.disabled ? '60%' : '85%'};
   &:hover {
-    opacity: 100%;
+    opacity: ${props => props.disabled ? '60%' : '100%'}; 
+    cursor: ${props => (props.disabled ? 'default' : 'pointer')};
+  }
+`;
+
+export const RegisterButton = styled.button`
+  width: 95%;
+  height: 60px;
+  border: none;
+  border-radius: 50px;
+  background-color: ${colors.green};
+  font-weight: bold;
+  font-family: 'Roboto';
+  font-size: 2em;
+  color: #fff;
+  margin-left: 30px;
+  opacity: ${props => props.disabled ? '60%' : '85%'};
+  &:hover {
+    opacity: ${props => props.disabled ? '60%' : '100%'}; 
+    cursor: ${props => (props.disabled ? 'default' : 'pointer')};
   }
 `;
