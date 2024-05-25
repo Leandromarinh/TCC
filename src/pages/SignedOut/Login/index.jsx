@@ -18,7 +18,6 @@ import lock from '../../../assets/lock.svg';
 
 import LoadingSpinner from "../../../components/Loading";
 
-
 export default function Login(){
     const dispatch = useDispatch();
     const navigate = useNavigate();
