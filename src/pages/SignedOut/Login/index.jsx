@@ -1,5 +1,9 @@
-import React, {useState} from "react";
+import React, {useEffect} from "react";
 import { useNavigate } from 'react-router';
+import { useDispatch, useSelector } from "react-redux";
+
+import AuthActions from '../../../store/ducks/auth';
+
 import { Formik } from "formik";
 import * as yup from 'yup';
 
@@ -11,12 +15,15 @@ import {Screen,Top, Image, Bottom, Right, Left,
 import Logoutimg from '../../../assets/Logoutimg.svg';
 import icon from '../../../assets/icon.svg';
 import lock from '../../../assets/lock.svg';
+
 import LoadingSpinner from "../../../components/Loading";
 
 
 export default function Login(){
+    const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(false)
+    
+    const { loading, signedIn } = useSelector(state => state.auth);
 
     const loginValidationSchema = yup.object().shape({
         email: yup
@@ -27,14 +34,19 @@ export default function Login(){
       });
 
     function submit (values) {
-        console.log(values.email);
-        console.log(values.password);
-        setLoading(!loading);
+        dispatch(AuthActions.signInRequest(values.email, values.password));
     }
 
     const RegisterNavigation = () => {
         navigate('/Register');
     }
+
+    useEffect(() => {
+        console.log('signedIN:', signedIn);
+        if (signedIn) {
+          navigate('/home');
+        }
+      }, [signedIn, navigate]);
 
     return(
         <Formik
@@ -95,7 +107,12 @@ export default function Login(){
                         <ErrorText >{errors.password}</ErrorText>
                         )}
                         <FTPContainer>
-                        <FTP onClick={() => console.log('aq')}>
+                        <FTP 
+                            onClick={() => console.log('aq')} 
+                            disabled = {
+                            values.email === '' ||
+                            Boolean(errors.email)
+                            }>
                                 Esqueceu sua senha?
                             </FTP>
                             <EnterButton

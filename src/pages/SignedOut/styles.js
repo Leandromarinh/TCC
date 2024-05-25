@@ -44,8 +44,7 @@ export const Left = styled.div`
 
 export const Container = styled.div`
   width: 50%;
-  height: 50vh;
-
+  height: 60vh;
   display: flex;
   flex-direction: column;
   align-self: center;
@@ -126,15 +125,15 @@ export const FTPContainer= styled.div`
 export const FTP = styled.button`
   background-color: #fff;
   border: none;
-  &:hover {
-    text-decoration: underline;
-    cursor: pointer;
-  }
   color: ${colors.blue};
   font-size: 1.2em;
   font-style: italic;
   align-self: center;
   margin-left: 10px;
+  &:hover {
+    text-decoration: ${props => props.disabled ? 'none' : 'underline'}; 
+    cursor: ${props => (props.disabled ? 'default' : 'pointer')};
+  }
 `;
 
 export const ErrorText = styled.p`

@@ -19,6 +19,9 @@ export default function Register(){
     const [loading, setLoading] = useState(false)
 
     const loginValidationSchema = yup.object().shape({
+        name: yup
+          .string()
+          .required('Campo obrigatório'),
         email: yup
           .string()
           .email('Entre com um endereço de e-mail válido')
@@ -55,6 +58,7 @@ export default function Register(){
     return(
         <Formik
         initialValues={{
+            name: '',
             email: '',
             password: '',
             confirmPassword: '',
@@ -75,7 +79,7 @@ export default function Register(){
             <Screen>
             <Top/>
             <Bottom>
-                <Left>
+                <Left >
                     <Container>
                         <ButtonConainer>
                             <Button onClick={LoginNavigation}>
@@ -85,6 +89,19 @@ export default function Register(){
                                 Cadastra-se
                             </Button>
                         </ButtonConainer>
+                        <InputContainer>
+                            <InputIcon src={icon}/>
+                            <Input 
+                            type="text" 
+                            placeholder="Nome" 
+                            onChange={handleChange('name')}
+                            value={values.name}
+                            onBlur={handleBlur('name')}
+                            autoCapitalize="none"/>
+                        </InputContainer>
+                        {errors.name && touched.name && (
+                        <ErrorText >{errors.name}</ErrorText>
+                        )}
                         <InputContainer>
                             <InputIcon src={icon}/>
                             <Input 

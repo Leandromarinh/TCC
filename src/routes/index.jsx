@@ -3,14 +3,20 @@ import  { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import Login from '../pages/SignedOut/Login';
 import Register from '../pages/SignedOut/Register';
+import Home from '../pages/SignedIn/Home';
+
+import PrivateRoute from './private.routes';
 
 export default function routes(){
     return (
         <Router>
             <Routes>
-                <Route path="/" exact Component={Login}/>
-                <Route path="/Register" exact Component={Register}/>
-            </Routes>
+                <Route path="/" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/" element={<PrivateRoute />}>
+                    <Route path="/home" element={<Home />} />
+                </Route>
+             </Routes>
         </Router>
     );
 }

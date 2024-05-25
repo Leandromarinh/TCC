@@ -2,12 +2,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%; /* Full height */
+    height: 100%; 
   }
   
   .loading-spinner {
-    border: 5px solid #79A397; /* Light grey */
-    border-top: 5px solid #f3f3f3 ; /* Blue */
+    border: 5px solid #79A397; 
+    border-top: 5px solid #f3f3f3 ;
     border-radius: 50%;
     width: 10px;
     height: 10px;
