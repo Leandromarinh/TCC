@@ -4,12 +4,13 @@ import colors from "../../theme/colors";
 
 export const Container = styled.div`
     width: 19vw;
-    height: 100vh;
+    height: 100%;
     background-color: ${colors.green};
 
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: fixed;
 `;
 
 export const Top = styled.div`
