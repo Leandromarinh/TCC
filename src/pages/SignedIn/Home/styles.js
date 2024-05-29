@@ -48,6 +48,7 @@ export const Text = styled.p`
   font-weight: 500;
   color: #000;
   margin-left: 10px;
+  margin-top: ${props => props.bottom? '-20px': ''};
 `;
 
 export const GradeImg = styled.img`
@@ -55,4 +56,39 @@ export const GradeImg = styled.img`
   align-self: center;
   margin-top: 1vh;
   padding-bottom: 4px;
+`;
+
+export const EditButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 8vw;
+  height: 5vh;
+  position: absolute;
+  right: 1vw;
+  top: 3vh;
+
+  background-color: ${colors.green};
+  border: none;
+  border-radius: 10px;
+  opacity: 70%;
+
+  font-size: 1.5em;
+  color: #fff;
+
+  &:hover {
+    cursor: ${props => (props.disabled ? 'default' : 'pointer')};
+    opacity: ${props => (props.disabled ? '70%' : '100%')};
+  }
+`;
+
+export const EditContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+export const InputContainer = styled.div`
+  margin-left: ${props => props.img? "10vw" : "2vw"};
+  margin-top: ${props => props.img? "3vh" : "2vh"};
 `;

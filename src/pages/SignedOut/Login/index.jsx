@@ -75,7 +75,7 @@ export default function Login(){
                                 Entre
                             </Button>
                             <Button onClick={RegisterNavigation}> 
-                                Cadastra-se
+                                Cadastre-se
                             </Button>
                         </ButtonConainer>
                         <InputContainer>

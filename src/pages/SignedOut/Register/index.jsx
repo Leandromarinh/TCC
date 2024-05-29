@@ -86,7 +86,7 @@ export default function Register(){
                                 Entre
                             </Button>
                             <Button Border> 
-                                Cadastra-se
+                                Cadastre-se
                             </Button>
                         </ButtonConainer>
                         <InputContainer>
@@ -172,7 +172,7 @@ export default function Register(){
                             onClick={handleSubmit}
                             type="submit"
                             >
-                            {loading ? <LoadingSpinner/> : 'Entrar'}
+                            {loading ? <LoadingSpinner/> : 'Cadastrar'}
                             </RegisterButton>
                         </FTPContainer>
                     </Container>
