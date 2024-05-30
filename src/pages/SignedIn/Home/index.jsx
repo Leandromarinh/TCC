@@ -25,6 +25,7 @@ import Eletiva1 from './assets/EletivaManha.png';
 import Eletiva2 from './assets/EletivasTarde.png';
 
 export default function Home(){
+    const [error, setError] = useState('');
     const currentYear = new Date().getFullYear();
 
     const [editMode, setEditMode] = useState(false);
@@ -46,16 +47,9 @@ export default function Home(){
     const [img8, setImg8] = useState(Period8);
     const [img9, setImg9] = useState(Eletiva1);
     const [img10, setImg10] = useState(Eletiva2);
-
-    // const imageValidation = (value) => {
-    //     if (!value) return false; // Verifica se o valor existe
-    //     const regex = /\.(jpe?g|png)$/i;
-    //     return regex.test(value.name);
-    //   };
+    
 
     const EditValidationSchema = yup.object().shape({
-        // image: yup.mixed()
-        // .test('fileType', 'O arquivo deve ser uma imagem válida (.jpg, .jpeg, .png)', imageValidation),
         currentPeriod: yup.string()
             .matches(new RegExp(`^${currentYear}\\.[12]$`), 'O período atual deve ser no formato AAAA.1 ou AAAA.2, onde AAAA é o ano atual'),
         beginPeriod: yup.string()
@@ -119,7 +113,6 @@ export default function Home(){
         endLock: endLock,
         beginChange: beginChange,
         endChange: endChange,
-        image: ''
     };
 
     function submit (values) {
@@ -132,6 +125,22 @@ export default function Home(){
         setBeginChange(values.beginChange);
         setEndChange(values.endChange);
     }
+
+    const handleImageChange = (event) => {
+        const file = event.target.files[0];
+        const fileTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+    
+        if (file) {
+          if (!fileTypes.includes(file.type)) {
+            setError('Por favor, selecione uma imagem no formato PNG, JPEG ou JPG');
+            setImg1(null);
+          } else {
+            const imageUrl = URL.createObjectURL(file);
+            setImg1(imageUrl);
+            setError('');
+          }
+        }
+      };
     
     return(
         <Screen>
@@ -150,11 +159,10 @@ export default function Home(){
                 handleSubmit,
                 errors,
                 touched,
-                setFieldValue,
                 }) => (
                     <Container>
                         <EditButton 
-                        disabled={!isValid}
+                        disabled={!isValid || error}
                         onClick={handleSubmit}>
                             Salvar
                         </EditButton>
@@ -237,121 +245,63 @@ export default function Home(){
                                 text="Grade curricular do 1º período (insira um print):" 
                                 type='file'
                                 id='image'
-                                onChange={(event) => {
-                                    const file = event.target.files[0];
-                                    if (file) {
-                                      const imageUrl = URL.createObjectURL(file);
-                                      setImg1(imageUrl);
-                                    }
-                                  }}
-                                accept=".jpg, .jpeg, .png"/>
+                                onChange={handleImageChange}
+                                accept="image/png, image/jpeg, image/jpg"
+                                errors={error}
+                                touched/>
                                 <Input 
                                 text="Grade curricular do 2º período (insira um print):" 
                                 type='file'
                                 id='image'
-                                onChange={(event) => {
-                                    const file = event.target.files[0];
-                                    if (file) {
-                                      const imageUrl = URL.createObjectURL(file);
-                                      setImg2(imageUrl);
-                                    }
-                                  }}
+                                onChange={handleImageChange}
                                 accept=".jpg, .jpeg, .png"/>
                                 <Input 
                                 text="Grade curricular do 3º período (insira um print):" 
                                 type='file'
                                 id='image'
-                                onChange={(event) => {
-                                    const file = event.target.files[0];
-                                    if (file) {
-                                      const imageUrl = URL.createObjectURL(file);
-                                      setImg3(imageUrl);
-                                    }
-                                  }}
+                                onChange={handleImageChange}
                                 accept=".jpg, .jpeg, .png"/>
                                 <Input 
                                 text="Grade curricular do 4º período (insira um print):" 
                                 type='file'
                                 id='image'
-                                onChange={(event) => {
-                                    const file = event.target.files[0];
-                                    if (file) {
-                                      const imageUrl = URL.createObjectURL(file);
-                                      setImg4(imageUrl);
-                                    }
-                                  }}
+                                onChange={handleImageChange}
                                 accept=".jpg, .jpeg, .png"/>
                                 <Input 
                                 text="Grade curricular do 5º período (insira um print):" 
                                 type='file'
                                 id='image'
-                                onChange={(event) => {
-                                    const file = event.target.files[0];
-                                    if (file) {
-                                      const imageUrl = URL.createObjectURL(file);
-                                      setImg5(imageUrl);
-                                    }
-                                  }}
+                                onChange={handleImageChange}
                                 accept=".jpg, .jpeg, .png"/>
                                 <Input 
                                 text="Grade curricular do 6º período (insira um print):" 
                                 type='file'
                                 id='image'
-                                onChange={(event) => {
-                                    const file = event.target.files[0];
-                                    if (file) {
-                                      const imageUrl = URL.createObjectURL(file);
-                                      setImg6(imageUrl);
-                                    }
-                                  }}
+                                onChange={handleImageChange}
                                 accept=".jpg, .jpeg, .png"/>
                                 <Input 
                                 text="Grade curricular do 7º período (insira um print):" 
                                 type='file'
                                 id='image'
-                                onChange={(event) => {
-                                    const file = event.target.files[0];
-                                    if (file) {
-                                      const imageUrl = URL.createObjectURL(file);
-                                      setImg7(imageUrl);
-                                    }
-                                  }}
+                                onChange={handleImageChange}
                                 accept=".jpg, .jpeg, .png"/>
                                 <Input 
                                 text="Grade curricular do 8º período (insira um print):" 
                                 type='file'
                                 id='image'
-                                onChange={(event) => {
-                                    const file = event.target.files[0];
-                                    if (file) {
-                                      const imageUrl = URL.createObjectURL(file);
-                                      setImg8(imageUrl);
-                                    }
-                                  }}
+                                onChange={handleImageChange}
                                 accept=".jpg, .jpeg, .png"/>
                                 <Input 
                                 text="Grade curricular Eletiva manhã (insira um print):" 
                                 type='file'
                                 id='image'
-                                onChange={(event) => {
-                                    const file = event.target.files[0];
-                                    if (file) {
-                                      const imageUrl = URL.createObjectURL(file);
-                                      setImg9(imageUrl);
-                                    }
-                                  }}
+                                onChange={handleImageChange}
                                 accept=".jpg, .jpeg, .png"/>
                                 <Input 
                                 text="Grade curricular Eletiva tarde (insira um print):" 
                                 type='file'
                                 id='image'
-                                onChange={(event) => {
-                                    const file = event.target.files[0];
-                                    if (file) {
-                                      const imageUrl = URL.createObjectURL(file);
-                                      setImg10(imageUrl);
-                                    }
-                                  }}
+                                onChange={handleImageChange}
                                 accept=".jpg, .jpeg, .png"/>
                             </InputContainer>
                         </EditContainer>

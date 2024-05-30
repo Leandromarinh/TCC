@@ -37,7 +37,7 @@ export default function Login(){
     }
 
     const RegisterNavigation = () => {
-        navigate('/Register');
+        navigate('/registro');
     }
 
     useEffect(() => {

@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 
 import AuthActions from '../../store/ducks/auth';
@@ -12,6 +13,7 @@ export default function LeftBar(
     {name, home, profile, 
      grade, myGrade, link, cr} )
     {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const {user} = useSelector(state => state.auth);
 
@@ -27,12 +29,12 @@ export default function LeftBar(
                     </NameText>
             </Top>
             <Mid>
-                <PageButton active={home}>Ínicio</PageButton>
-                <PageButton active={profile}>Perfil</PageButton>
-                <PageButton active={grade}>Grande Curricular</PageButton>
+                <PageButton active={home} onClick={() => navigate('/home')}>Ínicio</PageButton>
+                <PageButton active={profile} onClick={() => navigate('/perfil')}>Perfil</PageButton>
+                <PageButton active={grade} >Grande Curricular</PageButton>
                 <PageButton active={myGrade}>Minha Grade</PageButton>
-                <PageButton active={link}>Links</PageButton>
-                <PageButton active={cr}>Simulação CR</PageButton>
+                <PageButton active={link} >Links</PageButton>
+                <PageButton active={cr} >Simulação CR</PageButton>
             </Mid>
             <Bottom>
                 <LogoutButton onClick={LogoOut}>
