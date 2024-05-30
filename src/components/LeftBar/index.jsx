@@ -11,8 +11,8 @@ import Logout from '../../assets/logout.svg';
 
 export default function LeftBar( 
     {name, home, profile, 
-     grade, myGrade, link, cr} )
-    {
+     grid, myGrid, link, cr} ) {
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const {user} = useSelector(state => state.auth);
@@ -20,21 +20,22 @@ export default function LeftBar(
     const LogoOut = () => {
         dispatch(AuthActions.signOut());
     }
+
     return(
         <Container>
             <Top>
                 <ProfileIcon src={Profile}/>
                     <NameText>
-                        Leandro
+                        Gustavo
                     </NameText>
             </Top>
             <Mid>
                 <PageButton active={home} onClick={() => navigate('/home')}>Ínicio</PageButton>
                 <PageButton active={profile} onClick={() => navigate('/perfil')}>Perfil</PageButton>
-                <PageButton active={grade} >Grande Curricular</PageButton>
-                <PageButton active={myGrade}>Minha Grade</PageButton>
-                <PageButton active={link} >Links</PageButton>
-                <PageButton active={cr} >Simulação CR</PageButton>
+                <PageButton active={grid} onClick={() => navigate('/grade')}>Grade Curricular</PageButton>
+                <PageButton active={myGrid} onClick={() => navigate('/minha-grade')}>Minha Grade</PageButton>
+                <PageButton active={link} onClick={() => navigate('/links')}>Links</PageButton>
+                <PageButton active={cr} onClick={() => navigate('/cr')}>Simulação CR</PageButton>
             </Mid>
             <Bottom>
                 <LogoutButton onClick={LogoOut}>

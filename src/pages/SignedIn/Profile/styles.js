@@ -19,7 +19,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  margin-bottom: 10vw;
+  margin-bottom: 7vw;
 `;
 
 export const TitleContainer = styled.div`

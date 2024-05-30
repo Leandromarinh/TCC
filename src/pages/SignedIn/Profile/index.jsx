@@ -134,8 +134,8 @@ export default function Profile(){
                             value={values.password}
                             onBlur={handleBlur('password')}
                             autoCapitalize="none"
-                            errors={errors.name}
-                            touched={touched.name}/>
+                            errors={errors.password}
+                            touched={touched.password}/>
                             <Input 
                             text='Confirmar Senha'
                             type="password" 
@@ -144,8 +144,8 @@ export default function Profile(){
                             value={values.confirmPassword}
                             onBlur={handleBlur('confirmPassword')}
                             autoCapitalize="none"
-                            errors={errors.name}
-                            touched={touched.name}/>
+                            errors={errors.confirmPassword}
+                            touched={touched.confirmPassword}/>
                         </InputContainer>
                     </BottomContainer>
                 <EditButton 
