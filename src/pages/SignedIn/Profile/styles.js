@@ -32,9 +32,9 @@ export const TitleContainer = styled.div`
 export const Text = styled.p`
   font-size: 28px;
   font-family: "Roboto";
-  font-weight: ${props => props.bold ? "bold" : "500"};
+  font-weight: ${(props) => (props.bold ? "bold" : "500")};
   color: #000;
-  margin-top: ${props => props.bold? '-30px' : '0px'};
+  margin-top: ${(props) => (props.bold ? "-30px" : "0px")};
 `;
 
 export const BottomContainer = styled.div`
@@ -68,7 +68,7 @@ export const EditButton = styled.button`
   color: #fff;
 
   &:hover {
-    cursor: ${props => (props.disabled ? 'default' : 'pointer')};
-    opacity: ${props => (props.disabled ? '90%' : '100%')};
+    cursor: ${(props) => (props.disabled ? "default" : "pointer")};
+    opacity: ${(props) => (props.disabled ? "90%" : "100%")};
   }
 `;

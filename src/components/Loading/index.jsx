@@ -1,5 +1,5 @@
-import React from 'react';
-import './styles.css'; // Importa o arquivo CSS
+import React from "react";
+import "./styles.css"; // Importa o arquivo CSS
 
 const LoadingSpinner = () => {
   return (

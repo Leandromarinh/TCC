@@ -25,15 +25,15 @@ export const LineContainer = styled.div`
   display: flex;
 
   justify-content: space-evenly;
-`
+`;
 
 export const TextContainer = styled.div`
   display: flex;
-  flex-direction: ${props => props.bottom? 'column':'row'};
+  flex-direction: ${(props) => (props.bottom ? "column" : "row")};
 
   justify-content: baseline;
   align-items: center;
-`
+`;
 
 export const TextBold = styled.p`
   font-size: 26px;
@@ -48,7 +48,7 @@ export const Text = styled.p`
   font-weight: 500;
   color: #000;
   margin-left: 10px;
-  margin-top: ${props => props.bottom? '-20px': ''};
+  margin-top: ${(props) => (props.bottom ? "-20px" : "")};
 `;
 
 export const GradeImg = styled.img`
@@ -78,8 +78,8 @@ export const EditButton = styled.button`
   color: #fff;
 
   &:hover {
-    cursor: ${props => (props.disabled ? 'default' : 'pointer')};
-    opacity: ${props => (props.disabled ? '70%' : '100%')};
+    cursor: ${(props) => (props.disabled ? "default" : "pointer")};
+    opacity: ${(props) => (props.disabled ? "70%" : "100%")};
   }
 `;
 
@@ -89,6 +89,6 @@ export const EditContainer = styled.div`
 `;
 
 export const InputContainer = styled.div`
-  margin-left: ${props => props.img? "10vw" : "2vw"};
-  margin-top: ${props => props.img? "3vh" : "2vh"};
+  margin-left: ${(props) => (props.img ? "10vw" : "2vw")};
+  margin-top: ${(props) => (props.img ? "3vh" : "2vh")};
 `;

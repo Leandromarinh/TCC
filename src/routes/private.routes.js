@@ -1,8 +1,8 @@
-import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function PrivateRoute() {
-  const { signedIn } = useSelector(state => state.auth);
+  const { signedIn } = useSelector((state) => state.auth);
   const location = useLocation();
 
   if (!signedIn) {

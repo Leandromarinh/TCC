@@ -4,10 +4,10 @@ import { Screen, Container } from "./styles";
 
 import LeftBar from "../../../components/LeftBar";
 
-export default function MyGrid() {
+export default function MyPeriod() {
   return (
     <Screen>
-      <LeftBar myGrid />
+      <LeftBar myPeriod />
       <Container></Container>
     </Screen>
   );

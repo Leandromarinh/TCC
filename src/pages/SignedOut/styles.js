@@ -64,12 +64,12 @@ export const Button = styled.button`
   background-color: #fff;
   border: 0;
   align-self: center;
-  border-bottom: ${props => (props.Border ? `3px solid ${colors.green}` : 0)};
+  border-bottom: ${(props) => (props.Border ? `3px solid ${colors.green}` : 0)};
   height: 80%;
-  opacity: ${props => (props.Border ? '100%': '50%')};
+  opacity: ${(props) => (props.Border ? "100%" : "50%")};
 
   &:hover {
-    cursor: ${props => (props.Border ? 'default' : 'pointer')};
+    cursor: ${(props) => (props.Border ? "default" : "pointer")};
     opacity: 100;
   }
   font-size: 2.1em;
@@ -101,7 +101,7 @@ export const Input = styled.input`
   border: none;
   font-weight: 500;
   background-color: #fff;
-  font-family: 'Roboto';
+  font-family: "Roboto";
   filter: drop-shadow(3px 3px #4444);
   outline: none;
 `;
@@ -111,12 +111,12 @@ export const Right = styled.div`
   height: 100%;
 `;
 
-export const Image =styled.img`
-   height: 99%;
-   padding-top: 5px;
+export const Image = styled.img`
+  height: 99%;
+  padding-top: 5px;
 `;
 
-export const FTPContainer= styled.div`
+export const FTPContainer = styled.div`
   display: flex;
   justify-content: space-around;
   margin-top: 3vh;
@@ -131,8 +131,8 @@ export const FTP = styled.button`
   align-self: center;
   margin-left: 10px;
   &:hover {
-    text-decoration: ${props => props.disabled ? 'none' : 'underline'}; 
-    cursor: ${props => (props.disabled ? 'default' : 'pointer')};
+    text-decoration: ${(props) => (props.disabled ? "none" : "underline")};
+    cursor: ${(props) => (props.disabled ? "default" : "pointer")};
   }
 `;
 
@@ -152,13 +152,13 @@ export const EnterButton = styled.button`
   border-radius: 50px;
   background-color: ${colors.green};
   font-weight: bold;
-  font-family: 'Roboto';
+  font-family: "Roboto";
   font-size: 2em;
   color: #fff;
-  opacity: ${props => props.disabled ? '60%' : '85%'};
+  opacity: ${(props) => (props.disabled ? "60%" : "85%")};
   &:hover {
-    opacity: ${props => props.disabled ? '60%' : '100%'}; 
-    cursor: ${props => (props.disabled ? 'default' : 'pointer')};
+    opacity: ${(props) => (props.disabled ? "60%" : "100%")};
+    cursor: ${(props) => (props.disabled ? "default" : "pointer")};
   }
 `;
 
@@ -169,13 +169,13 @@ export const RegisterButton = styled.button`
   border-radius: 50px;
   background-color: ${colors.green};
   font-weight: bold;
-  font-family: 'Roboto';
+  font-family: "Roboto";
   font-size: 2em;
   color: #fff;
   margin-left: 30px;
-  opacity: ${props => props.disabled ? '60%' : '85%'};
+  opacity: ${(props) => (props.disabled ? "60%" : "85%")};
   &:hover {
-    opacity: ${props => props.disabled ? '60%' : '100%'}; 
-    cursor: ${props => (props.disabled ? 'default' : 'pointer')};
+    opacity: ${(props) => (props.disabled ? "60%" : "100%")};
+    cursor: ${(props) => (props.disabled ? "default" : "pointer")};
   }
 `;

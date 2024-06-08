@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import colors from '../../../theme/colors'
+import colors from "../../../theme/colors";
 
 export const Screen = styled.div`
   width: 99vw;
@@ -35,20 +35,18 @@ export const LinkContainer = styled.div`
   width: 500px;
   display: flex;
   flex-direction: column;
-  margin-left: ${props => props.margin? "9.3vw" : "0"};
+  margin-left: ${(props) => (props.margin ? "9.3vw" : "0")};
   margin-top: 40px;
 `;
 
 export const Text = styled.text`
   font-size: 32px;
   font-weight: bold;
-  font-family: 'Roboto';
+  font-family: "Roboto";
 `;
 
 export const LinkText = styled.a`
   font-size: 30px;
   font-weight: 500;
-  font-family: 'Roboto';
+  font-family: "Roboto";
 `;
-
-
