@@ -84,7 +84,31 @@ export default function Link() {
             Eletrogrupo 1971.1
           </LinkText>
         </LinkContainer>
+        <LinkContainer margin>
+          <Text>DEL/Poli - Projeto de Graduação</Text>
+          <LinkText
+            href="https://www.im2c.poli.ufrj.br/members/pdg/member.html"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            https://www.im2c.poli.ufrj.br/members/pdg/member.html
+          </LinkText>
+        </LinkContainer>
+        <LinkContainer margin>
+          <Text>R.U.R. o Assistente de Graduação do DEL/Poli/UFRJ</Text>
+          <LinkText
+            href="https://www.im2c.poli.ufrj.br/projects/p002/project.html"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            https://www.im2c.poli.ufrj.br/projects/p002/project.html
+          </LinkText>
+        </LinkContainer>
       </Container>
     </Screen>
   );
 }
+
+/* https://www.im2c.poli.ufrj.br/projects/p002/project.html
+https://www.del.ufrj.br/Projeto-de-Graduacao/index.html
+https://www.im2c.poli.ufrj.br/members/pdg/member.html */

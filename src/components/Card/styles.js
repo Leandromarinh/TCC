@@ -17,7 +17,7 @@ export const Container = styled.button`
         ? colors.red
         : props.status === "C" || props.status === "c"
         ? colors.blue
-        : "#000"};
+        : "rbga(0,0,0,0.5)"};
   background-color: #fff;
 
   display: flex;

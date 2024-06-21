@@ -5,7 +5,7 @@ import colors from "../../../theme/colors";
 export const Screen = styled.div`
   width: 99vw;
   height: 100%;
-  margin: 0;
+  margin-bottom: 20px;
 
   background-color: #fff;
 
