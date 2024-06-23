@@ -17,7 +17,7 @@ export const Container = styled.div`
 export const ButtonImg = styled.button`
   position: fixed;
   top: 120px;
-  right: 100px;
+  right: 110px;
   outline: none;
   background-color: #fff;
   border: none;

@@ -49,7 +49,8 @@ export const Bar = styled.div`
 
 export const Text = styled.p`
   font-size: 24px;
-  font-family: "Roboto";
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   margin-top: 1px;
 `;
 
@@ -72,7 +73,8 @@ export const PeriodContainer = styled.div`
 
 export const PeriodText = styled.p`
   font-size: 30px;
-  font-family: "Roboto";
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-weight: bold;
   margin-bottom: 0px;
 `;
