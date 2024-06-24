@@ -133,7 +133,6 @@ export default function Profile() {
                 <Input
                   text="Senha Atual"
                   type="password"
-                  placeholder="Senha"
                   onChange={handleChange("currentPassword")}
                   value={values.currentPassword}
                   onBlur={handleBlur("currentPassword")}
@@ -144,7 +143,6 @@ export default function Profile() {
                 <Input
                   text="Nova Senha"
                   type="password"
-                  placeholder="Senha"
                   onChange={handleChange("password")}
                   value={values.password}
                   onBlur={handleBlur("password")}
@@ -155,7 +153,6 @@ export default function Profile() {
                 <Input
                   text="Confirmar Senha"
                   type="password"
-                  placeholder="Confirme a senha"
                   onChange={handleChange("confirmPassword")}
                   value={values.confirmPassword}
                   onBlur={handleBlur("confirmPassword")}

@@ -3,8 +3,8 @@ import styled from "styled-components";
 import colors from "../../../theme/colors";
 
 export const Screen = styled.div`
-  width: 99vw;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   margin: 0;
 
   background-color: #fff;
@@ -15,8 +15,9 @@ export const Screen = styled.div`
 
 export const Container = styled.div`
   width: 81vw;
-  padding-left: 19vw;
 
   display: flex;
   flex-direction: column;
+
+  overflow: auto;
 `;

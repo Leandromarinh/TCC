@@ -4,18 +4,16 @@ import colors from "../../theme/colors";
 
 export const Container = styled.div`
   width: 19vw;
-  height: 100%;
+  height: 100vh;
   background-color: ${colors.green};
 
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: fixed;
 `;
 
 export const Top = styled.div`
   height: 19vh;
-  position: fixed;
 
   display: flex;
   flex-direction: column;
@@ -38,8 +36,8 @@ export const NameText = styled.p`
 export const Mid = styled.div`
   width: 19vw;
   height: 38vh;
-  position: fixed;
-  margin-top: 25vh;
+
+  margin-top: 10vh;
 
   display: flex;
   flex-direction: column;
@@ -64,8 +62,8 @@ export const PageButton = styled.button`
 
 export const Bottom = styled.div`
   width: 19vw;
-  position: fixed;
-  bottom: 0;
+  position: absolute;
+  bottom: 0px;
 `;
 
 export const LogoutButton = styled.button`

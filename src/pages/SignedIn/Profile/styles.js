@@ -14,12 +14,11 @@ export const Screen = styled.div`
 
 export const Container = styled.div`
   width: 81vw;
-  padding-left: 19vw;
 
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  margin-bottom: 7vw;
+
 `;
 
 export const TitleContainer = styled.div`

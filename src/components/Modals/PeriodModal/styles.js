@@ -15,9 +15,9 @@ export const Container = styled.div`
 `;
 
 export const ButtonImg = styled.button`
-  position: fixed;
-  top: 120px;
-  right: 110px;
+  position: absolute;
+  margin-top: 2vh;
+  margin-left: 66vw;
   outline: none;
   background-color: #fff;
   border: none;

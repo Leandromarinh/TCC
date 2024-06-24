@@ -3,9 +3,9 @@ import styled from "styled-components";
 import colors from "../../../theme/colors";
 
 export const Screen = styled.div`
-  width: 99vw;
-  height: 100%;
-  margin-bottom: 20px;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
 
   background-color: #fff;
 
@@ -15,11 +15,12 @@ export const Screen = styled.div`
 
 export const Container = styled.div`
   width: 81vw;
-  padding-left: 19vw;
+  height: 100vh;
 
   display: flex;
   flex-direction: column;
-  padding-top: 1vh;
+
+  overflow: auto;
 `;
 
 export const LineContainer = styled.div`
@@ -37,16 +38,19 @@ export const LinkContainer = styled.div`
   flex-direction: column;
   margin-left: ${(props) => (props.margin ? "9.3vw" : "0")};
   margin-top: 40px;
+  margin-bottom: 20px;
 `;
 
 export const Text = styled.text`
-  font-size: 32px;
+  font-size: 24px;
   font-weight: bold;
-  font-family: "Roboto";
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 `;
 
 export const LinkText = styled.a`
-  font-size: 30px;
+  font-size: 24px;
   font-weight: 500;
-  font-family: "Roboto";
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 `;
