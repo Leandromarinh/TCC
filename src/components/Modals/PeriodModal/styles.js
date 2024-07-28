@@ -11,6 +11,7 @@ export const Container = styled.div`
   border-radius: 5px;
 
   border: 3px solid #000;
+  align-self: ${(props) => (props.align ? "center" : "none")};
   overflow-y: auto;
 `;
 

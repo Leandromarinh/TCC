@@ -16,7 +16,6 @@ export const Screen = styled.div`
 export const Container = styled.div`
   width: 81vw;
 
-
   display: flex;
   flex-direction: column;
   padding-left: 7vw;
@@ -59,18 +58,18 @@ export const Text = styled.p`
 export const GridContainer = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center;
-  justify-content: center;
+  /* align-items: center;
+  justify-content: center; */
 `;
 
 export const PeriodContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
+  /* align-items: flex-start;
+  justify-content: center; */
 
-  margin-left: ${(props) => (props.first ? "0vw" : "4vw")};
   padding-right: 20px;
+  margin-right: 50px;
 `;
 
 export const PeriodText = styled.p`

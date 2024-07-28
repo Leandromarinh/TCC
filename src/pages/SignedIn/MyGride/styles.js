@@ -32,12 +32,11 @@ export const EditButton = styled.button`
   justify-content: center;
   align-self: center;
 
-  position: fixed;
-  right: 1vw;
-  top: 3vh;
-
   width: 8vw;
   height: 5vh;
+
+  margin-top: -3vh;
+  margin-left: 35vw;
 
   background-color: ${colors.green};
   border: none;
@@ -73,8 +72,28 @@ export const AddButton = styled.button`
     cursor: ${(props) => (props.disabled ? "default" : "pointer")};
     opacity: ${(props) => (props.disabled ? "90%" : "100%")};
   }
+
+  margin-right: ${(props) => props.marginRight};
 `;
 
 export const Image = styled.img`
   width: 30px;
+`;
+
+export const PeriodInput = styled.input`
+  font-size: 24px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  margin-top: 1px;
+  border: none;
+`;
+
+export const Text2 = styled.p`
+  font-size: 24px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  margin-top: 35vh;
+  font-weight: 600;
+
+  align-self: center;
 `;

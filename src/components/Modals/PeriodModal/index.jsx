@@ -19,7 +19,7 @@ import Close from "../../../assets/close.svg";
 
 import { Formik } from "formik";
 
-const PeriodModal = ({ setPeriodModal, setSubjectModal, grid }) => {
+const PeriodModal = ({ setPeriodModal, setSubjectModal, grid, align }) => {
   const [period, setPeriod] = useState("Clique aqui");
   const [materia, setMateria] = useState("");
   const [codigo, setCodigo] = useState("");
@@ -46,7 +46,7 @@ const PeriodModal = ({ setPeriodModal, setSubjectModal, grid }) => {
     "Escolha Livre",
   ];
   return (
-    <Container>
+    <Container align={align}>
       <ButtonImg
         onClick={() => {
           setPeriodModal(false);

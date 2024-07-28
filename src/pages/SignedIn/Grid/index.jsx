@@ -21,7 +21,7 @@ export default function Grid() {
   const [subjectModal, setSubjectModal] = useState(false);
   const [periodModal, setPeriodModal] = useState(false);
 
-  const periodList = ["2", "3", "4", "5", "6", "7", "8", "9", "10"];
+  const periodList = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
   const subjectList = [
     { codigo: "EEL170", materia: "Computação I", status: "A" },
     { codigo: "EEL170", materia: "Computação I", status: "A" },
@@ -65,23 +65,6 @@ export default function Grid() {
           />
         ) : (
           <GridContainer>
-            <PeriodContainer first>
-              <PeriodText>1</PeriodText>
-              {subjectList.map((item) => {
-                return (
-                  <>
-                    <Card
-                      marginTop={"30px"}
-                      marginLeft={""}
-                      onClick={() => handleClik(item)}
-                      boldText={item.codigo}
-                      text={item.materia}
-                      status={item.status}
-                    />
-                  </>
-                );
-              })}
-            </PeriodContainer>
             {periodList.map((item) => {
               return (
                 <PeriodContainer>

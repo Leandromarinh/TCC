@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-import { Screen, Container, EditButton, AddButton, Image } from "./styles";
+import {
+  Screen,
+  Container,
+  EditButton,
+  AddButton,
+  Image,
+  Text2,
+} from "./styles";
 
 import {
   SubtitleContainer,
-  Text,
   StatusContainer,
+  Text,
   Bar,
   GridContainer,
   PeriodContainer,
@@ -17,6 +24,7 @@ import LeftBar from "../../../components/LeftBar";
 import Card from "../../../components/Card";
 import SubjectModal from "../../../components/Modals/SubjectModal";
 import PeriodModal from "../../../components/Modals/PeriodModal";
+import Input from "../../../components/Input";
 
 import AddImage from "../../../assets/add.svg";
 
@@ -24,24 +32,65 @@ export default function MyGrid() {
   const [subjectModal, setSubjectModal] = useState(false);
   const [periodModal, setPeriodModal] = useState(false);
   const [editMode, setEditMode] = useState(false);
+  const [periodList, setPeriodList] = useState([[]]);
 
-  const [periodList, setPeriodList] = useState([]);
-  const [subjectList, setSubjectList] = useState([]);
+  const [offset, setOffet] = useState(1);
 
   const handleClik = (item) => {
     if (item.codigo) setSubjectModal(true);
     else setPeriodModal(true);
   };
 
-  const handleEdit = () => {
-    setEditMode(!editMode);
-    console.log(periodList.length);
+  const checkEmptySubjectList = () => {
+    for (let i = 0; i < periodList.length; i++) {
+      if (periodList[i].length > 0) {
+        for (let j = 0; j < i; j++) {
+          if (periodList[j].length === 0) return false;
+        }
+      }
+    }
+    return true;
   };
+
+  const handleEdit = () => {
+    if (editMode) {
+      const newPeriodList = periodList.filter(
+        (subjectList) => subjectList.length > 0
+      );
+
+      if (newPeriodList.length === 0) {
+        setPeriodList([[]]);
+      } else setPeriodList(newPeriodList);
+    }
+
+    if (checkEmptySubjectList()) setEditMode(!editMode);
+  };
+
+  const addSubject = (index) => {
+    setPeriodModal(true);
+    const subject = { codigo: "EEL170", materia: "Computação I", status: "A" };
+
+    setPeriodList(() => {
+      const newMatriz = [...periodList];
+      newMatriz[index] = [...newMatriz[index], subject];
+      return newMatriz;
+    });
+  };
+
+  const removeSubject = (index, id) => {
+    setPeriodList(() => {
+      const newMatriz = [...periodList];
+      newMatriz[index] = newMatriz[index].filter((item) => item.codigo !== id);
+      return newMatriz;
+    });
+  };
+
+  const addPeriod = () => {
+    setPeriodList([...periodList, []]);
+  };
+
   return (
     <Screen>
-      <EditButton onClick={handleEdit} type="submit">
-        {editMode ? "Salvar" : "Editar"}
-      </EditButton>
       <LeftBar myGrid />
       <Container>
         <SubtitleContainer>
@@ -58,6 +107,9 @@ export default function MyGrid() {
             <Bar />
             <Text>Cursando</Text>
           </StatusContainer>
+          <EditButton onClick={() => handleEdit()} type="submit">
+            {editMode ? "Salvar" : "Editar"}
+          </EditButton>
         </SubtitleContainer>
         {subjectModal ? (
           <SubjectModal status="A" setSubjectModal={setSubjectModal} />
@@ -66,73 +118,92 @@ export default function MyGrid() {
             setPeriodModal={setPeriodModal}
             setSubjectModal={setSubjectModal}
           />
+        ) : !editMode ? (
+          <>
+            {periodList[0].length < 1 ? (
+              <Text2>
+                Você não possui nenhuma matéria selecionada, <br /> clique em
+                editar e monte sua grade curricular do jeito que quiser.
+              </Text2>
+            ) : (
+              <GridContainer>
+                {periodList.map((period, index) => {
+                  return (
+                    <PeriodContainer>
+                      <PeriodText>
+                        {periodList[index].length > 0
+                          ? index + Number(offset)
+                          : null}
+                      </PeriodText>
+
+                      {period.map((subject) => {
+                        return (
+                          <Card
+                            marginTop={"30px"}
+                            marginLeft={""}
+                            onClick={() => handleClik(subject)}
+                            boldText={subject.codigo}
+                            text={subject.materia}
+                            status={subject.status}
+                          />
+                        );
+                      })}
+                    </PeriodContainer>
+                  );
+                })}
+              </GridContainer>
+            )}
+          </>
         ) : (
-          <GridContainer>
-            <PeriodContainer first>
-              <PeriodText>1</PeriodText>
-              {subjectList.length === 0 && !editMode && (
-                <Text>
-                  Clique no botão de editar para selecionar suas matérias já
-                  feitas e as que planeja fazer.
-                </Text>
-              )}
-              {subjectList.map((item) => {
-                <Card
-                  marginTop={"30px"}
-                  marginLeft={""}
-                  onClick={() => handleClik(item)}
-                  boldText={item.codigo}
-                  text={item.materia}
-                  status={item.status}
-                />;
-              })}
-              {editMode && (
-                <AddButton
-                  onClick={() => {
-                    setSubjectList([
-                      ...subjectList,
-                      {
-                        codigo: "EEL170",
-                        materia: "Computação I",
-                        status: "A",
-                      },
-                    ]);
-                    console.log(subjectList);
-                  }}
-                >
-                  <Image src={AddImage} />
-                </AddButton>
-              )}
-            </PeriodContainer>
-            {periodList.map((item, index) => {
-              return (
-                <PeriodContainer>
-                  {item !== 1 && <PeriodText>{item}</PeriodText>}
-                  {subjectList.map((item) => {
-                    return (
-                      <>
+          <>
+            <Input
+              text={"Selecione o período inicial"}
+              type="number"
+              value={offset}
+              onChange={(e) => {
+                if (e.target.value > 0 && e.target.value < 31)
+                  setOffet(e.target.value);
+              }}
+            />
+            <GridContainer>
+              {periodList.map((period, index) => {
+                return (
+                  <PeriodContainer>
+                    <PeriodText>{index + Number(offset)}</PeriodText>
+
+                    {period.map((subject) => {
+                      return (
                         <Card
                           marginTop={"30px"}
                           marginLeft={""}
-                          onClick={() => handleClik(item)}
-                          boldText={item.codigo}
-                          text={item.materia}
-                          status={item.status}
+                          onClick={() => {
+                            removeSubject(index, subject.codigo);
+                          }}
+                          boldText={subject.codigo}
+                          text={subject.materia}
+                          status={subject.status}
                         />
-                      </>
-                    );
-                  })}
-                  {editMode && (
+                      );
+                    })}
                     <AddButton
-                      onClick={() => setPeriodList([...periodList, item + 1])}
+                      onClick={() => {
+                        addSubject(index);
+                      }}
                     >
                       <Image src={AddImage} />
                     </AddButton>
-                  )}
-                </PeriodContainer>
-              );
-            })}
-          </GridContainer>
+                  </PeriodContainer>
+                );
+              })}
+              <AddButton
+                onClick={() => addPeriod()}
+                marginRight="50px"
+                disabled={periodList[periodList.length - 1].length === 0}
+              >
+                <Image src={AddImage} />
+              </AddButton>
+            </GridContainer>
+          </>
         )}
       </Container>
     </Screen>
