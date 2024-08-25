@@ -94,9 +94,25 @@ export const TopContainer = styled.div`
   align-items: center;
 `;
 
+export const CloseImage = styled.img`
+  width: 25px;
+`;
+
+export const ButtonImg = styled.button`
+  margin-left: 85%;
+  outline: none;
+  background-color: ${colors.green};
+
+  border: none;
+`;
+
 export const BottomContainer = styled.div`
   width: 316px;
   border: 2px solid ${colors.green};
+
+  display: flex;
+  flex-direction: ${(props) => (props.row ? "row" : "column")};
+  justify-content: space-around;
 `;
 
 export const BoldText = styled.p`
@@ -108,6 +124,7 @@ export const BoldText = styled.p`
   margin-left: 30px;
   margin-right: 5px;
   margin-bottom: -30px;
+  margin-top: ${(props) => (props.upper ? "5px" : "")};
 `;
 
 export const TextLine = styled.div`
@@ -121,4 +138,43 @@ export const Text2 = styled.p`
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-weight: ${(props) => (props.bold ? "bold" : "400")};
   margin-left: ${(props) => (props.bold ? "30px" : "5px")};
+`;
+
+export const AddButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+
+  width: 59px;
+  height: 59px;
+
+  background-color: ${colors.green};
+
+  border-radius: 100%;
+  border: none;
+  opacity: 90%;
+
+  &:hover {
+    cursor: ${(props) => (props.disabled ? "default" : "pointer")};
+    opacity: ${(props) => (props.disabled ? "90%" : "100%")};
+  }
+
+  margin-right: ${(props) => props.marginRight};
+  margin: 30px 0px;
+`;
+
+export const Image = styled.img`
+  width: 30px;
+`;
+
+export const InputText = styled.input`
+  width: 45px;
+  height: 25px;
+  align-self: center;
+  align-items: center;
+
+  font-size: 20px;
+
+  border: none;
 `;

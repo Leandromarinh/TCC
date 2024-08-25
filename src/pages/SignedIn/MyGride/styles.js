@@ -97,3 +97,36 @@ export const Text2 = styled.p`
 
   align-self: center;
 `;
+
+export const Grid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(8, 7vw);
+  grid-template-rows: repeat(20, 50px); /* Ajuste conforme necessário */
+  gap: 1px;
+  border: 1px solid #ddd;
+  align-self: center;
+  margin-right: 7vw;
+`;
+
+export const Cell = styled.div`
+  border: 1px solid #ddd;
+  position: relative;
+`;
+
+export const TimeLabel = styled.div`
+  grid-column: 1 / span 1;
+  grid-row: ${(props) => props.row};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+`;
+
+export const WeekLabel = styled.div`
+  grid-row: 1 / span 1;
+  grid-column: ${(props) => props.column};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+`;

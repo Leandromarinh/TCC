@@ -20,11 +20,11 @@ export const Text = styled.p`
 `;
 
 export const BoxInput = styled.input`
-  width: 25vw;
+  width: ${(props) => (props.number ? "15vw" : "25vw")};
   height: ${(props) => (props.id ? "3vh0" : "5vh")};
   padding-left: 0.5vw;
 
-  font-size: 1em;
+  font-size: 1.3em;
   color: ${(props) => (props.id ? "#000" : "#fff")};
   font-family: "Roboto";
 

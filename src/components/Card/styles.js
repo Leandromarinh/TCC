@@ -2,6 +2,8 @@ import styled from "styled-components";
 
 import colors from "../../theme/colors";
 
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+
 export const Container = styled.button`
   width: 210px;
   height: 115px;
@@ -24,7 +26,15 @@ export const Container = styled.button`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  ${(props) =>
+    props.deletable &&
+    `&:hover {
+    background-color: rgba(255, 0, 0, 0.1);
+  }`}
 `;
+
+const DeleteIcon = styled.div``;
 
 export const Text = styled.p`
   font-size: 20px;

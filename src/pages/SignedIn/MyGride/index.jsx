@@ -7,6 +7,10 @@ import {
   AddButton,
   Image,
   Text2,
+  Grid,
+  Cell,
+  TimeLabel,
+  WeekLabel,
 } from "./styles";
 
 import {
@@ -33,8 +37,30 @@ export default function MyGrid() {
   const [periodModal, setPeriodModal] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [periodList, setPeriodList] = useState([[]]);
-
   const [offset, setOffet] = useState(1);
+
+  const days = ["DOM", "SEG", "TER", "QUA", "QUI", "SEX", "SÁB"];
+  const hours = [
+    "06:00",
+    "07:00",
+    "08:00",
+    "09:00",
+    "10:00",
+    "11:00",
+    "12:00",
+    "13:00",
+    "14:00",
+    "15:00",
+    "16:00",
+    "17:00",
+    "18:00",
+    "19:00",
+    "20:00",
+    "21:00",
+    "22:00",
+    "23:00",
+    "24:00",
+  ];
 
   const handleClik = (item) => {
     if (item.codigo) setSubjectModal(true);
@@ -87,6 +113,12 @@ export default function MyGrid() {
 
   const addPeriod = () => {
     setPeriodList([...periodList, []]);
+  };
+
+  const [cards, setCards] = useState([]);
+
+  const addCard = (day, time) => {
+    setCards([...cards, { day, time }]);
   };
 
   return (
@@ -153,10 +185,30 @@ export default function MyGrid() {
                 })}
               </GridContainer>
             )}
+            <Grid>
+              {days.map((day, index) => (
+                <WeekLabel key={day} column={index + 2}>
+                  {day}
+                </WeekLabel>
+              ))}
+              {hours.map((hour, index) => (
+                <TimeLabel key={hour} row={index + 2}>
+                  {hour}
+                </TimeLabel>
+              ))}
+              {Array.from({ length: 7 * 19 }).map((_, index) => {
+                const day = index % 7;
+                const time = Math.floor(index / 7);
+                return (
+                  <Cell key={index} onClick={() => addCard(day, time)}></Cell>
+                );
+              })}
+            </Grid>
           </>
         ) : (
           <>
             <Input
+              number
               text={"Selecione o período inicial"}
               type="number"
               value={offset}
@@ -182,6 +234,7 @@ export default function MyGrid() {
                           boldText={subject.codigo}
                           text={subject.materia}
                           status={subject.status}
+                          deletable={true}
                         />
                       );
                     })}

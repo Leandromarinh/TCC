@@ -12,6 +12,7 @@ export default function Input({
   autoCapitalize,
   errors,
   touched,
+  number,
 }) {
   return (
     <Container id={id}>
@@ -24,6 +25,7 @@ export default function Input({
         onBlur={onBlur}
         value={value}
         autoCapitalize={autoCapitalize}
+        number={number}
       />
       {errors && touched && <ErrorText>{errors}</ErrorText>}
     </Container>
