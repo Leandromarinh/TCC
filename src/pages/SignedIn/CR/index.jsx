@@ -235,7 +235,7 @@ export default function CR() {
                           <ButtonImg
                             onClick={() => {
                               credito.current = 0; /* alterar depois quando tiver back */
-                              console.log(index);
+
                               setSubjectList(() => {
                                 let newMatriz = [...subjectList];
                                 newMatriz = newMatriz.filter(
@@ -250,9 +250,6 @@ export default function CR() {
                                 );
                                 setNotas(newNotas);
                               });
-
-                              console.log(subjectList);
-                              console.log(notas);
                             }}
                           >
                             <CloseImage src={Close} />
@@ -303,10 +300,9 @@ export default function CR() {
                               const fulled_notas = newNotas.map((item) =>
                                 item !== null ? item : nota
                               );
-                              console.log(fulled_notas);
+
                               let pontos = 0;
                               for (let i = 0; i < subjectList.length; i++) {
-                                console.log("aq");
                                 pontos +=
                                   subjectList[i].creditos * fulled_notas[i];
                               }
@@ -326,9 +322,7 @@ export default function CR() {
                           </AddButton>
                           <InputText
                             value={notas[index] || nota}
-                            onChange={() => {
-                              console.log("aq");
-                            }}
+                            onChange={() => {}}
                           />
                           <AddButton
                             onClick={() => {
@@ -346,13 +340,12 @@ export default function CR() {
                               const fulled_notas = newNotas.map((item) =>
                                 item !== null ? item : nota
                               );
-                              console.log(fulled_notas);
+
                               let pontos = 0;
                               for (let i = 0; i < subjectList.length; i++) {
                                 pontos +=
                                   subjectList[i].creditos * fulled_notas[i];
                               }
-                              console.log(pontos);
 
                               const totalPontos = pontos + values.pa;
 

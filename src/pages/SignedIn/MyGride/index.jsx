@@ -11,6 +11,9 @@ import {
   Cell,
   TimeLabel,
   WeekLabel,
+  Subject,
+  CellText,
+  NewCell,
 } from "./styles";
 
 import {
@@ -33,13 +36,16 @@ import Input from "../../../components/Input";
 import AddImage from "../../../assets/add.svg";
 
 export default function MyGrid() {
-  const [subjectModal, setSubjectModal] = useState(false);
-  const [periodModal, setPeriodModal] = useState(false);
-  const [editMode, setEditMode] = useState(false);
-  const [periodList, setPeriodList] = useState([[]]);
-  const [offset, setOffet] = useState(1);
-
   const days = ["DOM", "SEG", "TER", "QUA", "QUI", "SEX", "SÁB"];
+  const dayMap = {
+    DOM: 1,
+    SEG: 2,
+    TER: 3,
+    QUA: 4,
+    QUI: 5,
+    SEX: 6,
+    SÁB: 7,
+  };
   const hours = [
     "06:00",
     "07:00",
@@ -58,8 +64,147 @@ export default function MyGrid() {
     "20:00",
     "21:00",
     "22:00",
-    "23:00",
-    "24:00",
+  ];
+  const timeMap = {
+    "06:00": 0,
+    "07:00": 1,
+    "08:00": 2,
+    "09:00": 3,
+    "10:00": 4,
+    "11:00": 5,
+    "12:00": 6,
+    "13:00": 7,
+    "14:00": 8,
+    "15:00": 9,
+    "16:00": 10,
+    "17:00": 11,
+    "18:00": 12,
+    "19:00": 13,
+    "20:00": 14,
+    "21:00": 15,
+    "22:00": 16,
+  };
+
+  const backgroundColors = [
+    "#79A397",
+    "#F0E68C", // Khaki
+    "#E6E6FA", // Lavender
+    "#FFFAF0", // Floral White
+    "#FFFACD", // Lemon Chiffon
+    "#F5F5DC", // Beige
+    "#FAEBD7", // Antique White
+    "#E0FFFF", // Light Cyan
+    "#F5FFFA", // Mint Cream
+    "#FDF5E6", // Old Lace
+    "#F0FFF0", // Honeydew
+  ];
+
+  const [subjectModal, setSubjectModal] = useState(false);
+  const [periodModal, setPeriodModal] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [periodList, setPeriodList] = useState([[]]);
+  const [offset, setOffet] = useState(1);
+  const [subjects, setSubjects] = useState([]);
+
+  const subjectTreatment = () => {
+    let contador = 0;
+    const arrayNulos = Array.from({ length: 120 }, () => []);
+    console.log(arrayNulos);
+    subjectlist.forEach((item) => {
+      const color = backgroundColors[contador];
+      contador++;
+      for (const hour of Object.keys(item.hour)) {
+        const obj = item.hour[hour];
+
+        if (!obj.day || obj.day === "") continue;
+
+        const hour_start = obj.start;
+        const number_start = parseInt(hour_start.substring(0, 2), 10);
+
+        const hour_end = obj.end;
+        const number_end = parseInt(hour_end.substring(0, 2), 10);
+
+        const index_start = dayMap[obj.day] + timeMap[obj.start] * 7;
+
+        if (1 === number_end - number_start) {
+          arrayNulos[index_start] = arrayNulos[index_start].concat([
+            <NewCell color={color}>
+              {item.codigo} - {item.materia}
+            </NewCell>,
+          ]);
+          continue;
+        }
+        const index_aux = dayMap[obj.day] + timeMap[obj.end] * 7 - 7;
+
+        let index_end = index_start + 7;
+
+        arrayNulos[index_start] = arrayNulos[index_start].concat([
+          <NewCell color={color}>{item.codigo}</NewCell>,
+        ]);
+
+        arrayNulos[index_end] = arrayNulos[index_end].concat([
+          <NewCell color={color}>{item.materia}</NewCell>,
+        ]);
+
+        index_end += 7;
+
+        while (index_end <= index_aux) {
+          arrayNulos[index_end] = arrayNulos[index_end].concat([
+            <NewCell color={color}></NewCell>,
+          ]);
+          index_end += 7;
+        }
+      }
+    });
+    return arrayNulos;
+  };
+
+  const subjectlist = [
+    {
+      codigo: "EEL170",
+      materia: "Computação I",
+      hour: {
+        hour1: { day: "TER", start: "15:00", end: "18:00" },
+        hour2: { day: "QUI", start: "15:00", end: "17:00" },
+        hour3: { day: "", start: "", end: "" },
+      },
+    },
+    {
+      codigo: "EEL270",
+      materia: "Computação II",
+      hour: {
+        hour1: { day: "TER", start: "15:00", end: "18:00" },
+        hour2: { day: "QUI", start: "15:00", end: "17:00" },
+        hour3: { day: "", start: "", end: "" },
+      },
+    },
+    {
+      codigo: "EEL170",
+      materia: "Computação III",
+      hour: {
+        hour1: { day: "TER", start: "13:00", end: "15:00" },
+        hour2: { day: "QUI", start: "13:00", end: "15:00" },
+        hour3: { day: "", start: "", end: "" },
+      },
+    },
+    {
+      codigo: "EEL270",
+      materia: "Computação IV",
+      hour: {
+        hour1: { day: "SEG", start: "15:00", end: "17:00" },
+        hour2: { day: "QUA", start: "15:00", end: "17:00" },
+        hour3: { day: "SEX", start: "12:00", end: "13:00" },
+      },
+    },
+    {
+      codigo: "EEL670",
+      materia: "Computação V",
+      hour: {
+        hour1: { day: "", start: "", end: "" },
+        hour2: { day: "", start: "", end: "" },
+        hour3: { day: "SEX", start: "13:00", end: "14:00" },
+      },
+    },
   ];
 
   const handleClik = (item) => {
@@ -79,6 +224,7 @@ export default function MyGrid() {
   };
 
   const handleEdit = () => {
+    console.log(periodList);
     if (editMode) {
       const newPeriodList = periodList.filter(
         (subjectList) => subjectList.length > 0
@@ -115,11 +261,9 @@ export default function MyGrid() {
     setPeriodList([...periodList, []]);
   };
 
-  const [cards, setCards] = useState([]);
-
-  const addCard = (day, time) => {
-    setCards([...cards, { day, time }]);
-  };
+  useEffect(() => {
+    setSubjects(subjectTreatment());
+  }, []);
 
   return (
     <Screen>
@@ -196,11 +340,13 @@ export default function MyGrid() {
                   {hour}
                 </TimeLabel>
               ))}
-              {Array.from({ length: 7 * 19 }).map((_, index) => {
-                const day = index % 7;
-                const time = Math.floor(index / 7);
+              {Array.from({ length: 8 * 15 }).map((_, index) => {
                 return (
-                  <Cell key={index} onClick={() => addCard(day, time)}></Cell>
+                  <Cell key={index} onClick={() => {}} color="">
+                    {subjects[index]?.map((item) => {
+                      return item;
+                    })}
+                  </Cell>
                 );
               })}
             </Grid>

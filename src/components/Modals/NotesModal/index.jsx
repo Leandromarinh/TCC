@@ -27,7 +27,7 @@ export default function NotesModal({ setNotesModal }) {
         <Text>
           Insira aqui informações úteis sobre a discplina como email do
           professor, data de provas, trabalhos e listas, links do classroom,
-          moodle ou AVAf e etc.
+          moodle ou AVA e etc.
         </Text>
         <Input />
       </BottomContainer>

@@ -36,7 +36,7 @@ export const BoldText = styled.p`
 `;
 
 export const Text = styled.p`
-  font-size: 20px;
+  font-size: 25px;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 
