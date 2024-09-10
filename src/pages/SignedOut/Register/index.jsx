@@ -1,7 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { Formik } from "formik";
 import * as yup from "yup";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import AuthActions from "../../../store/ducks/auth";
 
 import {
   Screen,
@@ -28,7 +33,11 @@ import LoadingSpinner from "../../../components/Loading";
 
 export default function Register() {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+
+  const { loading, error } = useSelector((state) => state.auth);
+
+  const [requestMade, setRequestMade] = useState(false);
 
   const loginValidationSchema = yup.object().shape({
     name: yup.string().required("Campo obrigatório"),
@@ -58,15 +67,31 @@ export default function Register() {
       .max(30, "O valor deve ser no máximo 30"),
   });
 
-  function submit(values) {
-    console.log(values.email);
-    console.log(values.password);
-    setLoading(!loading);
-  }
+  const submit = (values) => {
+    setRequestMade(true);
+    dispatch(
+      AuthActions.signUpRequest(
+        values.name,
+        values.email,
+        values.password,
+        values.period
+      )
+    );
+  };
 
   const LoginNavigation = () => {
     navigate("/");
   };
+
+  useEffect(() => {
+    if (requestMade) {
+      if (error) {
+        toast.error(`${error.msg}`);
+      } else if (error === null && !loading) {
+        toast.success("Usuário Cadastrado com Sucesso!");
+      }
+    }
+  }, [error, loading, requestMade]);
 
   return (
     <Formik
@@ -90,6 +115,7 @@ export default function Register() {
         touched,
       }) => (
         <Screen>
+          <ToastContainer style={{ alignSelf: "center" }} />
           <Top />
           <Bottom>
             <Left>

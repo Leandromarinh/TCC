@@ -14,11 +14,17 @@ import rootSaga from "./sagas";
 const persistConfig = {
   key: "root",
   storage,
+  whitelist: ["auth"],
   stateReconciler: seamlessImmutableReconciler,
   transforms: [seamlessImmutableTransformCreator({})],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+const loggerMiddleware = (store) => (next) => (action) => {
+  console.log("Disparando ação:", action);
+  return next(action);
+};
 
 const sagaMiddleware = createSagaMiddleware();
 

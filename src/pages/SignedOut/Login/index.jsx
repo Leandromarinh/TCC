@@ -7,6 +7,9 @@ import AuthActions from "../../../store/ducks/auth";
 import { Formik } from "formik";
 import * as yup from "yup";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import {
   Screen,
   Top,
@@ -55,7 +58,6 @@ export default function Login() {
   };
 
   useEffect(() => {
-    console.log("signedIN:", signedIn);
     if (signedIn) {
       navigate("/home");
     }
@@ -80,6 +82,7 @@ export default function Login() {
         touched,
       }) => (
         <Screen>
+          <ToastContainer style={{ alignSelf: "center" }} />
           <Top />
           <Bottom>
             <Left>
@@ -117,10 +120,7 @@ export default function Login() {
                   <ErrorText>{errors.password}</ErrorText>
                 )}
                 <FTPContainer>
-                  <FTP
-                    onClick={() => console.log("aq")}
-                    disabled={values.email === "" || Boolean(errors.email)}
-                  >
+                  <FTP disabled={values.email === "" || Boolean(errors.email)}>
                     Esqueceu sua senha?
                   </FTP>
                   <EnterButton

@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
+import { useSelector } from "react-redux";
 
 import {
   Container,
@@ -18,6 +20,8 @@ import Input from "../../../components/Input";
 
 import { Formik } from "formik";
 import * as yup from "yup";
+
+import api from "../../../services/api";
 
 import Period1 from "./assets/Period1.png";
 import Period2 from "./assets/Period2.png";
@@ -53,6 +57,8 @@ export default function Home() {
   const [img8, setImg8] = useState(Period8);
   const [img9, setImg9] = useState(Eletiva1);
   const [img10, setImg10] = useState(Eletiva2);
+
+  const { user, token } = useSelector((state) => state.auth);
 
   const EditValidationSchema = yup.object().shape({
     currentPeriod: yup
@@ -198,6 +204,20 @@ export default function Home() {
       }
     }
   };
+
+  const getUser = async () => {
+    const id = user._id;
+    try {
+      const { data } = await api.get(`/user/${id}`);
+      console.log("data:", data);
+    } catch (err) {
+      console.log("error:", err.response?.data.msg);
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+  }, [user._id]);
 
   return (
     <Screen>
