@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 
 import {
   Container,
@@ -17,6 +17,8 @@ import { Formik } from "formik";
 
 import Close from "../../../assets/close.svg";
 
+import DropDown from "../../DropDown";
+
 const SubjectModal = ({ status, setSubjectModal }) => {
   const [ementa, setEmenta] = useState(
     "A solução de problemas utilizando computadores. Algoritmos: linguagens para especificar algoritmos, estruturas de dados e controle, modularização, refinamento etapa por etapa. Algoritmos para a solução de problemas numéricos e não numéricos. Pascal: arquivos, alocação dinâmica de memória e orientação a objetos. Introdução à Informática: o hardware e o software de computadores, a apresentação de informações, as linguagens de programação, o tele-processamento e as redes locais. Os impactos da computação."
@@ -26,8 +28,22 @@ const SubjectModal = ({ status, setSubjectModal }) => {
   const [sala, setSala] = useState("H209");
   const [periodo, setPeriodo] = useState("Primeiro");
   const [preReq, setPreReq] = useState("Nenhum");
-  const [estado, setEstado] = useState("Aprovado");
-  const options = ["Aprovado", "Reprovado", "Cursando", "Nenhum"];
+  const [situacao, setSituacao] = useState("Nenhum");
+
+  const [dia1, setDia1] = useState();
+  const [inicio1, setInicio1] = useState();
+  const [fim1, setFim1] = useState();
+  const [dia12, setDia2] = useState();
+  const [inicio2, setInicio2] = useState();
+  const [fim2, setFim2] = useState();
+  const [dia3, setDia3] = useState();
+  const [inicio3, setInicio3] = useState();
+  const [fim3, setFim3] = useState();
+
+  useEffect(() => {
+    console.log("status:", situacao);
+  }, [situacao]);
+
   const initialValues = {
     ementa: ementa,
     credito: credito,
@@ -106,11 +122,182 @@ const SubjectModal = ({ status, setSubjectModal }) => {
           </TextContainer>
           <TextContainer>
             <Title>Status:</Title>
-            <InputDrop
-              options={options}
-              value={estado}
-              onChange={(e) => setEstado(e.value)}
-              onBlur={handleBlur("estado")}
+            <DropDown
+              value={situacao}
+              setValue={setSituacao}
+              label={""}
+              options={["Aprovado", "Reprovado", "Cursando", "Nenhum"]}
+            />
+          </TextContainer>
+          <TextContainer drop>
+            <Title>Primeiro horario na semana:</Title>
+            <DropDown
+              value={dia1}
+              setValue={setDia1}
+              label={"Dia"}
+              options={["DOM", "SEG", "TER", "QUAR", "QUI", "SEX", "SAB"]}
+            />
+            <DropDown
+              value={inicio1}
+              setValue={setInicio1}
+              label={"início"}
+              options={[
+                "06:00",
+                "07:00",
+                "08:00",
+                "09:00",
+                "10:00",
+                "11:00",
+                "12:00",
+                "13:00",
+                "14:00",
+                "15:00",
+                "16:00",
+                "17:00",
+                "18:00",
+                "19:00",
+                "20:00",
+                "21:00",
+                "22:00",
+              ]}
+            />
+            <DropDown
+              value={fim1}
+              setValue={setFim1}
+              label={"Fim"}
+              options={[
+                "06:00",
+                "07:00",
+                "08:00",
+                "09:00",
+                "10:00",
+                "11:00",
+                "12:00",
+                "13:00",
+                "14:00",
+                "15:00",
+                "16:00",
+                "17:00",
+                "18:00",
+                "19:00",
+                "20:00",
+                "21:00",
+                "22:00",
+              ]}
+            />
+          </TextContainer>
+          <TextContainer drop>
+            <Title>Segundo horario na semana:</Title>
+            <DropDown
+              value={dia1}
+              setValue={setDia1}
+              label={"Dia"}
+              options={["DOM", "SEG", "TER", "QUAR", "QUI", "SEX", "SAB"]}
+            />
+            <DropDown
+              value={inicio1}
+              setValue={setInicio1}
+              label={"início"}
+              options={[
+                "06:00",
+                "07:00",
+                "08:00",
+                "09:00",
+                "10:00",
+                "11:00",
+                "12:00",
+                "13:00",
+                "14:00",
+                "15:00",
+                "16:00",
+                "17:00",
+                "18:00",
+                "19:00",
+                "20:00",
+                "21:00",
+                "22:00",
+              ]}
+            />
+            <DropDown
+              value={fim1}
+              setValue={setFim1}
+              label={"Fim"}
+              options={[
+                "06:00",
+                "07:00",
+                "08:00",
+                "09:00",
+                "10:00",
+                "11:00",
+                "12:00",
+                "13:00",
+                "14:00",
+                "15:00",
+                "16:00",
+                "17:00",
+                "18:00",
+                "19:00",
+                "20:00",
+                "21:00",
+                "22:00",
+              ]}
+            />
+          </TextContainer>
+          <TextContainer drop>
+            <Title>Terceiro horario na semana:</Title>
+            <DropDown
+              value={dia1}
+              setValue={setDia1}
+              label={"Dia"}
+              options={["DOM", "SEG", "TER", "QUAR", "QUI", "SEX", "SAB"]}
+            />
+            <DropDown
+              value={inicio1}
+              setValue={setInicio1}
+              label={"início"}
+              options={[
+                "06:00",
+                "07:00",
+                "08:00",
+                "09:00",
+                "10:00",
+                "11:00",
+                "12:00",
+                "13:00",
+                "14:00",
+                "15:00",
+                "16:00",
+                "17:00",
+                "18:00",
+                "19:00",
+                "20:00",
+                "21:00",
+                "22:00",
+              ]}
+            />
+            <DropDown
+              value={fim1}
+              setValue={setFim1}
+              label={"Fim"}
+              options={[
+                "06:00",
+                "07:00",
+                "08:00",
+                "09:00",
+                "10:00",
+                "11:00",
+                "12:00",
+                "13:00",
+                "14:00",
+                "15:00",
+                "16:00",
+                "17:00",
+                "18:00",
+                "19:00",
+                "20:00",
+                "21:00",
+                "22:00",
+              ]}
             />
           </TextContainer>
         </Container>

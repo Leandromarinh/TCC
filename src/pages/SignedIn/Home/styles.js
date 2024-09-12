@@ -66,7 +66,7 @@ export const EditButton = styled.button`
 
   width: 8vw;
   height: 5vh;
-  position: absolute;
+  position: fixed;
   right: 1vw;
   top: 3vh;
 

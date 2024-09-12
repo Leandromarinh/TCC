@@ -41,7 +41,7 @@ export default function LeftBar({
     <Container>
       <Top>
         <ProfileIcon src={Profile} />
-        <NameText>Gustavo</NameText>
+        <NameText>{user.name}</NameText>
       </Top>
       <Mid>
         <PageButton active={home} onClick={() => navigate("/home")}>

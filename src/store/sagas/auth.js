@@ -54,7 +54,7 @@ function* setToken() {
       const currentTime = Math.floor(Date.now() / 1000); // Pega o tempo atual em segundos
       const timeUntilExpiration = token_expiry_time - currentTime;
 
-      if (timeUntilExpiration <= 60 && refresh_token) {
+      if (timeUntilExpiration <= 5400 && refresh_token) {
         try {
           const { data } = yield call(api.post, `/auth/refresh-token`, {
             refresh_token,
@@ -68,7 +68,7 @@ function* setToken() {
               data.token_expiry_time
             )
           );
-          console.log("token", data.token);
+          console.log("token", data.token, "refresh_token:", refresh_token);
 
           // Atualiza o header de autorização com o novo token
           api.defaults.headers.Authorization = `Bearer ${data.token}`;
@@ -79,7 +79,8 @@ function* setToken() {
       }
     }
 
-    yield delay(30000); // Verificar a cada 30 segundos
+    yield delay(3600000); // Verificar a cada 1 hora
+    // yield delay(30000);
   }
 }
 

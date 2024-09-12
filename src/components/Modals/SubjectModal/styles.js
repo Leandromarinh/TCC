@@ -42,6 +42,8 @@ export const TextContainer = styled.div`
   display: flex;
   flex-direction: row;
   margin-left: 5vw;
+  margin-top: ${(props) => (props.drop ? "20px" : 0)};
+  margin-bottom: ${(props) => (props.drop ? "20px" : 0)};
 `;
 
 export const Title = styled.p`
@@ -73,18 +75,6 @@ export const Input = styled.input`
   height: 30px;
   margin-left: 1vw;
   margin-top: 20px;
-`;
-
-export const InputDrop = styled(Dropdown)`
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  font-size: 1em;
-
-  border: none;
-  width: 80%;
-  height: 30px;
-  margin-left: 1vw;
-  margin-top: 25px;
 `;
 
 export const ButtonImg = styled.button`

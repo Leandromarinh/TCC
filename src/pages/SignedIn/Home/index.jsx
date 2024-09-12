@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
-import { useSelector } from "react-redux";
+import PeriodActions from "../../../store/ducks/period";
 
 import {
   Container,
@@ -9,7 +10,6 @@ import {
   TextContainer,
   Text,
   LineContainer,
-  GradeImg,
   EditButton,
   InputContainer,
   EditContainer,
@@ -17,48 +17,33 @@ import {
 
 import LeftBar from "../../../components/LeftBar";
 import Input from "../../../components/Input";
+import PDFViewr from "../../../components/PDFViwer";
 
 import { Formik } from "formik";
 import * as yup from "yup";
 
 import api from "../../../services/api";
 
-import Period1 from "./assets/Period1.png";
-import Period2 from "./assets/Period2.png";
-import Period3 from "./assets/Period3.png";
-import Period4 from "./assets/Period4.png";
-import Period5 from "./assets/Period5.png";
-import Period6 from "./assets/Period6.png";
-import Period7 from "./assets/Period7.png";
-import Period8 from "./assets/Period8-9-10.png";
-import Eletiva1 from "./assets/EletivaManha.png";
-import Eletiva2 from "./assets/EletivasTarde.png";
-
 export default function Home() {
+  const dispatch = useDispatch();
   const [error, setError] = useState("");
   const currentYear = new Date().getFullYear();
 
   const [editMode, setEditMode] = useState(false);
-  const [currentPeriod, setCurrentPeriod] = useState("2024.1");
-  const [beginPeriod, setBeginPeriod] = useState("18/03/2024");
-  const [endPeriod, setEndPeriod] = useState("20/07/2024");
-  const [beginLock, setBeginLock] = useState("10/04/2024");
-  const [endLock, setEndLock] = useState("20/04/2024");
-  const [beginChange, setBeginChange] = useState("10/04/2024");
-  const [endChange, setEndChange] = useState("20/04/2024");
+  const [editPdfFile, setPdfFile] = useState();
 
-  const [img1, setImg1] = useState(Period1);
-  const [img2, setImg2] = useState(Period2);
-  const [img3, setImg3] = useState(Period3);
-  const [img4, setImg4] = useState(Period4);
-  const [img5, setImg5] = useState(Period5);
-  const [img6, setImg6] = useState(Period6);
-  const [img7, setImg7] = useState(Period7);
-  const [img8, setImg8] = useState(Period8);
-  const [img9, setImg9] = useState(Eletiva1);
-  const [img10, setImg10] = useState(Eletiva2);
+  const { user } = useSelector((state) => state.auth);
 
-  const { user, token } = useSelector((state) => state.auth);
+  const {
+    currentPeriod,
+    beginPeriod,
+    endPeriod,
+    beginLock,
+    endLock,
+    beginChange,
+    endChange,
+    pdfFile,
+  } = useSelector((state) => state.period);
 
   const EditValidationSchema = yup.object().shape({
     currentPeriod: yup
@@ -79,9 +64,6 @@ export default function Home() {
         (value) => {
           if (!value) return false;
           const year = parseInt(value.split("/")[2], 10);
-          console.log("ano:", year);
-          console.log("ano atual:", currentYear);
-          console.log(year === currentYear);
           if (year === currentYear) return true;
           else return false;
         }
@@ -179,29 +161,37 @@ export default function Home() {
   };
 
   function submit(values) {
+    console.log();
     setEditMode(false);
-    setCurrentPeriod(values.currentPeriod);
-    setBeginPeriod(values.beginPeriod);
-    setEndPeriod(values.endPeriod);
-    setBeginLock(values.beginLock);
-    setEndLock(values.endLock);
-    setBeginChange(values.beginChange);
-    setEndChange(values.endChange);
+    dispatch(
+      PeriodActions.editPeriod(
+        values.currentPeriod,
+        values.beginPeriod,
+        values.endPeriod,
+        values.beginLock,
+        values.endLock,
+        values.beginChange,
+        values.endChange,
+        editPdfFile
+      )
+    );
   }
 
-  const handleImageChange = (event) => {
+  const handlePdfChange = (event) => {
     const file = event.target.files[0];
-    const fileTypes = ["image/jpeg", "image/png", "image/jpg"];
+    const fileTypes = ["application/pdf"];
+    console.log("file:", file);
 
     if (file) {
       if (!fileTypes.includes(file.type)) {
-        setError("Por favor, selecione uma imagem no formato PNG, JPEG ou JPG");
-        setImg1(null);
+        setError("Por favor, selecione uma imagem no formato PDF");
       } else {
-        const imageUrl = URL.createObjectURL(file);
-        setImg1(imageUrl);
+        const pdfUrl = URL.createObjectURL(file);
+        setPdfFile(pdfUrl);
         setError("");
       }
+    } else {
+      setPdfFile(pdfFile || editPdfFile);
     }
   };
 
@@ -217,7 +207,9 @@ export default function Home() {
 
   useEffect(() => {
     getUser();
-  }, [user._id]);
+    console.log("pdf file:", pdfFile);
+    setPdfFile(pdfFile);
+  }, [user._id, pdfFile]);
 
   return (
     <Screen>
@@ -320,79 +312,14 @@ export default function Home() {
                     errors={errors.endChange}
                     touched={touched.endChange}
                   />
-                </InputContainer>
-                <InputContainer img>
                   <Input
-                    text="Grade curricular do 1º período (insira um print):"
+                    text="Insira o pdf da grade curricular:"
                     type="file"
                     id="image"
-                    onChange={handleImageChange}
-                    accept="image/png, image/jpeg, image/jpg"
+                    onChange={handlePdfChange}
+                    accept="application/pdf"
                     errors={error}
                     touched
-                  />
-                  <Input
-                    text="Grade curricular do 2º período (insira um print):"
-                    type="file"
-                    id="image"
-                    onChange={handleImageChange}
-                    accept=".jpg, .jpeg, .png"
-                  />
-                  <Input
-                    text="Grade curricular do 3º período (insira um print):"
-                    type="file"
-                    id="image"
-                    onChange={handleImageChange}
-                    accept=".jpg, .jpeg, .png"
-                  />
-                  <Input
-                    text="Grade curricular do 4º período (insira um print):"
-                    type="file"
-                    id="image"
-                    onChange={handleImageChange}
-                    accept=".jpg, .jpeg, .png"
-                  />
-                  <Input
-                    text="Grade curricular do 5º período (insira um print):"
-                    type="file"
-                    id="image"
-                    onChange={handleImageChange}
-                    accept=".jpg, .jpeg, .png"
-                  />
-                  <Input
-                    text="Grade curricular do 6º período (insira um print):"
-                    type="file"
-                    id="image"
-                    onChange={handleImageChange}
-                    accept=".jpg, .jpeg, .png"
-                  />
-                  <Input
-                    text="Grade curricular do 7º período (insira um print):"
-                    type="file"
-                    id="image"
-                    onChange={handleImageChange}
-                    accept=".jpg, .jpeg, .png"
-                  />
-                  <Input
-                    text="Grade curricular do 8º período (insira um print):"
-                    type="file"
-                    id="image"
-                    onChange={handleImageChange}
-                    accept=".jpg, .jpeg, .png"
-                  />
-                  <Input
-                    text="Grade curricular Eletiva manhã (insira um print):"
-                    type="file"
-                    id="image"
-                    onChange={handleImageChange}
-                    accept=".jpg, .jpeg, .png"
-                  />
-                  <Input
-                    text="Grade curricular Eletiva tarde (insira um print):"
-                    type="file"
-                    id="image"
-                    onChange={handleImageChange}
-                    accept=".jpg, .jpeg, .png"
                   />
                 </InputContainer>
               </EditContainer>
@@ -433,16 +360,7 @@ export default function Home() {
               <TextBold>Grade Horária</TextBold>
             </TextContainer>
           </LineContainer>
-          <GradeImg src={img1} />
-          <GradeImg src={img2} />
-          <GradeImg src={img3} />
-          <GradeImg src={img4} />
-          <GradeImg src={img5} />
-          <GradeImg src={img6} />
-          <GradeImg src={img7} />
-          <GradeImg src={img8} />
-          <GradeImg src={img9} />
-          <GradeImg src={img10} />
+          <PDFViewr pdf={pdfFile} />
         </Container>
       )}
     </Screen>

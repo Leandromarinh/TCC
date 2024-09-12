@@ -72,6 +72,7 @@ const signOut = (state) =>
     token: null,
     refresh_token: null,
     token_expiry_time: null,
+    error: null,
   });
 
 //SignUp

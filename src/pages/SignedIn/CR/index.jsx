@@ -1,5 +1,9 @@
 import React, { useState, useRef } from "react";
 
+import { useSelector, useDispatch } from "react-redux";
+
+import CrActions from "../../../store/ducks/cr";
+
 import {
   Screen,
   Container,
@@ -33,6 +37,12 @@ import { Formik } from "formik";
 import * as yup from "yup";
 
 export default function CR() {
+  const dispatch = useDispatch();
+
+  const { cro, cr, crDesejado, pa, subjectList2 } = useSelector(
+    (state) => state.cr
+  );
+
   const [periodModal, setPeriodModal] = useState(false);
   const [subjectList, setSubjectList] = useState([]);
 
@@ -45,10 +55,10 @@ export default function CR() {
   const nota_att = useRef(0);
 
   const initialValues = {
-    cro: null,
-    cr: null,
-    crDesejado: null,
-    pa: null,
+    cro,
+    cr,
+    crDesejado,
+    pa,
   };
 
   const calcularNota = (values) => {
@@ -205,6 +215,14 @@ export default function CR() {
                       !values.crDesejado
                     }
                     onClick={() => {
+                      dispatch(
+                        CrActions.fillFields(
+                          values.cro,
+                          values.cr,
+                          values.crDesejado,
+                          values.pa
+                        )
+                      );
                       setPeriodModal(true);
 
                       setSubjectList([
@@ -227,7 +245,7 @@ export default function CR() {
                   </Button>
                 </ButtonContainer>
                 <RowContainer>
-                  {subjectList.map((item, index) => {
+                  {subjectList?.map((item, index) => {
                     return (
                       <CardContainer>
                         <TopContainer>
@@ -270,14 +288,14 @@ export default function CR() {
                     );
                   })}
                 </RowContainer>
-                {subjectList.length !== 0 && (
+                {subjectList?.length !== 0 && (
                   <Text>
                     Redistribua os pontos entre as disciplinas da forma que
                     desejar e acompanhe seu CRA.
                   </Text>
                 )}
                 <RowContainer>
-                  {subjectList.map((item, index) => {
+                  {subjectList?.map((item, index) => {
                     return (
                       <CardContainer>
                         <TopContainer>
@@ -367,7 +385,7 @@ export default function CR() {
                 </RowContainer>
               </>
             )}
-            {subjectList.length > 0 &&
+            {subjectList?.length > 0 &&
               !periodModal &&
               (notas.some((item) => item !== null) ? (
                 <Text>CR: {CR}</Text>

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import { useSelector } from "react-redux";
+
 import {
   Screen,
   TitleContainer,
@@ -17,14 +19,12 @@ import { Formik } from "formik";
 import * as yup from "yup";
 
 export default function Profile() {
-  const [name, setName] = useState("Gustavo Pereira Ramos");
-  const [email, setEmail] = useState("gustavo@yahoo.com");
-  const [period, setPeriod] = useState(10);
+  const { user } = useSelector((state) => state.auth);
 
   const initialValues = {
-    name: name,
-    email: email,
-    period: period,
+    name: user.name,
+    email: user.email,
+    period: user.period,
     currentPassword: "",
     password: "",
     confirmPassword: "",
@@ -88,7 +88,7 @@ export default function Profile() {
           <Container>
             <TitleContainer>
               <Text>Olá,</Text>
-              <Text bold>{name}</Text>
+              <Text bold>{user.name}</Text>
             </TitleContainer>
 
             <BottomContainer>
