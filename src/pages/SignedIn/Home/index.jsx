@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-
-import PeriodActions from "../../../store/ducks/period";
+import { useSelector } from "react-redux";
 
 import {
   Container,
@@ -24,26 +22,22 @@ import * as yup from "yup";
 
 import api from "../../../services/api";
 
+import pdfFile from "../../../assets/Grade-Horaria_2024-2.pdf";
+
 export default function Home() {
-  const dispatch = useDispatch();
-  const [error, setError] = useState("");
+  const [currentPeriod, setCurrentPeriod] = useState("2024.2");
+  const [periodStart, setPeriodStart] = useState("12/08/2024");
+  const [periodEnd, setPeriodEnd] = useState("14/12/2024");
+  const [lockPeriodStart, setLockPeriodStart] = useState("30/08/2024");
+  const [lockPeriodEnd, setLockPeriodEnd] = useState("10/09/2024");
+  const [changePeriodStart, setChangePeriodStart] = useState("12/08/2024");
+  const [changePeriodEnd, setChangePeriodEnd] = useState("23/08/2024");
+
   const currentYear = new Date().getFullYear();
 
   const [editMode, setEditMode] = useState(false);
-  const [editPdfFile, setPdfFile] = useState();
 
   const { user } = useSelector((state) => state.auth);
-
-  const {
-    currentPeriod,
-    beginPeriod,
-    endPeriod,
-    beginLock,
-    endLock,
-    beginChange,
-    endChange,
-    pdfFile,
-  } = useSelector((state) => state.period);
 
   const EditValidationSchema = yup.object().shape({
     currentPeriod: yup
@@ -52,7 +46,7 @@ export default function Home() {
         new RegExp(`^${currentYear}\\.[12]$`),
         "O período atual deve ser no formato AAAA.1 ou AAAA.2, onde AAAA é o ano atual"
       ),
-    beginPeriod: yup
+    periodStart: yup
       .string()
       .matches(
         /^\d{2}\/\d{2}\/\d{4}$/,
@@ -68,7 +62,7 @@ export default function Home() {
           else return false;
         }
       ),
-    endPeriod: yup
+    periodEnd: yup
       .string()
       .matches(
         /^\d{2}\/\d{2}\/\d{4}$/,
@@ -84,7 +78,7 @@ export default function Home() {
           else return false;
         }
       ),
-    beginLock: yup
+    lockPeriodStart: yup
       .string()
       .matches(
         /^\d{2}\/\d{2}\/\d{4}$/,
@@ -100,7 +94,7 @@ export default function Home() {
           else return false;
         }
       ),
-    endLock: yup
+    lockPeriodEnd: yup
       .string()
       .matches(
         /^\d{2}\/\d{2}\/\d{4}$/,
@@ -116,7 +110,7 @@ export default function Home() {
           else return false;
         }
       ),
-    beginChange: yup
+    changePeriodStart: yup
       .string()
       .matches(
         /^\d{2}\/\d{2}\/\d{4}$/,
@@ -132,7 +126,7 @@ export default function Home() {
           else return false;
         }
       ),
-    endChange: yup
+    changePeriodEnd: yup
       .string()
       .matches(
         /^\d{2}\/\d{2}\/\d{4}$/,
@@ -152,48 +146,42 @@ export default function Home() {
 
   const initialValues = {
     currentPeriod: currentPeriod,
-    beginPeriod: beginPeriod,
-    endPeriod: endPeriod,
-    beginLock: beginLock,
-    endLock: endLock,
-    beginChange: beginChange,
-    endChange: endChange,
+    periodStart: periodStart,
+    periodEnd: periodEnd,
+    lockPeriodStart: lockPeriodStart,
+    lockPeriodEnd: lockPeriodEnd,
+    changePeriodStart: changePeriodStart,
+    changePeriodEnd: changePeriodEnd,
   };
 
   function submit(values) {
-    console.log();
     setEditMode(false);
-    dispatch(
-      PeriodActions.editPeriod(
-        values.currentPeriod,
-        values.beginPeriod,
-        values.endPeriod,
-        values.beginLock,
-        values.endLock,
-        values.beginChange,
-        values.endChange,
-        editPdfFile
-      )
-    );
+    setCurrentPeriod(values.currentPeriod);
+    setPeriodStart(values.periodStart);
+    setPeriodEnd(values.periodEnd);
+    setLockPeriodStart(values.lockPeriodStart);
+    setLockPeriodEnd(values.lockPeriodEnd);
+    setChangePeriodStart(values.changePeriodStart);
+    setChangePeriodEnd(values.changePeriodEnd);
   }
 
-  const handlePdfChange = (event) => {
-    const file = event.target.files[0];
-    const fileTypes = ["application/pdf"];
-    console.log("file:", file);
+  // const handleFileChange = (event) => {
+  //   const file = event.target.files[0];
+  //   setFile(file);
 
-    if (file) {
-      if (!fileTypes.includes(file.type)) {
-        setError("Por favor, selecione uma imagem no formato PDF");
-      } else {
-        const pdfUrl = URL.createObjectURL(file);
-        setPdfFile(pdfUrl);
-        setError("");
-      }
-    } else {
-      setPdfFile(pdfFile || editPdfFile);
-    }
-  };
+  //   const reader = new FileReader();
+  //   reader.onloadend = () => {
+  //     const base64String = reader.result
+  //       .replace("data:", "")
+  //       .replace(/^.+,/, "");
+  //     setBase64File(base64String);
+
+  //     // Mova o console.log para dentro do onloadend para garantir que base64File esteja definido
+  //     console.log("Arquivo:", file, "Arquivo base 64:", base64String);
+  //   };
+
+  //   reader.readAsDataURL(file); // Lê o arquivo e converte para base64
+  // };
 
   const getUser = async () => {
     const id = user._id;
@@ -205,11 +193,7 @@ export default function Home() {
     }
   };
 
-  useEffect(() => {
-    getUser();
-    console.log("pdf file:", pdfFile);
-    setPdfFile(pdfFile);
-  }, [user._id, pdfFile]);
+  useEffect(() => {}, []);
 
   return (
     <Screen>
@@ -230,7 +214,7 @@ export default function Home() {
             touched,
           }) => (
             <Container>
-              <EditButton disabled={!isValid || error} onClick={handleSubmit}>
+              <EditButton disabled={false} onClick={handleSubmit} type="submit">
                 Salvar
               </EditButton>
               <EditContainer>
@@ -251,76 +235,76 @@ export default function Home() {
                     placeholder="Digite a data de ínicio do período. DD/MM/AAAA"
                     type="text"
                     autoCapitalize="none"
-                    onChange={handleChange("beginPeriod")}
-                    value={values.beginPeriod}
-                    onBlur={handleBlur("beginPeriod")}
-                    errors={errors.beginPeriod}
-                    touched={touched.beginPeriod}
+                    onChange={handleChange("periodStart")}
+                    value={values.periodStart}
+                    onBlur={handleBlur("periodStart")}
+                    errors={errors.periodStart}
+                    touched={touched.periodStart}
                   />
                   <Input
                     text="Fim do período:"
                     placeholder="Digite a data do fim do período. DD/MM/AAAA"
                     type="text"
                     autoCapitalize="none"
-                    onChange={handleChange("endPeriod")}
-                    value={values.endPeriod}
-                    onBlur={handleBlur("endPeriod")}
-                    errors={errors.endPeriod}
-                    touched={touched.endPeriod}
+                    onChange={handleChange("periodEnd")}
+                    value={values.periodEnd}
+                    onBlur={handleBlur("periodEnd")}
+                    errors={errors.periodEnd}
+                    touched={touched.periodEnd}
                   />
                   <Input
                     text="Ínicio do período de trancamento:"
                     placeholder="Digite a data de ínicio do período de trancamento. DD/MM/AAAA"
                     type="text"
                     autoCapitalize="none"
-                    onChange={handleChange("beginLock")}
-                    value={values.beginLock}
-                    onBlur={handleBlur("beginLock")}
-                    errors={errors.beginLock}
-                    touched={touched.beginLock}
+                    onChange={handleChange("lockPeriodStart")}
+                    value={values.lockPeriodStart}
+                    onBlur={handleBlur("lockPeriodStart")}
+                    errors={errors.lockPeriodStart}
+                    touched={touched.lockPeriodStart}
                   />
                   <Input
                     text="Fim do período de trancamento:"
                     placeholder="Digite a data final do período de trancamento. DD/MM/AAAA"
                     type="text"
                     autoCapitalize="none"
-                    onChange={handleChange("endLock")}
-                    value={values.endLock}
-                    onBlur={handleBlur("endLock")}
-                    errors={errors.endLock}
-                    touched={touched.endLock}
+                    onChange={handleChange("lockPeriodEnd")}
+                    value={values.lockPeriodEnd}
+                    onBlur={handleBlur("lockPeriodEnd")}
+                    errors={errors.lockPeriodEnd}
+                    touched={touched.lockPeriodEnd}
                   />
                   <Input
                     text="Ínicio do período de alteração de disciplina:"
                     placeholder="Digite a data de ínicio do período de alteração. DD/MM/AAAA"
                     type="text"
                     autoCapitalize="none"
-                    onChange={handleChange("beginChange")}
-                    value={values.beginChange}
-                    onBlur={handleBlur("beginChange")}
-                    errors={errors.beginChange}
-                    touched={touched.beginChange}
+                    onChange={handleChange("changePeriodStart")}
+                    value={values.changePeriodStart}
+                    onBlur={handleBlur("changePeriodStart")}
+                    errors={errors.changePeriodStart}
+                    touched={touched.changePeriodStart}
                   />
                   <Input
                     text="Fim do período de alteração de disciplina:"
                     placeholder="Digite a data final do período de alteração. DD/MM/AAAA"
                     type="text"
                     autoCapitalize="none"
-                    onChange={handleChange("endChange")}
-                    value={values.endChange}
-                    onBlur={handleBlur("endChange")}
-                    errors={errors.endChange}
-                    touched={touched.endChange}
+                    onChange={handleChange("changePeriodEnd")}
+                    value={values.changePeriodEnd}
+                    onBlur={handleBlur("changePeriodEnd")}
+                    errors={errors.changePeriodEnd}
+                    touched={touched.changePeriodEnd}
                   />
-                  <Input
+                  {/* <Input
                     text="Insira o pdf da grade curricular:"
                     type="file"
                     id="image"
-                    onChange={handlePdfChange}
+                    onChange={handleFileChange}
                     accept="application/pdf"
-                    errors={error}
                     touched
-                  />
+                    errors={error}
+                  /> */}
                 </InputContainer>
               </EditContainer>
             </Container>
@@ -328,7 +312,7 @@ export default function Home() {
         </Formik>
       ) : (
         <Container>
-          <EditButton onClick={() => setEditMode(true)}>Editar</EditButton>
+          {/* <EditButton onClick={() => setEditMode(true)}>Editar</EditButton> */}
           <LineContainer>
             <TextContainer>
               <TextBold>Período Atual:</TextBold>
@@ -338,21 +322,21 @@ export default function Home() {
           <LineContainer>
             <TextContainer>
               <TextBold>Inicío do Período:</TextBold>
-              <Text>{beginPeriod}</Text>
+              <Text>{periodStart}</Text>
             </TextContainer>
             <TextContainer>
               <TextBold>Fim do Período:</TextBold>
-              <Text>{endPeriod}</Text>
+              <Text>{periodEnd}</Text>
             </TextContainer>
           </LineContainer>
           <LineContainer>
             <TextContainer bottom>
               <TextBold>Período de Trancamento de Disciplina:</TextBold>
-              <Text bottom>{beginLock + " à " + endLock}</Text>
+              <Text bottom>{lockPeriodStart + " à " + lockPeriodEnd}</Text>
             </TextContainer>
             <TextContainer bottom>
               <TextBold>Período de Alteração de Disciplina:</TextBold>
-              <Text bottom>{beginChange + " à " + endChange}</Text>
+              <Text bottom>{changePeriodStart + " à " + changePeriodEnd}</Text>
             </TextContainer>
           </LineContainer>
           <LineContainer>

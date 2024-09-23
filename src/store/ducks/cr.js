@@ -4,7 +4,11 @@ import Immutable from "seamless-immutable";
 // Types & Action creators
 const { Types, Creators } = createActions({
   fillFields: ["cro", "cr", "crDesejado", "pa"],
-  editSubjectList: ["subjectList2"],
+  editSubjectList: ["subjectList"],
+  setNota: ["nota"],
+  editNotasList: ["notas"],
+  setCr: ["CR"],
+  setCredito: ["credito"],
 });
 
 export const AuthTypes = Types;
@@ -16,31 +20,66 @@ const INITIAL_STATE = Immutable({
   cr: null,
   crDesejado: null,
   pa: null,
-  subjectList2: [],
+  subjectList: [],
   nota: 0,
   notas: [],
   CR: 0,
+  credito: 0,
 });
 
 // Reducers
 
 // Fill Fields
-const fillFields = (state, { cro, cr, crDesejado, pa }) =>
-  state.merge({
+const fillFields = (state, { cro, cr, crDesejado, pa }) => {
+  return state.merge({
     cro,
     cr,
     crDesejado,
     pa,
   });
+};
 
 // Edit Subject List
-const editSubjectList = (state, { subjectList2 }) =>
-  state.merge({
-    subjectList2,
+const editSubjectList = (state, { subjectList }) => {
+  return state.merge({
+    subjectList,
   });
+};
+
+// Set Nota
+const setNota = (state, { nota }) => {
+  return state.merge({
+    nota,
+  });
+};
+
+// Edit Notas List
+const editNotasList = (state, { notas }) => {
+  return state.merge({
+    notas,
+  });
+};
+
+// Set CR
+const setCr = (state, { CR }) => {
+  return state.merge({
+    CR,
+  });
+};
+
+// Set Credito
+const setCredito = (state, { credito }) => {
+  return state.merge({
+    credito,
+  });
+};
 
 // Update
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.FILL_FIELDS]: fillFields,
   [Types.EDIT_SUBJECT_LIST]: editSubjectList,
+  [Types.SET_NOTA]: setNota,
+  [Types.EDIT_NOTAS_LIST]: editNotasList,
+  [Types.SET_CR]: setCr,
+  [Types.SET_CREDITO]: setCredito,
 });

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 
@@ -39,20 +39,10 @@ import * as yup from "yup";
 export default function CR() {
   const dispatch = useDispatch();
 
-  const { cro, cr, crDesejado, pa, subjectList2 } = useSelector(
-    (state) => state.cr
-  );
+  const { cro, cr, crDesejado, pa, subjectList, nota, notas, CR, credito } =
+    useSelector((state) => state.cr);
 
   const [periodModal, setPeriodModal] = useState(false);
-  const [subjectList, setSubjectList] = useState([]);
-
-  const [nota, setNota] = useState(0);
-  const [notas, setNotas] = useState([]);
-
-  const [CR, setCR] = useState(0);
-
-  const credito = useRef(0);
-  const nota_att = useRef(0);
 
   const initialValues = {
     cro,
@@ -61,14 +51,14 @@ export default function CR() {
     pa,
   };
 
-  const calcularNota = (values) => {
-    const totalCredito = values.cro + credito.current;
-    const totalPontos = totalCredito * values.crDesejado;
-    const pontos = totalPontos - values.pa;
-    let resultado = pontos / credito.current;
+  const calcularNota = () => {
+    console.log("credito no calculo da nota:", credito);
+    const totalCredito = cro + credito;
+    const totalPontos = totalCredito * crDesejado;
+    const pontos = totalPontos - pa;
+    let resultado = pontos / credito;
     if (resultado > 10) resultado = 10;
-    setNota(parseFloat(resultado.toFixed(1)));
-    nota_att.current = parseFloat(resultado.toFixed(1));
+    dispatch(CrActions.setNota(parseFloat(resultado.toFixed(1))));
   };
 
   const ValidationSchema = yup.object().shape({
@@ -126,6 +116,33 @@ export default function CR() {
         );
       }),
   });
+
+  useEffect(() => {
+    if (subjectList.length > 0) {
+      const fulled_notas = notas.map((item) => (item !== null ? item : nota));
+
+      let pontos = 0;
+      for (let i = 0; i < subjectList.length; i++) {
+        pontos += subjectList[i].creditos * fulled_notas[i];
+      }
+
+      const totalPontos = pontos + pa;
+
+      const totalCredito = cro + credito;
+
+      let cr = totalPontos / totalCredito;
+      if (cr > 10) cr = 10;
+
+      dispatch(CrActions.setCr(parseFloat(cr.toFixed(1))));
+    }
+
+    if (credito > 0) {
+      calcularNota();
+    }
+
+    console.log("credito", credito);
+  }, [subjectList, notas, credito]);
+
   return (
     <Screen>
       <LeftBar cr />
@@ -225,20 +242,22 @@ export default function CR() {
                       );
                       setPeriodModal(true);
 
-                      setSubjectList([
-                        ...subjectList,
-                        {
-                          codigo: "EEL170",
-                          materia: "Computação I",
-                          creditos: 5,
-                        },
-                      ]);
+                      dispatch(
+                        CrActions.editSubjectList([
+                          ...subjectList,
+                          {
+                            codigo: "EEL170",
+                            materia: "Computação I",
+                            creditos: 5,
+                          },
+                        ])
+                      );
 
-                      credito.current += 5;
+                      console.log("credito:", credito);
 
-                      calcularNota(values);
+                      dispatch(CrActions.setCredito(credito + 5));
 
-                      setNotas([...notas, null]);
+                      dispatch(CrActions.editNotasList([...notas, null]));
                     }}
                   >
                     Escolha as disciplinas
@@ -252,22 +271,23 @@ export default function CR() {
                           <BoldText code>{item.codigo}</BoldText>
                           <ButtonImg
                             onClick={() => {
-                              credito.current = 0; /* alterar depois quando tiver back */
+                              dispatch(
+                                CrActions.setCredito(0)
+                              ); /* alterar depois quando tiver back */
 
-                              setSubjectList(() => {
-                                let newMatriz = [...subjectList];
-                                newMatriz = newMatriz.filter(
-                                  (subject) => subject.codigo !== item.codigo
-                                );
-                                setSubjectList(newMatriz);
-                              });
-                              setNotas(() => {
-                                let newNotas = [...notas];
-                                newNotas = newNotas.filter(
-                                  (item, cardIndex) => cardIndex !== index
-                                );
-                                setNotas(newNotas);
-                              });
+                              let newMatriz = [...subjectList];
+                              newMatriz = newMatriz.filter(
+                                (subject) => subject.codigo !== item.codigo
+                              );
+
+                              dispatch(CrActions.editSubjectList(newMatriz));
+
+                              let newNotas = [...notas];
+                              newNotas = newNotas.filter(
+                                (item, cardIndex) => cardIndex !== index
+                              );
+
+                              dispatch(CrActions.editNotasList(newNotas));
                             }}
                           >
                             <CloseImage src={Close} />
@@ -304,7 +324,9 @@ export default function CR() {
                         </TopContainer>
                         <BottomContainer row>
                           <AddButton
+                            disabled={notas[index] === 0 ? true : false}
                             onClick={() => {
+                              console.log("aq", notas[index]);
                               let newNotas = [...notas];
                               let currentNota = notas[index] || nota;
 
@@ -314,25 +336,7 @@ export default function CR() {
                                 10
                               );
                               newNotas[index] = resultado_aprox;
-                              setNotas(newNotas);
-                              const fulled_notas = newNotas.map((item) =>
-                                item !== null ? item : nota
-                              );
-
-                              let pontos = 0;
-                              for (let i = 0; i < subjectList.length; i++) {
-                                pontos +=
-                                  subjectList[i].creditos * fulled_notas[i];
-                              }
-
-                              const totalPontos = pontos + values.pa;
-
-                              const totalCredito = values.cro + credito.current;
-
-                              let cr = totalPontos / totalCredito;
-                              if (cr > 10) cr = 10;
-
-                              setCR(parseFloat(cr.toFixed(1)));
+                              dispatch(CrActions.editNotasList(newNotas));
                             }}
                             marginRight="0px"
                           >
@@ -343,6 +347,7 @@ export default function CR() {
                             onChange={() => {}}
                           />
                           <AddButton
+                            disabled={notas[index] === 10 ? true : false}
                             onClick={() => {
                               let newNotas = [...notas];
                               let currentNota = notas[index] || nota;
@@ -353,26 +358,8 @@ export default function CR() {
                                   10
                                 );
                                 newNotas[index] = resultado_aprox;
-                                setNotas(newNotas);
+                                dispatch(CrActions.editNotasList(newNotas));
                               }
-                              const fulled_notas = newNotas.map((item) =>
-                                item !== null ? item : nota
-                              );
-
-                              let pontos = 0;
-                              for (let i = 0; i < subjectList.length; i++) {
-                                pontos +=
-                                  subjectList[i].creditos * fulled_notas[i];
-                              }
-
-                              const totalPontos = pontos + values.pa;
-
-                              const totalCredito = values.cro + credito.current;
-
-                              let cr = totalPontos / totalCredito;
-                              if (cr > 10) cr = 10;
-
-                              setCR(parseFloat(cr.toFixed(1)));
                             }}
                             marginRight="0px"
                           >
