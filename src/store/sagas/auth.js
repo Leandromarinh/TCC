@@ -40,10 +40,6 @@ export function* signUp({ email, password, period, name }) {
   }
 }
 
-export function* updateUser({}) {}
-
-export function* updatePassword({}) {}
-
 function* setToken() {
   while (true) {
     const { token_expiry_time, refresh_token } = yield select(

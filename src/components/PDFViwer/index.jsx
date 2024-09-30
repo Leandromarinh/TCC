@@ -4,7 +4,6 @@ import { Document, Page } from "react-pdf";
 import { Container, ZoomControls } from "./styles";
 
 export default function PDFViwer({ pdf }) {
-  console.log("PDF recebido:", pdf);
   const [numPages, setNumPages] = useState();
   const [scale, setScale] = useState(1.0);
 

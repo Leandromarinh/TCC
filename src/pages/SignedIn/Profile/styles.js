@@ -18,7 +18,6 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-
 `;
 
 export const TitleContainer = styled.div`
@@ -54,9 +53,8 @@ export const EditButton = styled.button`
   justify-content: center;
   align-self: center;
 
-  width: 8vw;
+  width: 10vw;
   height: 5vh;
-  margin-top: 5vw;
 
   background-color: ${colors.green};
   border: none;
@@ -70,4 +68,15 @@ export const EditButton = styled.button`
     cursor: ${(props) => (props.disabled ? "default" : "pointer")};
     opacity: ${(props) => (props.disabled ? "90%" : "100%")};
   }
+`;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+
+  align-self: center;
+  align-items: center;
+  justify-content: space-around;
+
+  width: 100%;
 `;

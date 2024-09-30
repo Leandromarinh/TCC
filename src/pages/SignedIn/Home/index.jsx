@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import {
   Container,
@@ -24,7 +24,11 @@ import api from "../../../services/api";
 
 import pdfFile from "../../../assets/Grade-Horaria_2024-2.pdf";
 
+import UserActions from "../../../store/ducks/user.js";
+
 export default function Home() {
+  const dispatch = useDispatch();
+
   const [currentPeriod, setCurrentPeriod] = useState("2024.2");
   const [periodStart, setPeriodStart] = useState("12/08/2024");
   const [periodEnd, setPeriodEnd] = useState("14/12/2024");
@@ -37,7 +41,7 @@ export default function Home() {
 
   const [editMode, setEditMode] = useState(false);
 
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.user);
 
   const EditValidationSchema = yup.object().shape({
     currentPeriod: yup
@@ -193,7 +197,10 @@ export default function Home() {
     }
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    dispatch(UserActions.getUserRequest());
+    console.log("user:", user);
+  }, []);
 
   return (
     <Screen>

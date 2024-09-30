@@ -7,8 +7,11 @@ const { Types, Creators } = createActions({
   signInRequest: ["email", "password"],
   signInSuccess: ["user", "token", "refresh_token", "token_expiry_time"],
   signInFailure: ["error"],
+
   tokenRefreshed: ["token", "refresh_token", "token_expiry_time"],
+
   signOut: null,
+
   signUpRequest: ["name", "email", "password", "period"],
   signUpSuccess: null,
   signUpFailure: ["error"],
@@ -87,8 +90,6 @@ const signUpFailure = (state, { error }) =>
     error,
     loading: false,
   });
-
-//Update
 
 /* Reducers to Types */
 export const reducer = createReducer(INITIAL_STATE, {

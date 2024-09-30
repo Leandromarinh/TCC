@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import {
   Screen,
@@ -10,6 +10,7 @@ import {
   InputContainer,
   BottomContainer,
   EditButton,
+  ButtonContainer,
 } from "./styles.js";
 
 import LeftBar from "../../../components/LeftBar";
@@ -18,8 +19,16 @@ import Input from "../../../components/Input";
 import { Formik } from "formik";
 import * as yup from "yup";
 
+import UserActions from "../../../store/ducks/user.js";
+
+import LoadingSpinner from "../../../components/Loading";
+
+import { ToastContainer, toast } from "react-toastify";
+
 export default function Profile() {
-  const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  const { user, loading } = useSelector((state) => state.user);
 
   const initialValues = {
     name: user.name,
@@ -30,7 +39,54 @@ export default function Profile() {
     confirmPassword: "",
   };
 
-  const submit = () => {};
+  useEffect(() => {
+    dispatch(UserActions.getUserRequest());
+  }, [loading]);
+
+  const editInfo = (values) => {
+    dispatch(
+      UserActions.updateUserRequest(values.name, values.email, values.period)
+    );
+  };
+
+  const editPassword = (values) => {
+    dispatch(
+      UserActions.updatePasswordRequest(values.currentPassword, values.password)
+    );
+  };
+
+  const disableButton = (values, isValid, touched) => {
+    if (Object.keys(touched).length === 0) {
+      return true;
+    } else if (
+      values.name === initialValues.name &&
+      values.email === initialValues.email &&
+      values.period === initialValues.period
+    ) {
+      return true;
+    }
+    if (!isValid) return true;
+    return false;
+  };
+
+  const disableButtonPassword = (values, isValid, touched) => {
+    if (Object.keys(touched).length === 0) {
+      return true;
+    } else if (
+      values.currentPassword === initialValues.currentPassword &&
+      values.password === initialValues.password &&
+      values.confirmPassword === initialValues.confirmPassword
+    ) {
+      return true;
+    } else if (
+      values.currentPassword !== "" &&
+      (values.password === "" || values.confirmPassword === "")
+    ) {
+      return true;
+    }
+    if (!isValid) return true;
+    return false;
+  };
 
   const ProfileValidationSchema = yup.object().shape({
     name: yup.string().required("Campo obrigatório"),
@@ -70,21 +126,13 @@ export default function Profile() {
 
   return (
     <Screen>
+      <ToastContainer style={{ alignSelf: "center" }} />
       <LeftBar profile />
       <Formik
         initialValues={initialValues}
-        onSubmit={submit}
         validationSchema={ProfileValidationSchema}
       >
-        {({
-          values,
-          handleChange,
-          handleBlur,
-          isValid,
-          handleSubmit,
-          errors,
-          touched,
-        }) => (
+        {({ values, handleChange, handleBlur, isValid, errors, touched }) => (
           <Container>
             <TitleContainer>
               <Text>Olá,</Text>
@@ -162,13 +210,22 @@ export default function Profile() {
                 />
               </InputContainer>
             </BottomContainer>
-            <EditButton
-              disabled={!isValid}
-              onClick={handleSubmit}
-              type="submit"
-            >
-              Editar
-            </EditButton>
+            <ButtonContainer>
+              <EditButton
+                disabled={disableButton(values, isValid, touched)}
+                onClick={() => editInfo(values)}
+                type="submit"
+              >
+                {loading ? <LoadingSpinner /> : "Editar"}
+              </EditButton>
+              <EditButton
+                disabled={disableButtonPassword(values, isValid, touched)}
+                onClick={() => editPassword(values)}
+                type="submit"
+              >
+                {loading ? <LoadingSpinner /> : "Editar"}
+              </EditButton>
+            </ButtonContainer>
           </Container>
         )}
       </Formik>
