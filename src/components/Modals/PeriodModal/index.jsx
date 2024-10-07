@@ -19,7 +19,16 @@ import Close from "../../../assets/close.svg";
 
 import { Formik } from "formik";
 
-const PeriodModal = ({ setPeriodModal, setSubjectModal, grid, align }) => {
+import DropDown from "../../DropDown";
+
+const PeriodModal = ({
+  setPeriodModal,
+  setSubjectModal,
+  grid,
+  align,
+  optative,
+  handleSubject,
+}) => {
   const [period, setPeriod] = useState("Clique aqui");
   const [materia, setMateria] = useState("");
   const [codigo, setCodigo] = useState("");
@@ -45,6 +54,8 @@ const PeriodModal = ({ setPeriodModal, setSubjectModal, grid, align }) => {
     "Atividades Acadêmicas Optativas (Escolha Restrita)",
     "Escolha Livre",
   ];
+
+  console.log("optitativa:", optative[0].subjects);
   return (
     <Container align={align}>
       <ButtonImg
@@ -176,23 +187,29 @@ const PeriodModal = ({ setPeriodModal, setSubjectModal, grid, align }) => {
         </Formik>
       ) : (
         <>
-          {options.map((item) => (
-            <Card status="a" onClick={() => setSubjectModal(true)}>
+          {optative[0]?.subjects?.map((subject) => (
+            <Card
+              status={subject.status}
+              onClick={() => {
+                setSubjectModal(true);
+                handleSubject(subject);
+              }}
+            >
               <CardItemContainer>
                 <Title>Código</Title>
-                <Title text>EEL202</Title>
+                <Title text>{subject.codigo}</Title>
               </CardItemContainer>
-              <CardItemContainer>
+              <CardItemContainer name>
                 <Title>Nome</Title>
-                <Title text>Humanidades e Ciências Sociais</Title>
+                <Title text>{subject.nome}</Title>
               </CardItemContainer>
               <CardItemContainer>
                 <Title>Créditos</Title>
-                <Title text>2.0</Title>
+                <Title text>{subject.credito}</Title>
               </CardItemContainer>
               <CardItemContainer>
                 <Title>C.H</Title>
-                <Title text>30</Title>
+                <Title text>{subject.cargaHor}</Title>
               </CardItemContainer>
             </Card>
           ))}

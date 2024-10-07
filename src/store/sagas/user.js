@@ -7,11 +7,9 @@ import UserActions, { UserTypes } from "../ducks/user";
 import { toast } from "react-toastify";
 
 export function* getUser() {
-  const { user } = yield select((state) => state.auth);
-  const id = user._id;
+  const { id } = yield select((state) => state.auth);
   try {
     const { data } = yield call(api.get, `/user/${id}`);
-    console.log("data no saga:", data.user);
     yield put(UserActions.getUserSuccess(data.user));
   } catch (err) {
     yield put(UserActions.getUserFailure(err.response?.data.msg));
@@ -20,9 +18,9 @@ export function* getUser() {
 }
 
 export function* updateUser({ name, email, period }) {
-  const { user } = yield select((state) => state.auth);
+  const { id } = yield select((state) => state.auth);
   try {
-    const { data } = yield call(api.put, `/user/update/${user._id}`, {
+    const { data } = yield call(api.put, `/user/update/${id}`, {
       name,
       email,
       period,
@@ -36,9 +34,9 @@ export function* updateUser({ name, email, period }) {
 }
 
 export function* updatePassword({ currentPassword, newPassword }) {
-  const { user } = yield select((state) => state.auth);
+  const { id } = yield select((state) => state.auth);
   try {
-    const { data } = yield call(api.put, `/user/update/${user._id}/password`, {
+    const { data } = yield call(api.put, `/user/update/${id}/password`, {
       currentPassword,
       newPassword,
     });

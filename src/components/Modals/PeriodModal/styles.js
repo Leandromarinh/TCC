@@ -76,17 +76,19 @@ export const Card = styled.button`
   background-color: #fff;
   border: 2px solid
     ${(props) =>
-      props.status === "A" || props.status === "a"
+      props.status === "Aprovado"
         ? colors.green
-        : props.status === "R" || props.status === "r"
+        : props.status === "Reprovado"
         ? colors.red
-        : props.status === "C" || props.status === "c"
+        : props.status === "Cursando"
         ? colors.blue
         : "#000"};
   border-radius: 5px;
 `;
 
-export const CardItemContainer = styled.div``;
+export const CardItemContainer = styled.div`
+  width: ${(props) => (props.name ? "15vw" : "5vw")};
+`;
 
 export const EditButton = styled.button`
   display: flex;

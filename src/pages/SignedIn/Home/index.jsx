@@ -20,8 +20,6 @@ import PDFViewr from "../../../components/PDFViwer";
 import { Formik } from "formik";
 import * as yup from "yup";
 
-import api from "../../../services/api";
-
 import pdfFile from "../../../assets/Grade-Horaria_2024-2.pdf";
 
 import UserActions from "../../../store/ducks/user.js";
@@ -169,37 +167,8 @@ export default function Home() {
     setChangePeriodEnd(values.changePeriodEnd);
   }
 
-  // const handleFileChange = (event) => {
-  //   const file = event.target.files[0];
-  //   setFile(file);
-
-  //   const reader = new FileReader();
-  //   reader.onloadend = () => {
-  //     const base64String = reader.result
-  //       .replace("data:", "")
-  //       .replace(/^.+,/, "");
-  //     setBase64File(base64String);
-
-  //     // Mova o console.log para dentro do onloadend para garantir que base64File esteja definido
-  //     console.log("Arquivo:", file, "Arquivo base 64:", base64String);
-  //   };
-
-  //   reader.readAsDataURL(file); // Lê o arquivo e converte para base64
-  // };
-
-  const getUser = async () => {
-    const id = user._id;
-    try {
-      const { data } = await api.get(`/user/${id}`);
-      console.log("data:", data);
-    } catch (err) {
-      console.log("error:", err.response?.data.msg);
-    }
-  };
-
   useEffect(() => {
     dispatch(UserActions.getUserRequest());
-    console.log("user:", user);
   }, []);
 
   return (

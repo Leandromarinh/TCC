@@ -13,7 +13,7 @@ export function* signIn({ email, password }) {
     api.defaults.headers.Authorization = `Bearer ${data.token}`;
     yield put(
       AuthActions.signInSuccess(
-        data.user,
+        data.id,
         data.token,
         data.refresh_token,
         data.token_expiry_time
@@ -64,8 +64,6 @@ function* setToken() {
               data.token_expiry_time
             )
           );
-          console.log("token", data.token, "refresh_token:", refresh_token);
-
           // Atualiza o header de autorização com o novo token
           api.defaults.headers.Authorization = `Bearer ${data.token}`;
         } catch (error) {

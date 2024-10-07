@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import {
   Screen,
@@ -17,23 +18,50 @@ import Card from "../../../components/Card";
 import SubjectModal from "../../../components/Modals/SubjectModal";
 import PeriodModal from "../../../components/Modals/PeriodModal";
 
+import UserActions from "../../../store/ducks/user.js";
+
 export default function Grid() {
+  const dispatch = useDispatch();
+
+  const { user } = useSelector((state) => state.user);
+
   const [subjectModal, setSubjectModal] = useState(false);
   const [periodModal, setPeriodModal] = useState(false);
+  const [subjectSeleted, setSubject] = useState(null);
+  const [optativeSelected, setOptative] = useState(null);
 
-  const periodList = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
-  const subjectList = [
-    { codigo: "EEL170", materia: "Computação I", status: "A" },
-    { codigo: "EEL170", materia: "Computação I", status: "A" },
-    { codigo: "EEL170", materia: "Computação I", status: "A" },
-    { codigo: "EEL170", materia: "Computação I", status: "A" },
-    { codigo: "EEL170", materia: "Computação I", status: "A" },
-    { codigo: "", materia: "Optativas Escolhas Restrita Grupo I", status: "N" },
-  ];
+  const subjectsList = user?.subject?.asMutable();
 
-  const handleClik = (item) => {
-    if (item.codigo) setSubjectModal(true);
-    else setPeriodModal(true);
+  const humanas = subjectsList?.filter(
+    (item) =>
+      item.period === "Atividades Acadêmicas Optativas (Escolha Restrita)"
+  );
+
+  const eletivas = subjectsList?.filter(
+    (item) => item.period === "Atividades Acadêmicas Optativas"
+  );
+
+  const handleClik = (subject, item) => {
+    if (subject) {
+      setSubject({ ...subject, periodo: item.period });
+      setSubjectModal(true);
+    } else if (item) {
+      setOptative(eletivas);
+      setPeriodModal(true);
+    } else {
+      setOptative(humanas);
+      setPeriodModal(true);
+    }
+  };
+
+  useEffect(() => {
+    if (!user) {
+      dispatch(UserActions.getUserRequest());
+    }
+  }, []);
+
+  const handleSubject = (subject) => {
+    setSubject(subject);
   };
 
   return (
@@ -56,35 +84,72 @@ export default function Grid() {
           </StatusContainer>
         </SubtitleContainer>
         {subjectModal ? (
-          <SubjectModal status="A" setSubjectModal={setSubjectModal} />
+          <SubjectModal
+            setSubjectModal={setSubjectModal}
+            subject={subjectSeleted}
+          />
         ) : periodModal ? (
           <PeriodModal
             setPeriodModal={setPeriodModal}
             setSubjectModal={setSubjectModal}
             grid
+            optative={optativeSelected}
+            subjectSeleted={subjectSeleted}
+            handleSubject={handleSubject}
           />
         ) : (
           <GridContainer>
-            {periodList.map((item) => {
-              return (
-                <PeriodContainer>
-                  <PeriodText>{item}</PeriodText>
-                  {subjectList.map((item) => {
-                    return (
+            {subjectsList?.map((item) => {
+              if (
+                item.period !==
+                  "Atividades Acadêmicas Optativas (Escolha Restrita)" &&
+                item.period !== "Atividades Acadêmicas Optativas"
+              )
+                return (
+                  <PeriodContainer>
+                    <PeriodText>{item.period}</PeriodText>
+                    {item.subjects.map((subject) => (
                       <>
                         <Card
                           marginTop={"30px"}
                           marginLeft={""}
-                          onClick={() => handleClik(item)}
-                          boldText={item.codigo}
-                          text={item.materia}
-                          status={item.status}
+                          onClick={() => handleClik(subject, item)}
+                          boldText={subject.codigo}
+                          text={subject.nome}
+                          status={subject.status}
                         />
                       </>
-                    );
-                  })}
-                </PeriodContainer>
-              );
+                    ))}
+                    {item.period === "8" ||
+                    item.period === "9" ||
+                    item.period === "10" ? (
+                      <>
+                        <Card
+                          marginTop={"30px"}
+                          marginLeft={""}
+                          onClick={() => handleClik(null, item)}
+                          boldText={""}
+                          text={"Optativa Escolha Condicionada"}
+                          status={""}
+                        />
+                      </>
+                    ) : null}
+                    {item.period === "1" ||
+                    item.period === "8" ||
+                    item.period === "9" ? (
+                      <>
+                        <Card
+                          marginTop={"30px"}
+                          marginLeft={""}
+                          onClick={() => handleClik()}
+                          boldText={""}
+                          text={"Optativas Escolha Restrita Grupo I"}
+                          status={""}
+                        />
+                      </>
+                    ) : null}
+                  </PeriodContainer>
+                );
             })}
           </GridContainer>
         )}

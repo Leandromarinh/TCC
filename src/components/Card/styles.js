@@ -13,13 +13,13 @@ export const Container = styled.button`
   border-radius: 5px;
   border: 4px solid
     ${(props) =>
-      props.status === "A" || props.status === "a"
+      props.status === "Aprovado"
         ? colors.green
-        : props.status === "R" || props.status === "r"
+        : props.status === "Reprovado"
         ? colors.red
-        : props.status === "C" || props.status === "c"
+        : props.status === "Cursando"
         ? colors.blue
-        : "rbga(0,0,0,0.5)"};
+        : "rbga(0,0,0)"};
   background-color: #fff;
 
   display: flex;
@@ -37,7 +37,7 @@ export const Container = styled.button`
 const DeleteIcon = styled.div``;
 
 export const Text = styled.p`
-  font-size: 20px;
+  font-size: 18px;
   font-family: "Roboto";
   font-weight: ${(props) => (props.bold ? "bold" : "500")};
   margin-top: ${(props) => (props.bold ? "0" : "-1vh")};
