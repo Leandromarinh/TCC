@@ -15,6 +15,10 @@ const { Types, Creators } = createActions({
   updatePasswordRequest: ["currentPassword", "newPassword"],
   updatePasswordSuccess: [""],
   updatePasswordFailure: ["error"],
+
+  updateSubjectRequest: ["period", "subjectId", "subject"],
+  updateSubjectSuccess: ["user"],
+  updateSubjectFailure: ["error"],
 });
 
 export const UserTypes = Types;
@@ -61,6 +65,22 @@ const updatePasswordFailure = (state, { error }) =>
     error,
     loading: false,
   });
+
+// update subject
+const updateSubjectRequest = (state) =>
+  state.merge({
+    error: null,
+  });
+const updateSubjectSuccess = (state, { user }) =>
+  state.merge({
+    user,
+    error: null,
+  });
+const updateSubjectFailure = (state, { error }) =>
+  state.merge({
+    error,
+  });
+
 /* Reducers to Types */
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_USER_REQUEST]: getUserRequest,
@@ -72,4 +92,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.UPDATE_PASSWORD_REQUEST]: updatePasswordRequest,
   [Types.UPDATE_PASSWORD_SUCCESS]: updatePasswordSuccess,
   [Types.UPDATE_PASSWORD_FAILURE]: updatePasswordFailure,
+  [Types.UPDATE_SUBJECT_REQUEST]: updateSubjectRequest,
+  [Types.UPDATE_SUBJECT_SUCCESS]: updateSubjectSuccess,
+  [Types.UPDATE_SUBJECT_FAILURE]: updateSubjectFailure,
 });

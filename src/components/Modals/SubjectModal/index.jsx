@@ -1,5 +1,9 @@
 import React, { useState, useCallback, useEffect } from "react";
 
+import { useDispatch, useSelector } from "react-redux";
+
+import UserActions from "../../../store/ducks/user";
+
 import {
   Container,
   Code,
@@ -20,6 +24,8 @@ import Close from "../../../assets/close.svg";
 import DropDown from "../../DropDown";
 
 const SubjectModal = ({ subject, setSubjectModal }) => {
+  const dispatch = useDispatch();
+
   const optionDay = ["DOM", "SEG", "TER", "QUAR", "QUI", "SEX", "SAB", null];
   const optionList = [
     "06:00",
@@ -52,6 +58,8 @@ const SubjectModal = ({ subject, setSubjectModal }) => {
   const preReq = subject?.preReq;
   const hora = subject?.hora;
   const status = subject?.status;
+  const subjectId = subject?._id;
+  const cargaHor = subject?.cargaHor;
 
   const initialValues = {
     ementa: ementa,
@@ -79,8 +87,25 @@ const SubjectModal = ({ subject, setSubjectModal }) => {
 
   const [situacao, setSituacao] = useState(status);
 
-  const submit = () => {
+  const submit = (values) => {
     setSubjectModal(false);
+    const newObject = {
+      codigo,
+      nome,
+      ementa: values.ementa,
+      credito: values.credito,
+      prof: values.prof,
+      sala: values.sala,
+      preReq: values.preReq,
+      hora: {
+        hora1: { dia: dia1, inicio: inicio1, fim: fim1 },
+        hora2: { dia: dia2, inicio: inicio2, fim: fim2 },
+        hora3: { dia: dia3, inicio: inicio3, fim: fim3 },
+      },
+      status: situacao,
+      cargaHor,
+    };
+    dispatch(UserActions.updateSubjectRequest(periodo, subjectId, newObject));
   };
 
   return (
@@ -95,7 +120,7 @@ const SubjectModal = ({ subject, setSubjectModal }) => {
         touched,
       }) => (
         <Container status={status}>
-          <ButtonImg onClick={handleSubmit}>
+          <ButtonImg onClick={() => handleSubmit(values)}>
             <Image src={Close} />
           </ButtonImg>
           <Code>{codigo}</Code>
@@ -106,6 +131,7 @@ const SubjectModal = ({ subject, setSubjectModal }) => {
               value={values.ementa}
               onChange={handleChange("ementa")}
               onBlur={handleBlur("ementa")}
+              placeholder="Insira aqui a ementa da matéria"
             />
           </TextContainer>
           <TextContainer>
@@ -114,6 +140,8 @@ const SubjectModal = ({ subject, setSubjectModal }) => {
               value={values.credito}
               onChange={handleChange("credito")}
               onBlur={handleBlur("credito")}
+              type="number"
+              placeholder="Insira aqui a quantidade de créditos da matéria"
             />
           </TextContainer>
           <TextContainer>
@@ -122,6 +150,7 @@ const SubjectModal = ({ subject, setSubjectModal }) => {
               value={values.prof}
               onChange={handleChange("prof")}
               onBlur={handleBlur("prof")}
+              placeholder="Insira aqui o(a) professor(a) da matéria"
             />
           </TextContainer>
           <TextContainer>
@@ -130,6 +159,7 @@ const SubjectModal = ({ subject, setSubjectModal }) => {
               value={values.sala}
               onChange={handleChange("sala")}
               onBlur={handleBlur("sala")}
+              placeholder="Insira aqui a sala da matéria"
             />
           </TextContainer>
           <TextContainer>
@@ -138,6 +168,7 @@ const SubjectModal = ({ subject, setSubjectModal }) => {
               value={values.periodo}
               onChange={handleChange("periodo")}
               onBlur={handleBlur("periodo")}
+              disabled={true}
             />
           </TextContainer>
           <TextContainer>
@@ -146,6 +177,7 @@ const SubjectModal = ({ subject, setSubjectModal }) => {
               value={values.preReq}
               onChange={handleChange("preReq")}
               onBlur={handleBlur("preReq")}
+              placeholder="Insira aqui (caso existir) os pré requisitos da matéria"
             />
           </TextContainer>
           <TextContainer>

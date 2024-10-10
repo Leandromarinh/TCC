@@ -55,13 +55,11 @@ export default function Grid() {
   };
 
   useEffect(() => {
-    if (!user) {
-      dispatch(UserActions.getUserRequest());
-    }
+    dispatch(UserActions.getUserRequest());
   }, []);
 
-  const handleSubject = (subject) => {
-    setSubject(subject);
+  const handleSubject = (subject, period) => {
+    setSubject({ ...subject, periodo: period });
   };
 
   return (

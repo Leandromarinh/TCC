@@ -55,7 +55,7 @@ const PeriodModal = ({
     "Escolha Livre",
   ];
 
-  console.log("optitativa:", optative[0].subjects);
+  console.log("optitativa:", optative[0]);
   return (
     <Container align={align}>
       <ButtonImg
@@ -67,9 +67,7 @@ const PeriodModal = ({
         <Image src={Close} />
       </ButtonImg>
       {grid ? (
-        <PeriodTitle>
-          Atividades Acadêmicas Optativas (Escolha Restrita)
-        </PeriodTitle>
+        <PeriodTitle>{optative[0].period}</PeriodTitle>
       ) : (
         <TextContainer>
           <Title>Selecione o Período:</Title>
@@ -192,7 +190,7 @@ const PeriodModal = ({
               status={subject.status}
               onClick={() => {
                 setSubjectModal(true);
-                handleSubject(subject);
+                handleSubject(subject, optative[0].period);
               }}
             >
               <CardItemContainer>
