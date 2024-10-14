@@ -105,6 +105,10 @@ export default function MyGrid() {
   const [periodList, setPeriodList] = useState([[]]);
   const [offset, setOffet] = useState(1);
   const [subjects, setSubjects] = useState([]);
+  const [subjectSeleted, setSubject] = useState(null);
+  const [subjectIndex, setSubjectIndex] = useState(null);
+
+  console.log("materia seleciona:", subjectSeleted);
 
   const subjectTreatment = () => {
     let contador = 0;
@@ -208,8 +212,8 @@ export default function MyGrid() {
   ];
 
   const handleClik = (item) => {
-    if (item.codigo) setSubjectModal(true);
-    else setPeriodModal(true);
+    setSubjectModal(true);
+    setSubject(item);
   };
 
   const checkEmptySubjectList = () => {
@@ -238,15 +242,32 @@ export default function MyGrid() {
     if (checkEmptySubjectList()) setEditMode(!editMode);
   };
 
-  const addSubject = (index) => {
-    setPeriodModal(true);
-    const subject = { codigo: "EEL170", materia: "Computação I", status: "A" };
+  const handleSubject = (subject, period) => {
+    console.log("period:", period);
+    setSubject({ ...subject, periodo: period });
 
-    setPeriodList(() => {
-      const newMatriz = [...periodList];
-      newMatriz[index] = [...newMatriz[index], subject];
+    setPeriodList((prev) => {
+      const newMatriz = [...prev];
+      if (subjectIndex !== null) {
+        newMatriz[subjectIndex] = [
+          ...newMatriz[subjectIndex],
+          { ...subject, periodo: period },
+        ];
+      }
       return newMatriz;
     });
+
+    console.log(periodList);
+
+    setPeriodModal(false);
+
+    setSubjectIndex(null);
+
+    // setSubject(null);
+  };
+
+  const addSubject = (index) => {
+    setPeriodModal(true);
   };
 
   const removeSubject = (index, id) => {
@@ -258,12 +279,12 @@ export default function MyGrid() {
   };
 
   const addPeriod = () => {
-    setPeriodList([...periodList, []]);
+    if (subjectSeleted) setPeriodList([...periodList, []]);
   };
 
   useEffect(() => {
     setSubjects(subjectTreatment());
-  }, []);
+  }, [subjectSeleted]);
 
   return (
     <Screen>
@@ -288,11 +309,16 @@ export default function MyGrid() {
           </EditButton>
         </SubtitleContainer>
         {subjectModal ? (
-          <SubjectModal status="A" setSubjectModal={setSubjectModal} />
+          <SubjectModal
+            setSubjectModal={setSubjectModal}
+            subject={subjectSeleted}
+            setPeriodModal={setPeriodModal}
+          />
         ) : periodModal ? (
           <PeriodModal
             setPeriodModal={setPeriodModal}
             setSubjectModal={setSubjectModal}
+            handleSubject={handleSubject}
           />
         ) : !editMode ? (
           <>
@@ -319,7 +345,7 @@ export default function MyGrid() {
                             marginLeft={""}
                             onClick={() => handleClik(subject)}
                             boldText={subject.codigo}
-                            text={subject.materia}
+                            text={subject.nome}
                             status={subject.status}
                           />
                         );
@@ -364,13 +390,13 @@ export default function MyGrid() {
               }}
             />
             <GridContainer>
-              {periodList.map((period, index) => {
+              {periodList?.map((period, index) => {
                 return (
                   <PeriodContainer>
                     <PeriodText>{index + Number(offset)}</PeriodText>
 
                     {period.map((subject) => {
-                      return (
+                      return subject ? (
                         <Card
                           marginTop={"30px"}
                           marginLeft={""}
@@ -378,14 +404,15 @@ export default function MyGrid() {
                             removeSubject(index, subject.codigo);
                           }}
                           boldText={subject.codigo}
-                          text={subject.materia}
+                          text={subject.nome}
                           status={subject.status}
                           deletable={true}
                         />
-                      );
+                      ) : null;
                     })}
                     <AddButton
                       onClick={() => {
+                        setSubjectIndex(index);
                         addSubject(index);
                       }}
                     >
@@ -397,7 +424,7 @@ export default function MyGrid() {
               <AddButton
                 onClick={() => addPeriod()}
                 marginRight="50px"
-                disabled={periodList[periodList.length - 1].length === 0}
+                disabled={periodList[periodList?.length - 1].length === 0}
               >
                 <Image src={AddImage} />
               </AddButton>

@@ -85,6 +85,7 @@ export default function Grid() {
           <SubjectModal
             setSubjectModal={setSubjectModal}
             subject={subjectSeleted}
+            setPeriodModal={setPeriodModal}
           />
         ) : periodModal ? (
           <PeriodModal

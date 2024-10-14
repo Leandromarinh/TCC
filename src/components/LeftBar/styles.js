@@ -63,7 +63,7 @@ export const PageButton = styled.button`
 export const Bottom = styled.div`
   width: 19vw;
   position: absolute;
-  bottom: 0px;
+  bottom: 10px;
 `;
 
 export const LogoutButton = styled.button`

@@ -82,7 +82,7 @@ export const CardContainer = styled.div`
   margin-top: 5vh;
 
   margin-left: 40px;
-  margin-right: 40px;
+  margin-right: 70px;
 `;
 
 export const TopContainer = styled.div`

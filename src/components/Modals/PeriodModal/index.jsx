@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 
+import { useDispatch, useSelector } from "react-redux";
+
+import UserActions from "../../../store/ducks/user";
+
 import {
   Container,
   ButtonImg,
   Image,
   PeriodTitle,
   Title,
-  InputDrop,
   TextContainer,
   CardItemContainer,
   Card,
@@ -29,7 +32,11 @@ const PeriodModal = ({
   optative,
   handleSubject,
 }) => {
-  const [period, setPeriod] = useState("Clique aqui");
+  const dispatch = useDispatch();
+
+  const { user } = useSelector((state) => state.user);
+
+  const [period, setPeriod] = useState("");
   const [materia, setMateria] = useState("");
   const [codigo, setCodigo] = useState("");
   const [ementa, setEmenta] = useState("");
@@ -40,41 +47,47 @@ const PeriodModal = ({
   const [estado, setEstado] = useState("Selecione o status da matéria");
   const statusOptions = ["Aprovado", "Reprovado", "Cursando", "Nenhum"];
   const options = [
-    "Primeiro",
-    "Segundo",
-    "Terceiro",
-    "Quarto",
-    "Quinto",
-    "Sexto",
-    "Sétimo",
-    "Oitavo",
-    "Nono",
-    "Décimo",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
     "Atividades Acadêmicas Optativas",
     "Atividades Acadêmicas Optativas (Escolha Restrita)",
     "Escolha Livre",
   ];
 
-  console.log("optitativa:", optative[0]);
+  const subject = user?.subject.filter((item) => item.period === period);
+
+  console.log("subject", subject);
+
   return (
     <Container align={align}>
       <ButtonImg
         onClick={() => {
           setPeriodModal(false);
-          console.log(period);
         }}
       >
         <Image src={Close} />
       </ButtonImg>
-      {grid ? (
-        <PeriodTitle>{optative[0].period}</PeriodTitle>
+      {grid &&
+      Array.isArray(optative) &&
+      optative.length > 0 &&
+      optative?.length > 0 ? (
+        <PeriodTitle>{optative[0]?.period}</PeriodTitle>
       ) : (
         <TextContainer>
           <Title>Selecione o Período:</Title>
-          <InputDrop
+          <DropDown
             options={options}
             value={period}
-            onChange={(e) => setPeriod(e.value)}
+            setValue={setPeriod}
+            label={"Clique aqui"}
           />
         </TextContainer>
       )}
@@ -156,21 +169,13 @@ const PeriodModal = ({
                   placeholder="Digite aqui a sala da matéria"
                 />
               </TextContainer>
-              <TextContainer input>
-                <Title>Matéria:</Title>
-                <Input
-                  value={values.materia}
-                  onChange={handleChange("materia")}
-                  onBlur={handleBlur("materia")}
-                  placeholder="Digite aqui o nome da matéria"
-                />
-              </TextContainer>
+
               <TextContainer input>
                 <Title>Status:</Title>
-                <InputDrop
+                <DropDown
                   options={statusOptions}
                   value={estado}
-                  onChange={(e) => setEstado(e.value)}
+                  setValue={setEstado}
                 />
               </TextContainer>
               <EditButton
@@ -185,32 +190,65 @@ const PeriodModal = ({
         </Formik>
       ) : (
         <>
-          {optative[0]?.subjects?.map((subject) => (
-            <Card
-              status={subject.status}
-              onClick={() => {
-                setSubjectModal(true);
-                handleSubject(subject, optative[0].period);
-              }}
-            >
-              <CardItemContainer>
-                <Title>Código</Title>
-                <Title text>{subject.codigo}</Title>
-              </CardItemContainer>
-              <CardItemContainer name>
-                <Title>Nome</Title>
-                <Title text>{subject.nome}</Title>
-              </CardItemContainer>
-              <CardItemContainer>
-                <Title>Créditos</Title>
-                <Title text>{subject.credito}</Title>
-              </CardItemContainer>
-              <CardItemContainer>
-                <Title>C.H</Title>
-                <Title text>{subject.cargaHor}</Title>
-              </CardItemContainer>
-            </Card>
-          ))}
+          {Array.isArray(optative) &&
+          optative.length > 0 &&
+          optative[0]?.subjects?.length > 0
+            ? optative[0].subjects.map((subject) => (
+                <Card
+                  key={subject.codigo} // add a key to each rendered element
+                  status={subject.status}
+                  onClick={() => {
+                    if (grid) setSubjectModal(true);
+                    handleSubject(subject, optative[0]?.period);
+                  }}
+                >
+                  <CardItemContainer>
+                    <Title>Código</Title>
+                    <Title text>{subject.codigo}</Title>
+                  </CardItemContainer>
+                  <CardItemContainer name>
+                    <Title>Nome</Title>
+                    <Title text>{subject.nome}</Title>
+                  </CardItemContainer>
+                  <CardItemContainer>
+                    <Title>Créditos</Title>
+                    <Title text>{subject.credito}</Title>
+                  </CardItemContainer>
+                  <CardItemContainer>
+                    <Title>C.H</Title>
+                    <Title text>{subject.cargaHor}</Title>
+                  </CardItemContainer>
+                </Card>
+              ))
+            : subject[0]?.subjects?.map((item) => {
+                return (
+                  <Card
+                    key={item.codigo}
+                    status={item.status}
+                    onClick={() => {
+                      if (grid) setSubjectModal(true);
+                      handleSubject(item, period);
+                    }}
+                  >
+                    <CardItemContainer>
+                      <Title>Código</Title>
+                      <Title text>{item.codigo}</Title>
+                    </CardItemContainer>
+                    <CardItemContainer name>
+                      <Title>Nome</Title>
+                      <Title text>{item.nome}</Title>
+                    </CardItemContainer>
+                    <CardItemContainer>
+                      <Title>Créditos</Title>
+                      <Title text>{item.credito}</Title>
+                    </CardItemContainer>
+                    <CardItemContainer>
+                      <Title>C.H</Title>
+                      <Title text>{item.cargaHor}</Title>
+                    </CardItemContainer>
+                  </Card>
+                );
+              })}
         </>
       )}
     </Container>

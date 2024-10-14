@@ -141,7 +141,7 @@ export default function Profile() {
 
             <BottomContainer>
               <InputContainer>
-                <Text>Edite aqui, suas informações pessoais</Text>
+                <Text>Edite aqui suas informações pessoais</Text>
                 <Input
                   text="Nome Completo"
                   type="text"

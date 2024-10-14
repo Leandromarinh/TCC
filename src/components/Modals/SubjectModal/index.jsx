@@ -23,7 +23,7 @@ import Close from "../../../assets/close.svg";
 
 import DropDown from "../../DropDown";
 
-const SubjectModal = ({ subject, setSubjectModal }) => {
+const SubjectModal = ({ subject, setSubjectModal, setPeriodModal }) => {
   const dispatch = useDispatch();
 
   const optionDay = ["DOM", "SEG", "TER", "QUAR", "QUI", "SEX", "SAB", null];
@@ -48,6 +48,8 @@ const SubjectModal = ({ subject, setSubjectModal }) => {
     null,
   ];
 
+  console.log(subject);
+
   const codigo = subject?.codigo;
   const nome = subject?.nome;
   const ementa = subject?.ementa;
@@ -60,6 +62,8 @@ const SubjectModal = ({ subject, setSubjectModal }) => {
   const status = subject?.status;
   const subjectId = subject?._id;
   const cargaHor = subject?.cargaHor;
+
+  console.log(periodo);
 
   const initialValues = {
     ementa: ementa,
@@ -119,8 +123,13 @@ const SubjectModal = ({ subject, setSubjectModal }) => {
         errors,
         touched,
       }) => (
-        <Container status={status}>
-          <ButtonImg onClick={() => handleSubmit(values)}>
+        <Container status={situacao}>
+          <ButtonImg
+            onClick={() => {
+              handleSubmit(values);
+              setPeriodModal(false);
+            }}
+          >
             <Image src={Close} />
           </ButtonImg>
           <Code>{codigo}</Code>

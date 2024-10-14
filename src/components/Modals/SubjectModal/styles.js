@@ -12,11 +12,11 @@ export const Container = styled.div`
 
   border: 4px solid
     ${(props) =>
-      props.status === "A" || props.status === "a"
+      props.status === "Aprovado"
         ? colors.green
-        : props.status === "R" || props.status === "r"
+        : props.status === "Reprovado"
         ? colors.red
-        : props.status === "C" || props.status === "c"
+        : props.status === "Cursando"
         ? colors.blue
         : "#000"};
   overflow-y: auto;

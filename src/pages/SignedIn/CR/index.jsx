@@ -43,6 +43,7 @@ export default function CR() {
     useSelector((state) => state.cr);
 
   const [periodModal, setPeriodModal] = useState(false);
+  const [subjectSeleted, setSubject] = useState(null);
 
   const initialValues = {
     cro,
@@ -123,8 +124,10 @@ export default function CR() {
 
       let pontos = 0;
       for (let i = 0; i < subjectList.length; i++) {
-        pontos += subjectList[i].creditos * fulled_notas[i];
+        pontos += subjectList[i]?.credito * fulled_notas[i];
       }
+
+      console.log("pontos", pontos);
 
       const totalPontos = pontos + pa;
 
@@ -142,6 +145,17 @@ export default function CR() {
 
     console.log("credito", credito);
   }, [subjectList, notas, credito]);
+
+  const handleSubject = (subject, period) => {
+    const newSubject = { ...subject, periodo: period };
+    setSubject(newSubject);
+
+    dispatch(CrActions.editSubjectList([...subjectList, newSubject]));
+    dispatch(CrActions.setCredito(credito + newSubject?.credito));
+    dispatch(CrActions.editNotasList([...notas, null]));
+
+    setPeriodModal(false);
+  };
 
   return (
     <Screen>
@@ -172,6 +186,7 @@ export default function CR() {
                 setPeriodModal={setPeriodModal}
                 align
                 setSubjectModal={() => {}}
+                handleSubject={handleSubject}
               />
             ) : (
               <>
@@ -241,23 +256,6 @@ export default function CR() {
                         )
                       );
                       setPeriodModal(true);
-
-                      dispatch(
-                        CrActions.editSubjectList([
-                          ...subjectList,
-                          {
-                            codigo: "EEL170",
-                            materia: "Computação I",
-                            creditos: 5,
-                          },
-                        ])
-                      );
-
-                      console.log("credito:", credito);
-
-                      dispatch(CrActions.setCredito(credito + 5));
-
-                      dispatch(CrActions.editNotasList([...notas, null]));
                     }}
                   >
                     Escolha as disciplinas
@@ -268,16 +266,16 @@ export default function CR() {
                     return (
                       <CardContainer>
                         <TopContainer>
-                          <BoldText code>{item.codigo}</BoldText>
+                          <BoldText code>{item?.codigo}</BoldText>
                           <ButtonImg
                             onClick={() => {
                               dispatch(
-                                CrActions.setCredito(0)
-                              ); /* alterar depois quando tiver back */
+                                CrActions.setCredito(credito - item?.credito)
+                              );
 
                               let newMatriz = [...subjectList];
                               newMatriz = newMatriz.filter(
-                                (subject) => subject.codigo !== item.codigo
+                                (subject) => subject?.codigo !== item?.codigo
                               );
 
                               dispatch(CrActions.editSubjectList(newMatriz));
@@ -292,12 +290,12 @@ export default function CR() {
                           >
                             <CloseImage src={Close} />
                           </ButtonImg>
-                          <BoldText upper> {item.materia}</BoldText>
+                          <BoldText upper> {item?.nome}</BoldText>
                         </TopContainer>
                         <BottomContainer>
                           <TextLine>
                             <Text2 bold> Créditos:</Text2>
-                            <Text2>{item.creditos}</Text2>
+                            <Text2>{item?.credito}</Text2>
                           </TextLine>
                           <TextLine>
                             <Text2 bold> Nota:</Text2>
@@ -319,8 +317,8 @@ export default function CR() {
                     return (
                       <CardContainer>
                         <TopContainer>
-                          <BoldText code>{item.codigo}</BoldText>
-                          <BoldText> {item.materia}</BoldText>
+                          <BoldText code>{item?.codigo}</BoldText>
+                          <BoldText> {item?.nome}</BoldText>
                         </TopContainer>
                         <BottomContainer row>
                           <AddButton
