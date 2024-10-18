@@ -63,9 +63,23 @@ export function* updateSubject({ period, subjectId, subject }) {
   }
 }
 
+export function* updateMyGrid({ gridData }) {
+  const { id } = yield select((state) => state.auth);
+  try {
+    const { data } = yield call(api.put, `/user/update/${id}/myGrid`, {
+      gridData,
+    });
+    yield put(UserActions.updateMyGridSuccess(data));
+  } catch (err) {
+    yield put(UserActions.updateMyGridFailure(err.response?.data.message));
+    toast.error(`${err.response?.data.message}`);
+  }
+}
+
 export default all([
   takeLatest(UserTypes.GET_USER_REQUEST, getUser),
   takeLatest(UserTypes.UPDATE_USER_REQUEST, updateUser),
   takeLatest(UserTypes.UPDATE_PASSWORD_REQUEST, updatePassword),
   takeLatest(UserTypes.UPDATE_SUBJECT_REQUEST, updateSubject),
+  takeLatest(UserTypes.UPDATE_MY_GRID_REQUEST, updateMyGrid),
 ]);

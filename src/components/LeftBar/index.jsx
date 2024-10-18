@@ -33,8 +33,8 @@ export default function LeftBar({
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
 
-  const fullName = user.name;
-  const firstName = fullName.split(" ")[0];
+  const fullName = user?.name;
+  const firstName = fullName?.split(" ")[0];
 
   const LogoOut = () => {
     dispatch(AuthActions.signOut());

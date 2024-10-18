@@ -48,8 +48,6 @@ const SubjectModal = ({ subject, setSubjectModal, setPeriodModal }) => {
     null,
   ];
 
-  console.log(subject);
-
   const codigo = subject?.codigo;
   const nome = subject?.nome;
   const ementa = subject?.ementa;
@@ -62,8 +60,6 @@ const SubjectModal = ({ subject, setSubjectModal, setPeriodModal }) => {
   const status = subject?.status;
   const subjectId = subject?._id;
   const cargaHor = subject?.cargaHor;
-
-  console.log(periodo);
 
   const initialValues = {
     ementa: ementa,

@@ -1,4 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
+
+import { useDispatch } from "react-redux";
+
+import UserActions from "../../../store/ducks/user";
 
 import {
   Container,
@@ -13,15 +17,33 @@ import {
 
 import Close from "../../../assets/close.svg";
 
-export default function NotesModal({ setNotesModal }) {
+export default function NotesModal({ setNotesModal, subject }) {
+  const dispatch = useDispatch();
+
+  const [notes, setNotes] = useState(subject.nota);
+
+  const handleClick = () => {
+    setNotesModal(false);
+    const subjectUpdated = {
+      ...subject,
+      nota: notes,
+    };
+    dispatch(
+      UserActions.updateSubjectRequest(
+        subject.periodo,
+        subject._id,
+        subjectUpdated
+      )
+    );
+  };
   return (
     <Container>
       <TopContainer>
-        <ButtonImg onClick={() => setNotesModal(false)}>
+        <ButtonImg onClick={handleClick}>
           <Image src={Close} />
         </ButtonImg>
-        <BoldText code>EEL170</BoldText>
-        <BoldText> Computação I</BoldText>
+        <BoldText code>{subject.codigo}</BoldText>
+        <BoldText> {subject.nome}</BoldText>
       </TopContainer>
       <BottomContainer>
         <Text>
@@ -29,7 +51,7 @@ export default function NotesModal({ setNotesModal }) {
           professor, data de provas, trabalhos e listas, links do classroom,
           moodle ou AVA e etc.
         </Text>
-        <Input />
+        <Input value={notes} onChange={(e) => setNotes(e.target.value)} />
       </BottomContainer>
     </Container>
   );

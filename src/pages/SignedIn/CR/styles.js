@@ -87,7 +87,7 @@ export const CardContainer = styled.div`
 
 export const TopContainer = styled.div`
   width: 320px;
-  height: 110px;
+  height: 125px;
   border-radius: 10px 10px 0 0;
   background-color: ${colors.green};
   justify-content: center;

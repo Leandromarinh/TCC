@@ -53,7 +53,6 @@ export default function CR() {
   };
 
   const calcularNota = () => {
-    console.log("credito no calculo da nota:", credito);
     const totalCredito = cro + credito;
     const totalPontos = totalCredito * crDesejado;
     const pontos = totalPontos - pa;
@@ -127,8 +126,6 @@ export default function CR() {
         pontos += subjectList[i]?.credito * fulled_notas[i];
       }
 
-      console.log("pontos", pontos);
-
       const totalPontos = pontos + pa;
 
       const totalCredito = cro + credito;
@@ -142,8 +139,6 @@ export default function CR() {
     if (credito > 0) {
       calcularNota();
     }
-
-    console.log("credito", credito);
   }, [subjectList, notas, credito]);
 
   const handleSubject = (subject, period) => {
@@ -204,7 +199,7 @@ export default function CR() {
                   />
                   <Input
                     number
-                    text="Coeficiente de rendimento (CR) acumulado"
+                    text="Coeficiente de rendimento acumulado (CRA)"
                     onChange={handleChange("cr")}
                     value={values.cr}
                     onBlur={handleBlur("cr")}
@@ -228,7 +223,7 @@ export default function CR() {
                   />
                   <Input
                     number
-                    text="Coeficiente de rendimento (CR) desejado"
+                    text="CRA desejado"
                     onChange={handleChange("crDesejado")}
                     value={values.crDesejado}
                     onBlur={handleBlur("crDesejado")}
@@ -324,7 +319,6 @@ export default function CR() {
                           <AddButton
                             disabled={notas[index] === 0 ? true : false}
                             onClick={() => {
-                              console.log("aq", notas[index]);
                               let newNotas = [...notas];
                               let currentNota = notas[index] || nota;
 
@@ -373,9 +367,9 @@ export default function CR() {
             {subjectList?.length > 0 &&
               !periodModal &&
               (notas.some((item) => item !== null) ? (
-                <Text>CR: {CR}</Text>
+                <Text>CRA: {CR}</Text>
               ) : (
-                <Text>CR: {values.crDesejado}</Text>
+                <Text>CRA: {values.crDesejado}</Text>
               ))}
           </Container>
         )}

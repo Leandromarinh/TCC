@@ -19,6 +19,10 @@ const { Types, Creators } = createActions({
   updateSubjectRequest: ["period", "subjectId", "subject"],
   updateSubjectSuccess: ["user"],
   updateSubjectFailure: ["error"],
+
+  updateMyGridRequest: ["gridData"],
+  updateMyGridSuccess: ["user"],
+  updateMyGridFailure: ["error"],
 });
 
 export const UserTypes = Types;
@@ -81,6 +85,18 @@ const updateSubjectFailure = (state, { error }) =>
     error,
   });
 
+// update my grid
+const updateMyGridRequest = (state) => state.merge({ error: null });
+const updateMyGridSuccess = (state, { user }) =>
+  state.merge({
+    user,
+    error: null,
+  });
+const updateMyGridFailure = (state, { error }) =>
+  state.merge({
+    error,
+  });
+
 /* Reducers to Types */
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_USER_REQUEST]: getUserRequest,
@@ -95,4 +111,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.UPDATE_SUBJECT_REQUEST]: updateSubjectRequest,
   [Types.UPDATE_SUBJECT_SUCCESS]: updateSubjectSuccess,
   [Types.UPDATE_SUBJECT_FAILURE]: updateSubjectFailure,
+  [Types.UPDATE_MY_GRID_REQUEST]: updateMyGridRequest,
+  [Types.UPDATE_MY_GRID_SUCCESS]: updateMyGridSuccess,
+  [Types.UPDATE_MY_GRID_FAILURE]: updateMyGridFailure,
 });

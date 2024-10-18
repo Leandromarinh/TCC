@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+
+import { useSelector, useDispatch } from "react-redux";
+import UserActions from "../../../store/ducks/user";
 
 import {
   Screen,
@@ -11,8 +14,6 @@ import {
   Cell,
   TimeLabel,
   WeekLabel,
-  Subject,
-  CellText,
   NewCell,
 } from "./styles";
 
@@ -36,6 +37,10 @@ import Input from "../../../components/Input";
 import AddImage from "../../../assets/add.svg";
 
 export default function MyGrid() {
+  const dispatch = useDispatch();
+
+  const { user } = useSelector((state) => state.user);
+
   const days = ["DOM", "SEG", "TER", "QUA", "QUI", "SEX", "SÁB"];
   const dayMap = {
     DOM: 1,
@@ -102,18 +107,15 @@ export default function MyGrid() {
   const [subjectModal, setSubjectModal] = useState(false);
   const [periodModal, setPeriodModal] = useState(false);
   const [editMode, setEditMode] = useState(false);
-  const [periodList, setPeriodList] = useState([[]]);
   const [offset, setOffet] = useState(1);
   const [subjects, setSubjects] = useState([]);
   const [subjectSeleted, setSubject] = useState(null);
   const [subjectIndex, setSubjectIndex] = useState(null);
-
-  console.log("materia seleciona:", subjectSeleted);
+  const [gridData, setGridData] = useState(user?.myGrid ?? []);
 
   const subjectTreatment = () => {
     let contador = 0;
     const arrayNulos = Array.from({ length: 120 }, () => []);
-    console.log(arrayNulos);
     subjectlist.forEach((item) => {
       const color = backgroundColors[contador];
       contador++;
@@ -216,76 +218,66 @@ export default function MyGrid() {
     setSubject(item);
   };
 
-  const checkEmptySubjectList = () => {
-    for (let i = 0; i < periodList.length; i++) {
-      if (periodList[i].length > 0) {
-        for (let j = 0; j < i; j++) {
-          if (periodList[j].length === 0) return false;
-        }
-      }
-    }
-    return true;
-  };
-
-  const handleEdit = () => {
-    console.log(periodList);
-    if (editMode) {
-      const newPeriodList = periodList.filter(
-        (subjectList) => subjectList.length > 0
-      );
-
-      if (newPeriodList.length === 0) {
-        setPeriodList([[]]);
-      } else setPeriodList(newPeriodList);
-    }
-
-    if (checkEmptySubjectList()) setEditMode(!editMode);
-  };
-
   const handleSubject = (subject, period) => {
-    console.log("period:", period);
-    setSubject({ ...subject, periodo: period });
-
-    setPeriodList((prev) => {
-      const newMatriz = [...prev];
-      if (subjectIndex !== null) {
-        newMatriz[subjectIndex] = [
-          ...newMatriz[subjectIndex],
-          { ...subject, periodo: period },
-        ];
+    const updatedGridData = gridData.map((item) => {
+      if (item.period === subjectIndex) {
+        return {
+          ...item,
+          subjects: [...item.subjects, { ...subject, periodo: period }],
+        };
       }
-      return newMatriz;
+      return item;
     });
 
-    console.log(periodList);
-
+    setGridData(updatedGridData);
     setPeriodModal(false);
-
     setSubjectIndex(null);
-
-    // setSubject(null);
   };
 
-  const addSubject = (index) => {
+  const addSubject = () => {
     setPeriodModal(true);
   };
 
-  const removeSubject = (index, id) => {
-    setPeriodList(() => {
-      const newMatriz = [...periodList];
-      newMatriz[index] = newMatriz[index].filter((item) => item.codigo !== id);
-      return newMatriz;
+  const removeSubject = (period, codigo) => {
+    setGridData((prevGridData) => {
+      const updatedGridData = prevGridData.map((item) => {
+        if (item.period === period) {
+          const updatedSubjects = item.subjects.filter(
+            (subject) => subject.codigo !== codigo
+          );
+
+          return { ...item, subjects: updatedSubjects };
+        }
+        return item;
+      });
+      return updatedGridData;
     });
   };
 
   const addPeriod = () => {
-    if (subjectSeleted) setPeriodList([...periodList, []]);
+    const lastPeriod =
+      gridData.length > 0 ? gridData[gridData.length - 1].period : 0;
+    const period = lastPeriod + Number(offset);
+    setGridData([...gridData, { period, subjects: [] }]);
   };
 
-  useEffect(() => {
-    setSubjects(subjectTreatment());
-  }, [subjectSeleted]);
+  const handleEdit = useCallback(() => {
+    if (editMode) {
+      dispatch(UserActions.updateMyGridRequest(gridData));
+    }
+    setEditMode(!editMode);
+  }, [editMode, gridData, dispatch]);
 
+  useEffect(() => {
+    dispatch(UserActions.getUserRequest());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (user) {
+      setSubjects(subjectTreatment());
+      setGridData([...user.myGrid]);
+    }
+  }, [user]);
   return (
     <Screen>
       <LeftBar myGrid />
@@ -322,23 +314,23 @@ export default function MyGrid() {
           />
         ) : !editMode ? (
           <>
-            {periodList[0].length < 1 ? (
+            {gridData[0]?.subjects.length < 1 ? (
               <Text2>
                 Você não possui nenhuma matéria selecionada, <br /> clique em
                 editar e monte sua grade curricular do jeito que quiser.
               </Text2>
             ) : (
               <GridContainer>
-                {periodList.map((period, index) => {
+                {gridData?.map((period, index) => {
                   return (
                     <PeriodContainer>
                       <PeriodText>
-                        {periodList[index].length > 0
+                        {gridData[index].subjects.length > 0
                           ? index + Number(offset)
                           : null}
                       </PeriodText>
 
-                      {period.map((subject) => {
+                      {period.subjects?.map((subject) => {
                         return (
                           <Card
                             marginTop={"30px"}
@@ -355,7 +347,7 @@ export default function MyGrid() {
                 })}
               </GridContainer>
             )}
-            <Grid>
+            {/* <Grid>
               {days.map((day, index) => (
                 <WeekLabel key={day} column={index + 2}>
                   {day}
@@ -375,7 +367,7 @@ export default function MyGrid() {
                   </Cell>
                 );
               })}
-            </Grid>
+            </Grid> */}
           </>
         ) : (
           <>
@@ -390,18 +382,18 @@ export default function MyGrid() {
               }}
             />
             <GridContainer>
-              {periodList?.map((period, index) => {
+              {gridData?.map((item, index) => {
                 return (
                   <PeriodContainer>
-                    <PeriodText>{index + Number(offset)}</PeriodText>
+                    <PeriodText>{item.period + Number(offset) - 1}</PeriodText>
 
-                    {period.map((subject) => {
+                    {item.subjects?.map((subject) => {
                       return subject ? (
                         <Card
                           marginTop={"30px"}
                           marginLeft={""}
                           onClick={() => {
-                            removeSubject(index, subject.codigo);
+                            removeSubject(item.period, subject.codigo);
                           }}
                           boldText={subject.codigo}
                           text={subject.nome}
@@ -412,7 +404,7 @@ export default function MyGrid() {
                     })}
                     <AddButton
                       onClick={() => {
-                        setSubjectIndex(index);
+                        setSubjectIndex(item.period);
                         addSubject(index);
                       }}
                     >
@@ -424,7 +416,7 @@ export default function MyGrid() {
               <AddButton
                 onClick={() => addPeriod()}
                 marginRight="50px"
-                disabled={periodList[periodList?.length - 1].length === 0}
+                disabled={gridData[gridData.length - 1]?.subjects.length === 0}
               >
                 <Image src={AddImage} />
               </AddButton>

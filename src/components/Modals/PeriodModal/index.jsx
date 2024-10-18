@@ -64,8 +64,6 @@ const PeriodModal = ({
 
   const subject = user?.subject.filter((item) => item.period === period);
 
-  console.log("subject", subject);
-
   return (
     <Container align={align}>
       <ButtonImg
