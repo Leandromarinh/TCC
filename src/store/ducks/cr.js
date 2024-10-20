@@ -1,5 +1,6 @@
 import { createActions, createReducer } from "reduxsauce";
 import Immutable from "seamless-immutable";
+import { AuthTypes } from "./auth"; // Importando os Types do auth
 
 // Types & Action creators
 const { Types, Creators } = createActions({
@@ -11,7 +12,7 @@ const { Types, Creators } = createActions({
   setCredito: ["credito"],
 });
 
-export const AuthTypes = Types;
+export const CrTypes = Types;
 export default Creators;
 
 // Initial State
@@ -74,6 +75,9 @@ const setCredito = (state, { credito }) => {
   });
 };
 
+// resetar estado ao dar Sign Out
+const resetState = () => INITIAL_STATE;
+
 // Update
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.FILL_FIELDS]: fillFields,
@@ -82,4 +86,5 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.EDIT_NOTAS_LIST]: editNotasList,
   [Types.SET_CR]: setCr,
   [Types.SET_CREDITO]: setCredito,
+  [AuthTypes.SIGN_OUT]: resetState,
 });

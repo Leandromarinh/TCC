@@ -129,6 +129,7 @@ export default function CR() {
       const totalPontos = pontos + pa;
 
       const totalCredito = cro + credito;
+      console.log("totalCreditos:", totalCredito, credito);
 
       let cr = totalPontos / totalCredito;
       if (cr > 10) cr = 10;
@@ -182,6 +183,7 @@ export default function CR() {
                 align
                 setSubjectModal={() => {}}
                 handleSubject={handleSubject}
+                cr
               />
             ) : (
               <>
@@ -235,12 +237,7 @@ export default function CR() {
                 </InputContainer>
                 <ButtonContainer>
                   <Button
-                    disabled={
-                      !isValid ||
-                      !values.cro ||
-                      !values.pa ||
-                      !values.crDesejado
-                    }
+                    disabled={!isValid}
                     onClick={() => {
                       dispatch(
                         CrActions.fillFields(

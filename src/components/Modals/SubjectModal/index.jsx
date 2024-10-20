@@ -26,7 +26,7 @@ import DropDown from "../../DropDown";
 const SubjectModal = ({ subject, setSubjectModal, setPeriodModal }) => {
   const dispatch = useDispatch();
 
-  const optionDay = ["DOM", "SEG", "TER", "QUAR", "QUI", "SEX", "SAB", null];
+  const optionDay = ["DOM", "SEG", "TER", "QUA", "QUI", "SEX", "SAB", null];
   const optionList = [
     "06:00",
     "07:00",
@@ -48,6 +48,8 @@ const SubjectModal = ({ subject, setSubjectModal, setPeriodModal }) => {
     null,
   ];
 
+  console.log("subject", subject);
+
   const codigo = subject?.codigo;
   const nome = subject?.nome;
   const ementa = subject?.ementa;
@@ -60,6 +62,8 @@ const SubjectModal = ({ subject, setSubjectModal, setPeriodModal }) => {
   const status = subject?.status;
   const subjectId = subject?._id;
   const cargaHor = subject?.cargaHor;
+
+  console.log("periodo", periodo);
 
   const initialValues = {
     ementa: ementa,

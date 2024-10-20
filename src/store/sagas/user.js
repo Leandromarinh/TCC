@@ -50,6 +50,9 @@ export function* updatePassword({ currentPassword, newPassword }) {
 
 export function* updateSubject({ period, subjectId, subject }) {
   const { id } = yield select((state) => state.auth);
+  console.log("period:", period);
+  console.log("id matéria:", subjectId);
+  console.log("materia:", subject);
   try {
     const { data } = yield call(
       api.put,

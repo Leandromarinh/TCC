@@ -104,114 +104,89 @@ export default function MyGrid() {
     "#F0FFF0", // Honeydew
   ];
 
+  const firstPeriod = user?.myGrid[0]?.period ?? 1;
+
   const [subjectModal, setSubjectModal] = useState(false);
   const [periodModal, setPeriodModal] = useState(false);
   const [editMode, setEditMode] = useState(false);
-  const [offset, setOffet] = useState(1);
-  const [subjects, setSubjects] = useState([]);
+  const [offset, setOffet] = useState(firstPeriod);
+  const [prevOffset, setPrevOffset] = useState(firstPeriod);
+  const [nextSubjects, setNextSubjects] = useState([]);
+  const [doubleNextSubjects, setDoubleNextSubjects] = useState([]);
   const [subjectSeleted, setSubject] = useState(null);
   const [subjectIndex, setSubjectIndex] = useState(null);
-  const [gridData, setGridData] = useState(user?.myGrid ?? []);
+  const [gridData, setGridData] = useState(user?.myGrid);
 
-  const subjectTreatment = () => {
+  const currentPeriod = user?.period;
+  const nextPeriod = currentPeriod + 1;
+  const doubleNextPeriod = nextPeriod + 1;
+
+  const nextPeriodSubjects = gridData.filter(
+    (item) => item.period === nextPeriod
+  );
+
+  const doubleNextPeriodSubjects = gridData.filter(
+    (item) => item.period === doubleNextPeriod
+  );
+
+  const subjectTreatment = (subjectList) => {
     let contador = 0;
     const arrayNulos = Array.from({ length: 120 }, () => []);
-    subjectlist.forEach((item) => {
-      const color = backgroundColors[contador];
-      contador++;
-      for (const hour of Object.keys(item.hour)) {
-        const obj = item.hour[hour];
 
-        if (!obj.day || obj.day === "") continue;
+    if (Array.isArray(subjectList) && subjectList.length > 0) {
+      subjectList.forEach((periodItem) => {
+        periodItem.subjects.forEach((item) => {
+          const color = backgroundColors[contador % backgroundColors.length];
+          contador++;
 
-        const hour_start = obj.start;
-        const number_start = parseInt(hour_start.substring(0, 2), 10);
+          if (item.hora && typeof item.hora === "object") {
+            Object.keys(item.hora).forEach((hour) => {
+              const obj = item.hora[hour];
 
-        const hour_end = obj.end;
-        const number_end = parseInt(hour_end.substring(0, 2), 10);
+              if (obj && obj.dia && obj.inicio && obj.fim) {
+                const hour_start = obj.inicio;
+                const hour_end = obj.fim;
+                const number_start = parseInt(hour_start.substring(0, 2), 10);
+                const number_end = parseInt(hour_end.substring(0, 2), 10);
 
-        const index_start = dayMap[obj.day] + timeMap[obj.start] * 7;
+                const index_start = dayMap[obj.dia] + timeMap[hour_start] * 7;
+                if (1 === number_end - number_start) {
+                  arrayNulos[index_start] = arrayNulos[index_start].concat([
+                    <NewCell color={color}>
+                      {item.codigo} - {item.nome}
+                    </NewCell>,
+                  ]);
+                  return;
+                }
 
-        if (1 === number_end - number_start) {
-          arrayNulos[index_start] = arrayNulos[index_start].concat([
-            <NewCell color={color}>
-              {item.codigo} - {item.materia}
-            </NewCell>,
-          ]);
-          continue;
-        }
-        const index_aux = dayMap[obj.day] + timeMap[obj.end] * 7 - 7;
+                const index_aux = dayMap[obj.dia] + timeMap[hour_end] * 7 - 7;
+                let index_end = index_start + 7;
 
-        let index_end = index_start + 7;
+                arrayNulos[index_start] = arrayNulos[index_start]?.concat([
+                  <NewCell color={color}>{item.codigo}</NewCell>,
+                ]);
 
-        arrayNulos[index_start] = arrayNulos[index_start].concat([
-          <NewCell color={color}>{item.codigo}</NewCell>,
-        ]);
+                arrayNulos[index_end] = arrayNulos[index_end]?.concat([
+                  <NewCell color={color}>{item.nome}</NewCell>,
+                ]);
 
-        arrayNulos[index_end] = arrayNulos[index_end].concat([
-          <NewCell color={color}>{item.materia}</NewCell>,
-        ]);
+                index_end += 7;
 
-        index_end += 7;
+                while (index_end <= index_aux) {
+                  arrayNulos[index_end] = arrayNulos[index_end]?.concat([
+                    <NewCell color={color}></NewCell>,
+                  ]);
+                  index_end += 7;
+                }
+              }
+            });
+          }
+        });
+      });
+    }
 
-        while (index_end <= index_aux) {
-          arrayNulos[index_end] = arrayNulos[index_end].concat([
-            <NewCell color={color}></NewCell>,
-          ]);
-          index_end += 7;
-        }
-      }
-    });
     return arrayNulos;
   };
-
-  const subjectlist = [
-    {
-      codigo: "EEL170",
-      materia: "Computação I",
-      hour: {
-        hour1: { day: "TER", start: "15:00", end: "18:00" },
-        hour2: { day: "QUI", start: "15:00", end: "17:00" },
-        hour3: { day: "", start: "", end: "" },
-      },
-    },
-    {
-      codigo: "EEL270",
-      materia: "Computação II",
-      hour: {
-        hour1: { day: "TER", start: "15:00", end: "18:00" },
-        hour2: { day: "QUI", start: "15:00", end: "17:00" },
-        hour3: { day: "", start: "", end: "" },
-      },
-    },
-    {
-      codigo: "EEL170",
-      materia: "Computação III",
-      hour: {
-        hour1: { day: "TER", start: "13:00", end: "15:00" },
-        hour2: { day: "QUI", start: "13:00", end: "15:00" },
-        hour3: { day: "", start: "", end: "" },
-      },
-    },
-    {
-      codigo: "EEL270",
-      materia: "Computação IV",
-      hour: {
-        hour1: { day: "SEG", start: "15:00", end: "17:00" },
-        hour2: { day: "QUA", start: "15:00", end: "17:00" },
-        hour3: { day: "SEX", start: "12:00", end: "13:00" },
-      },
-    },
-    {
-      codigo: "EEL670",
-      materia: "Computação V",
-      hour: {
-        hour1: { day: "", start: "", end: "" },
-        hour2: { day: "", start: "", end: "" },
-        hour3: { day: "SEX", start: "13:00", end: "14:00" },
-      },
-    },
-  ];
 
   const handleClik = (item) => {
     setSubjectModal(true);
@@ -232,6 +207,16 @@ export default function MyGrid() {
     setGridData(updatedGridData);
     setPeriodModal(false);
     setSubjectIndex(null);
+
+    const updatedNextSubjects = subjectTreatment(
+      updatedGridData.filter((item) => item.period === nextPeriod)
+    );
+    setNextSubjects(updatedNextSubjects);
+
+    const updatedDoubleNextSubjects = subjectTreatment(
+      updatedGridData.filter((item) => item.period === doubleNextPeriod)
+    );
+    setDoubleNextSubjects(updatedDoubleNextSubjects);
   };
 
   const addSubject = () => {
@@ -263,21 +248,46 @@ export default function MyGrid() {
 
   const handleEdit = useCallback(() => {
     if (editMode) {
+      console.log("gridData", gridData);
       dispatch(UserActions.updateMyGridRequest(gridData));
     }
     setEditMode(!editMode);
   }, [editMode, gridData, dispatch]);
 
+  const updateGridPeriod = (newOffset) => {
+    const difference = newOffset - prevOffset;
+    setGridData((prevGridData) =>
+      prevGridData.map((item) => {
+        return { ...item, period: item.period + difference };
+      })
+    );
+    setPrevOffset(newOffset);
+  };
+
   useEffect(() => {
     dispatch(UserActions.getUserRequest());
+    console.log("gridData[0]?.subjects?.length", gridData);
   }, [dispatch]);
 
   useEffect(() => {
     if (user) {
-      setSubjects(subjectTreatment());
+      setNextSubjects(subjectTreatment(nextPeriodSubjects || []));
+      setDoubleNextSubjects(subjectTreatment(doubleNextPeriodSubjects || []));
       setGridData([...user.myGrid]);
     }
   }, [user]);
+
+  useEffect(() => {
+    setNextSubjects(
+      subjectTreatment(gridData.filter((item) => item.period === nextPeriod))
+    );
+    setDoubleNextSubjects(
+      subjectTreatment(
+        gridData.filter((item) => item.period === doubleNextPeriod)
+      )
+    );
+  }, [gridData]);
+
   return (
     <Screen>
       <LeftBar myGrid />
@@ -314,7 +324,7 @@ export default function MyGrid() {
           />
         ) : !editMode ? (
           <>
-            {gridData[0]?.subjects.length < 1 ? (
+            {gridData[0]?.subjects?.length < 1 ? (
               <Text2>
                 Você não possui nenhuma matéria selecionada, <br /> clique em
                 editar e monte sua grade curricular do jeito que quiser.
@@ -330,7 +340,7 @@ export default function MyGrid() {
                           : null}
                       </PeriodText>
 
-                      {period.subjects?.map((subject) => {
+                      {period?.subjects?.map((subject) => {
                         return (
                           <Card
                             marginTop={"30px"}
@@ -347,27 +357,66 @@ export default function MyGrid() {
                 })}
               </GridContainer>
             )}
-            {/* <Grid>
-              {days.map((day, index) => (
-                <WeekLabel key={day} column={index + 2}>
-                  {day}
-                </WeekLabel>
-              ))}
-              {hours.map((hour, index) => (
-                <TimeLabel key={hour} row={index + 2}>
-                  {hour}
-                </TimeLabel>
-              ))}
-              {Array.from({ length: 8 * 15 }).map((_, index) => {
-                return (
-                  <Cell key={index} onClick={() => {}} color="">
-                    {subjects[index]?.map((item) => {
-                      return item;
-                    })}
-                  </Cell>
-                );
-              })}
-            </Grid> */}
+            {nextPeriodSubjects[0]?.subjects?.length > 0 ? (
+              <>
+                <Text style={{ marginTop: 70, marginBottom: -40 }}>
+                  Veja aqui sua grade do {nextPeriod + "º" + " Período"}. <br />{" "}
+                  Caso não apareça nenhuma matéria, defina os horários das
+                  matérias planejadas a serem feitas nesse período
+                </Text>
+                <Grid>
+                  {days.map((day, index) => (
+                    <WeekLabel key={day} column={index + 2}>
+                      {day}
+                    </WeekLabel>
+                  ))}
+                  {hours.map((hour, index) => (
+                    <TimeLabel key={hour} row={index + 2}>
+                      {hour}
+                    </TimeLabel>
+                  ))}
+                  {Array.from({ length: 8 * 15 }).map((_, index) => {
+                    return (
+                      <Cell key={index} onClick={() => {}} color="">
+                        {nextSubjects[index]?.map((item) => {
+                          return item;
+                        })}
+                      </Cell>
+                    );
+                  })}
+                </Grid>
+              </>
+            ) : null}
+            {doubleNextPeriodSubjects[0]?.subjects?.length > 0 ? (
+              <>
+                <Text style={{ marginTop: 70, marginBottom: -40 }}>
+                  Veja aqui sua grade do {doubleNextPeriod + "º" + " Período"}.{" "}
+                  <br /> Caso não apareça nenhuma matéria, defina os horários
+                  das matérias planejadas a serem feitas nesse período
+                </Text>
+                <Grid>
+                  {days.map((day, index) => (
+                    <WeekLabel key={day} column={index + 2}>
+                      {day}
+                    </WeekLabel>
+                  ))}
+                  {hours.map((hour, index) => (
+                    <TimeLabel key={hour} row={index + 2}>
+                      {hour}
+                    </TimeLabel>
+                  ))}
+                  {Array.from({ length: 8 * 15 }).map((_, index) => {
+                    return (
+                      <Cell key={index} onClick={() => {}} color="">
+                        {doubleNextSubjects[index]?.map((item) => {
+                          return item;
+                        })}
+                      </Cell>
+                    );
+                  })}
+                </Grid>
+              </>
+            ) : null}
           </>
         ) : (
           <>
@@ -377,15 +426,18 @@ export default function MyGrid() {
               type="number"
               value={offset}
               onChange={(e) => {
-                if (e.target.value > 0 && e.target.value < 31)
-                  setOffet(e.target.value);
+                const newOffset = e.target.value;
+                if (newOffset > 0 && newOffset < 31) {
+                  setOffet(newOffset);
+                  updateGridPeriod(newOffset);
+                }
               }}
             />
             <GridContainer>
               {gridData?.map((item, index) => {
                 return (
                   <PeriodContainer>
-                    <PeriodText>{item.period + Number(offset) - 1}</PeriodText>
+                    <PeriodText>{item.period}</PeriodText>
 
                     {item.subjects?.map((subject) => {
                       return subject ? (

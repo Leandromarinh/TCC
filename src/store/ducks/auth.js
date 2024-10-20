@@ -1,7 +1,7 @@
 import { createActions, createReducer } from "reduxsauce";
 import Immutable from "seamless-immutable";
 
-//Types & Action creators. Aqui cria-se uma action para se comunicar com o que o saga deve fazer
+//Types & Action creators.
 
 const { Types, Creators } = createActions({
   signInRequest: ["email", "password"],
