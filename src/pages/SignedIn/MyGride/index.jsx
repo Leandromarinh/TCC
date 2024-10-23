@@ -336,7 +336,7 @@ export default function MyGrid() {
                     <PeriodContainer>
                       <PeriodText>
                         {gridData[index].subjects.length > 0
-                          ? index + Number(offset)
+                          ? index + Number(offset) + "º " + "Período"
                           : null}
                       </PeriodText>
 
@@ -437,7 +437,7 @@ export default function MyGrid() {
               {gridData?.map((item, index) => {
                 return (
                   <PeriodContainer>
-                    <PeriodText>{item.period}</PeriodText>
+                    <PeriodText>{item.period + "º " + "Período"}</PeriodText>
 
                     {item.subjects?.map((subject) => {
                       return subject ? (

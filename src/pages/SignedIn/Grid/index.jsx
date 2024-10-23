@@ -106,7 +106,7 @@ export default function Grid() {
               )
                 return (
                   <PeriodContainer>
-                    <PeriodText>{item.period}</PeriodText>
+                    <PeriodText>{item.period + "º " + "Período"}</PeriodText>
                     {item.subjects.map((subject) => (
                       <>
                         <Card
