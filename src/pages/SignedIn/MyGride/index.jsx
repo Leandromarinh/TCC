@@ -248,7 +248,6 @@ export default function MyGrid() {
 
   const handleEdit = useCallback(() => {
     if (editMode) {
-      console.log("gridData", gridData);
       dispatch(UserActions.updateMyGridRequest(gridData));
     }
     setEditMode(!editMode);
@@ -266,7 +265,6 @@ export default function MyGrid() {
 
   useEffect(() => {
     dispatch(UserActions.getUserRequest());
-    console.log("gridData[0]?.subjects?.length", gridData);
   }, [dispatch]);
 
   useEffect(() => {

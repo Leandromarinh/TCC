@@ -129,7 +129,6 @@ export default function CR() {
       const totalPontos = pontos + pa;
 
       const totalCredito = cro + credito;
-      console.log("totalCreditos:", totalCredito, credito);
 
       let cr = totalPontos / totalCredito;
       if (cr > 10) cr = 10;
