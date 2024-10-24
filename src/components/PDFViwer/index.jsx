@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { Document, Page } from "react-pdf";
+import { Document, Page, pdfjs } from "react-pdf";
+
+pdfjs.GlobalWorkerOptions.workerSrc = "/static/media/pdf.worker.min.mjs";
 
 import { Container, ZoomControls } from "./styles";
 
