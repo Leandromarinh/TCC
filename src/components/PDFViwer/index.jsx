@@ -3,11 +3,13 @@ import { Document, Page } from "react-pdf";
 
 import { Container, ZoomControls } from "./styles";
 
-import pdfFile from "../../assets/Grade-Horaria_2024-2.pdf";
+// import pdfFile from "../../assets/Grade-Horaria_2024-2.pdf";
 
 export default function PDFViwer() {
   const [numPages, setNumPages] = useState();
   const [scale, setScale] = useState(1.0);
+
+  const pdfFile = "/static/media/Grade-Horaria_2024-2.8c807faab961f8514f52.pdf";
 
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
