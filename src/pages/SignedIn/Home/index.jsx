@@ -320,7 +320,7 @@ export default function Home() {
               <TextBold>Grade Horária</TextBold>
             </TextContainer>
           </LineContainer>
-          <PDFViewr pdf={pdfFile} />
+          <PDFViewr />
         </Container>
       )}
     </Screen>

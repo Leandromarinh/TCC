@@ -3,7 +3,9 @@ import { Document, Page } from "react-pdf";
 
 import { Container, ZoomControls } from "./styles";
 
-export default function PDFViwer({ pdf }) {
+import pdfFile from "../../assets/Grade-Horaria_2024-2.pdf";
+
+export default function PDFViwer() {
   const [numPages, setNumPages] = useState();
   const [scale, setScale] = useState(1.0);
 
@@ -21,7 +23,7 @@ export default function PDFViwer({ pdf }) {
         <span>{Math.round(scale * 100)}%</span>
         <button onClick={zoomIn}>+</button>
       </ZoomControls>
-      <Document file={pdf} onLoadSuccess={onDocumentLoadSuccess}>
+      <Document file={pdfFile} onLoadSuccess={onDocumentLoadSuccess}>
         {Array.apply(null, Array(numPages))
           .map((x, i) => i + 1)
           .map((page) => {
