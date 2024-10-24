@@ -22,14 +22,11 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build and push dev image
-        if: github.ref == 'refs/heads/frontend' || github.ref == 'refs/heads/develop'
         run: |
           docker build -t leui/tcc-frontend:latest .
           docker push leui/tcc-frontend:latest
 
       - name: Build and push prod image
-        if: github.ref == 'refs/heads/main'
         run: |
           docker build -f Dockerfile.prod -t leui/tcc-frontend-prod:latest .
           docker push leui/tcc-frontend-prod:latest
-
