@@ -53,8 +53,10 @@ jobs:
           cat kustomization.yaml
 
       - name: commit and push
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "Deploy Action"
           git commit -am "image update done by kustomization"
-          git push origin frontend
+          git push https://$GITHUB_TOKEN@github.com/Leandromarinh/TCC-Frontend.git frontend
