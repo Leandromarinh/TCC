@@ -23,13 +23,13 @@ jobs:
 
       - name: Build and push dev image
         run: |
-          docker build -t leui/tcc-frontend .
-          docker push leui/tcc-frontend
+          docker build -t leui/tcc-frontend:${{ github.sha }} .
+          docker push leui/tcc-frontend:${{ github.sha }}
 
       - name: Build and push prod image
         run: |
-          docker build -f Dockerfile.prod -t leui/tcc-frontend-prod .
-          docker push leui/tcc-frontend-prod
+          docker build -f Dockerfile.prod -t leui/tcc-frontend-prod:${{ github.sha }} .
+          docker push leui/tcc-frontend-prod:${{ github.sha }}
   deploy:
     name: deploy
     runs-on: ubuntu-latest
@@ -48,8 +48,8 @@ jobs:
 
       - name: update kubernetes
         run: |
-          cd ../containers/kubernetes/dev
-          kustomize edit set image frontend=leui/tcc-frontend-prod:${{github.sha }}
+          cd k8s
+          kustomize edit set image frontend=leui/tcc-frontend-prod:${{ github.sha }}
           cat kustomization.yaml
 
       - name: commit
