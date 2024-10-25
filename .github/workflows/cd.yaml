@@ -52,14 +52,9 @@ jobs:
           kustomize edit set image frontend=leui/tcc-frontend-prod:${{ github.sha }}
           cat kustomization.yaml
 
-      - name: commit
+      - name: commit and push
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "Deploy Action"
           git commit -am "image update done by kustomization"
-
-      - name: push
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.PAT_TOKEN }}
-          branch: frontend
+          git push origin frontend
