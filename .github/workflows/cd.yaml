@@ -54,9 +54,11 @@ jobs:
 
       - name: commit and push
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "Deploy Action"
           git commit -am "image update done by kustomization"
-          git push https://$GITHUB_TOKEN@github.com/Leandromarinh/TCC-Frontend.git frontend
+          git remote set-url origin https://$PAT_TOKEN@github.com/Leandromarinh/TCC-Frontend.git
+          git push origin frontend
+
