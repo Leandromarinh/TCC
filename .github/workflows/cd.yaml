@@ -52,13 +52,13 @@ jobs:
           kustomize edit set image frontend=leui/tcc-frontend-prod:${{ github.sha }}
           cat kustomization.yaml
 
-      - name: commit and push
-        env:
-          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+      - name: commit
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "Deploy Action"
           git commit -am "image update done by kustomization"
-          git remote set-url origin https://$PAT_TOKEN@github.com/Leandromarinh/TCC-Frontend.git
-          git push origin frontend
 
+      - name: push
+        uses: ad-m/github-push-action@master
+        with:
+          branch: frontend
