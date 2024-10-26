@@ -292,7 +292,7 @@ export default function Home() {
           <LineContainer>
             <TextContainer>
               <TextBold>Período Atual:</TextBold>
-              <Text>{currentPeriod}</Text>
+              <Text>{currentPeriod} TESTE ARGOCD</Text>
             </TextContainer>
           </LineContainer>
           <LineContainer>

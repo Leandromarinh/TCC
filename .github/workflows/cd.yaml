@@ -23,8 +23,8 @@ jobs:
 
       - name: Build and push dev image
         run: |
-          docker build -t leui/tcc-frontend:${{ github.sha }} .
-          docker push leui/tcc-frontend:${{ github.sha }}
+          docker build -t leui/tcc-frontend:latest .
+          docker push leui/tcc-frontend:latest
 
       - name: Build and push prod image
         run: |
@@ -62,5 +62,3 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           branch: frontend
-
-#a
