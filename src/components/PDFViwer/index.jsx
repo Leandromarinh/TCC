@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Document, Page } from "react-pdf";
+// import { Document, Page } from "react-pdf";
 
-import { Container, ZoomControls } from "./styles";
+import { Container, ZoomControls, Img } from "./styles";
 
-// import pdfFile from "../../assets/Grade-Horaria_2024-2.pdf";
+import period1 from "../../assets/periods/period1.png";
 
 export default function PDFViwer() {
   const [numPages, setNumPages] = useState();
@@ -15,17 +15,19 @@ export default function PDFViwer() {
     setNumPages(numPages);
   }
 
+  const periodList = [period1];
+
   const zoomIn = () => setScale(scale + 0.2);
   const zoomOut = () => setScale(scale > 0.5 ? scale - 0.2 : scale);
 
   return (
     <Container>
-      <ZoomControls>
+      {/* <ZoomControls>
         <button onClick={zoomOut}>-</button>
         <span>{Math.round(scale * 100)}%</span>
         <button onClick={zoomIn}>+</button>
-      </ZoomControls>
-      <Document file={pdfFile} onLoadSuccess={onDocumentLoadSuccess}>
+      </ZoomControls> */}
+      {/* <Document file={pdfFile} onLoadSuccess={onDocumentLoadSuccess}>
         {Array.apply(null, Array(numPages))
           .map((x, i) => i + 1)
           .map((page) => {
@@ -39,7 +41,22 @@ export default function PDFViwer() {
               />
             );
           })}
-      </Document>
+      </Document> */}
+      {/* <div>
+        <PDFViewer
+          document={{
+            url: "/static/media/Grade-Horaria_2024-2.8c807faab961f8514f52.pdf",
+          }}
+        />
+      </div> */}
+      {periodList?.map((image) => {
+        console.log(image);
+        return (
+          <>
+            <Img src={image} />
+          </>
+        );
+      })}
     </Container>
   );
 }
