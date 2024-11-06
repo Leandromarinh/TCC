@@ -291,7 +291,7 @@ export default function Home() {
           {/* <EditButton onClick={() => setEditMode(true)}>Editar</EditButton> */}
           <LineContainer>
             <TextContainer>
-              <TextBold>Período Atual doskdoskdoskdokskdsodkosd:</TextBold>
+              <TextBold>Período Atual:</TextBold>
               <Text>{currentPeriod}</Text>
             </TextContainer>
           </LineContainer>
