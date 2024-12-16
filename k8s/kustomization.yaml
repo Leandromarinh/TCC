@@ -5,6 +5,6 @@ resources:
   - frontend-service.yaml
 namespace: frontend
 images:
-  - name: frontend
-    newName: leui/tcc-frontend-prod
-    newTag: 3d5a723cc0da272b90a81bc42d2c6788fd002627
+- name: frontend
+  newName: leui/tcc-frontend-prod
+  newTag: 891254119f33a8c2c1c70ed0ed3490233dc4efa6
