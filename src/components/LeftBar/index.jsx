@@ -48,7 +48,7 @@ export default function LeftBar({
       </Top>
       <Mid>
         <PageButton active={home} onClick={() => navigate("/home")}>
-          Ínicio
+          Início
         </PageButton>
         <PageButton active={profile} onClick={() => navigate("/perfil")}>
           Perfil

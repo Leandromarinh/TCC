@@ -120,9 +120,9 @@ export default function Login() {
                   <ErrorText>{errors.password}</ErrorText>
                 )}
                 <FTPContainer>
-                  <FTP disabled={values.email === "" || Boolean(errors.email)}>
-                    Esqueceu sua senha?
-                  </FTP>
+                  {/* <FTP disabled={values.email === "" || Boolean(errors.email)}>
+                   Esqueceu sua senha?
+                  </FTP>  */}
                   <EnterButton
                     disabled={
                       values.email === "" ||

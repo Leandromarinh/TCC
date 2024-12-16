@@ -248,7 +248,6 @@ export default function MyGrid() {
 
   const handleEdit = useCallback(() => {
     if (editMode) {
-      console.log("gridData", gridData);
       dispatch(UserActions.updateMyGridRequest(gridData));
     }
     setEditMode(!editMode);
@@ -266,7 +265,6 @@ export default function MyGrid() {
 
   useEffect(() => {
     dispatch(UserActions.getUserRequest());
-    console.log("gridData[0]?.subjects?.length", gridData);
   }, [dispatch]);
 
   useEffect(() => {
@@ -336,7 +334,7 @@ export default function MyGrid() {
                     <PeriodContainer>
                       <PeriodText>
                         {gridData[index].subjects.length > 0
-                          ? index + Number(offset)
+                          ? index + Number(offset) + "º " + "Período"
                           : null}
                       </PeriodText>
 
@@ -437,7 +435,7 @@ export default function MyGrid() {
               {gridData?.map((item, index) => {
                 return (
                   <PeriodContainer>
-                    <PeriodText>{item.period}</PeriodText>
+                    <PeriodText>{item.period + "º " + "Período"}</PeriodText>
 
                     {item.subjects?.map((subject) => {
                       return subject ? (

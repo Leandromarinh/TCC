@@ -146,7 +146,7 @@ export const ErrorText = styled.p`
 `;
 
 export const EnterButton = styled.button`
-  width: 11.4vw;
+  width: 50%;
   height: 60px;
   border: none;
   border-radius: 50px;

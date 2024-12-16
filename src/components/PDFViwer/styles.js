@@ -33,3 +33,11 @@ export const ZoomControls = styled.div`
     background-color: #0056b3;
   }
 `;
+
+export const Img = styled.img`
+  display: flex;
+  width: 75vw;
+  align-self: center;
+  margin-top: 1vh;
+  padding-bottom: 4px;
+`;
