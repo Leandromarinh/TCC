@@ -7,4 +7,4 @@ namespace: frontend
 images:
 - name: frontend
   newName: leui/tcc-frontend-prod
-  newTag: fefd8003978b21fd7858e2d8845da541af36e75d
+  newTag: ae93f4895122dbe6b924edb4b495d17ae55dd357
