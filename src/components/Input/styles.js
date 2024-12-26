@@ -14,7 +14,8 @@ export const Container = styled.div`
 
 export const Text = styled.p`
   font-size: 1em;
-  font-family: "Roboto";
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-weight: ${(props) => (props.id ? "700" : "500")};
   color: #000;
 `;
@@ -26,7 +27,8 @@ export const BoxInput = styled.input`
 
   font-size: 1.3em;
   color: ${(props) => (props.id ? "#000" : "#fff")};
-  font-family: "Roboto";
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 
   background-color: ${(props) => (props.id ? "#fff" : `${colors.green}`)};
   border: none;

@@ -101,7 +101,8 @@ export const Input = styled.input`
   border: none;
   font-weight: 500;
   background-color: #fff;
-  font-family: "Roboto";
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   filter: drop-shadow(3px 3px #4444);
   outline: none;
 `;
@@ -152,7 +153,8 @@ export const EnterButton = styled.button`
   border-radius: 50px;
   background-color: ${colors.green};
   font-weight: bold;
-  font-family: "Roboto";
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-size: 2em;
   color: #fff;
   opacity: ${(props) => (props.disabled ? "60%" : "85%")};
@@ -169,7 +171,8 @@ export const RegisterButton = styled.button`
   border-radius: 50px;
   background-color: ${colors.green};
   font-weight: bold;
-  font-family: "Roboto";
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-size: 2em;
   color: #fff;
   margin-left: 30px;

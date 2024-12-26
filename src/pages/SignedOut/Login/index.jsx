@@ -61,6 +61,7 @@ export default function Login() {
     if (signedIn) {
       navigate("/home");
     }
+    dispatch(AuthActions.resetRedirectToLogin());
   }, [signedIn, navigate]);
 
   return (

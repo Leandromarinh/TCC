@@ -38,14 +38,16 @@ export const TextContainer = styled.div`
 
 export const TextBold = styled.p`
   font-size: 26px;
-  font-family: "Roboto";
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-weight: bold;
   color: #000;
 `;
 
 export const Text = styled.p`
   font-size: 28px;
-  font-family: "Roboto";
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-weight: 500;
   color: #000;
   margin-left: 10px;

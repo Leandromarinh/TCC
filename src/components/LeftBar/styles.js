@@ -27,7 +27,8 @@ export const ProfileIcon = styled.img`
 
 export const NameText = styled.p`
   font-size: 32px;
-  font-family: "Roboto";
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-weight: bold;
   color: #fff;
   margin-top: 0;
@@ -47,7 +48,8 @@ export const Mid = styled.div`
 
 export const PageButton = styled.button`
   font-size: 23px;
-  font-family: "Roboto";
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   color: #fff;
   border: none;
   background-color: ${colors.green};
@@ -77,7 +79,8 @@ export const LogoutButton = styled.button`
   background-color: ${colors.green};
 
   font-size: 20px;
-  font-family: "Roboto";
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   color: #000;
   border: none;
 

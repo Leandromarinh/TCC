@@ -35,8 +35,11 @@ export function* signUp({ email, password, period, name }) {
       period,
     });
     yield put(AuthActions.signUpSuccess());
+    yield delay(500);
+    toast.success("Usuário Cadastrado com Sucesso!");
   } catch (err) {
     yield put(AuthActions.signUpFailure(err.response?.data.msg));
+    toast.error(`${err.response?.data.msg}`);
   }
 }
 

@@ -13,6 +13,8 @@ export default function Input({
   errors,
   touched,
   number,
+  min,
+  max,
 }) {
   return (
     <Container id={id}>
@@ -26,6 +28,8 @@ export default function Input({
         value={value}
         autoCapitalize={autoCapitalize}
         number={number}
+        min={min}
+        max={max}
       />
       {errors && touched && <ErrorText>{errors}</ErrorText>}
     </Container>

@@ -29,7 +29,8 @@ export const TitleContainer = styled.div`
 
 export const Text = styled.p`
   font-size: 28px;
-  font-family: "Roboto";
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-weight: ${(props) => (props.bold ? "bold" : "500")};
   color: #000;
   margin-top: ${(props) => (props.bold ? "-30px" : "0px")};

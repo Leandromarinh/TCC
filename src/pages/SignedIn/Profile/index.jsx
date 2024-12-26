@@ -96,20 +96,44 @@ export default function Profile() {
       .required("Campo obrigatório"),
     currentPassword: yup
       .string()
-      .min(8, "A senha deve ter no mínimo 8 caracteres")
-      .matches(/[A-Z]/, "A senha deve ter pelo menos uma letra maiúscula")
-      .matches(/[a-z]/, "A senha deve ter pelo menos uma letra minúscula")
-      .matches(/[0-9]/, "A senha deve ter pelo menos um dígito")
+      .min(
+        8,
+        "A senha deve ter no mínimo 8 caracteres, uma letra maiúscula e minúscula e um dígito"
+      )
+      .matches(
+        /[A-Z]/,
+        "A senha deve ter no mínimo 8 caracteres, uma letra maiúscula e minúscula e um dígito"
+      )
+      .matches(
+        /[a-z]/,
+        "A senha deve ter no mínimo 8 caracteres, uma letra maiúscula e minúscula e um dígito"
+      )
+      .matches(
+        /[0-9]/,
+        "A senha deve ter no mínimo 8 caracteres, uma letra maiúscula e minúscula e um dígito"
+      )
       .matches(
         /[@$!%*?&]/,
         "A senha deve ter pelo menos um caractere especial"
       ),
     password: yup
       .string()
-      .min(8, "A senha deve ter no mínimo 8 caracteres")
-      .matches(/[A-Z]/, "A senha deve ter pelo menos uma letra maiúscula")
-      .matches(/[a-z]/, "A senha deve ter pelo menos uma letra minúscula")
-      .matches(/[0-9]/, "A senha deve ter pelo menos um dígito")
+      .min(
+        8,
+        "A senha deve ter no mínimo 8 caracteres, uma letra maiúscula e minúscula e um dígito"
+      )
+      .matches(
+        /[A-Z]/,
+        "A senha deve ter no mínimo 8 caracteres, uma letra maiúscula e minúscula e um dígito"
+      )
+      .matches(
+        /[a-z]/,
+        "A senha deve ter no mínimo 8 caracteres, uma letra maiúscula e minúscula e um dígito"
+      )
+      .matches(
+        /[0-9]/,
+        "A senha deve ter no mínimo 8 caracteres, uma letra maiúscula e minúscula e um dígito"
+      )
       .matches(
         /[@$!%*?&]/,
         "A senha deve ter pelo menos um caractere especial"
@@ -167,6 +191,8 @@ export default function Profile() {
                 <Input
                   text="Período"
                   type="number"
+                  min="1"
+                  max="30"
                   placeholder="Insira seu período atual"
                   onChange={handleChange("period")}
                   value={values.period}

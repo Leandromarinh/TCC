@@ -15,6 +15,8 @@ const { Types, Creators } = createActions({
   signUpRequest: ["name", "email", "password", "period"],
   signUpSuccess: null,
   signUpFailure: ["error"],
+
+  resetRedirectToLogin: null,
 });
 
 export const AuthTypes = Types;
@@ -30,6 +32,7 @@ const INITIAL_STATE = Immutable({
   loading: false,
   signedIn: false,
   error: null,
+  redirectLogin: false,
 });
 
 // Reducers
@@ -85,11 +88,17 @@ const signUpSuccess = (state) =>
   state.merge({
     loading: false,
     error: null,
+    redirectLogin: true,
   });
 const signUpFailure = (state, { error }) =>
   state.merge({
     error,
     loading: false,
+  });
+
+const resetRedirectToLogin = (state) =>
+  state.merge({
+    redirectLogin: false,
   });
 
 /* Reducers to Types */
@@ -102,4 +111,5 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SIGN_UP_REQUEST]: signUpRequest,
   [Types.SIGN_UP_SUCCESS]: signUpSuccess,
   [Types.SIGN_UP_FAILURE]: signUpFailure,
+  [Types.RESET_REDIRECT_TO_LOGIN]: resetRedirectToLogin,
 });

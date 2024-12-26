@@ -36,6 +36,7 @@ export default function Register() {
   const dispatch = useDispatch();
 
   const { loading, error } = useSelector((state) => state.auth);
+  const redirectToLogin = useSelector((state) => state.auth.redirectLogin);
 
   const [requestMade, setRequestMade] = useState(false);
 
@@ -48,10 +49,22 @@ export default function Register() {
     password: yup
       .string()
       .required("Campo obrigatório")
-      .min(8, "A senha deve ter no mínimo 8 caracteres")
-      .matches(/[A-Z]/, "A senha deve ter pelo menos uma letra maiúscula")
-      .matches(/[a-z]/, "A senha deve ter pelo menos uma letra minúscula")
-      .matches(/[0-9]/, "A senha deve ter pelo menos um dígito")
+      .min(
+        8,
+        "A senha deve ter no mínimo 8 caracteres, uma letra maiúscula e minúscula e um dígito"
+      )
+      .matches(
+        /[A-Z]/,
+        "A senha deve ter no mínimo 8 caracteres, uma letra maiúscula e minúscula e um dígito"
+      )
+      .matches(
+        /[a-z]/,
+        "A senha deve ter no mínimo 8 caracteres, uma letra maiúscula e minúscula e um dígito"
+      )
+      .matches(
+        /[0-9]/,
+        "A senha deve ter no mínimo 8 caracteres, uma letra maiúscula e minúscula e um dígito"
+      )
       .matches(
         /[@$!%*?&]/,
         "A senha deve ter pelo menos um caractere especial"
@@ -84,14 +97,11 @@ export default function Register() {
   };
 
   useEffect(() => {
-    if (requestMade) {
-      if (error) {
-        toast.error(`${error.msg}`);
-      } else if (error === null && !loading) {
-        toast.success("Usuário Cadastrado com Sucesso!");
-      }
+    if (redirectToLogin) {
+      navigate("/");
     }
-  }, [error, loading, requestMade]);
+    dispatch(AuthActions.resetRedirectToLogin());
+  }, [redirectToLogin, navigate, dispatch]);
 
   return (
     <Formik
@@ -185,6 +195,8 @@ export default function Register() {
                   <Input
                     type="number"
                     placeholder="Insira seu período atual"
+                    min="1"
+                    max="30"
                     onChange={handleChange("period")}
                     value={values.period}
                     onBlur={handleBlur("period")}
