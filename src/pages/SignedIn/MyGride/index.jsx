@@ -242,7 +242,7 @@ export default function MyGrid() {
   const addPeriod = () => {
     const lastPeriod =
       gridData.length > 0 ? gridData[gridData.length - 1].period : 0;
-    const period = lastPeriod + Number(offset);
+    const period = lastPeriod + 1;
     setGridData([...gridData, { period, subjects: [] }]);
   };
 
