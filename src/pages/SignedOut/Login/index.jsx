@@ -89,7 +89,7 @@ export default function Login() {
             <Left>
               <Container>
                 <ButtonConainer>
-                  <Button Border>Entre</Button>
+                  <Button Border>Entrar</Button>
                   <Button onClick={RegisterNavigation}>Cadastre-se</Button>
                 </ButtonConainer>
                 <InputContainer>
